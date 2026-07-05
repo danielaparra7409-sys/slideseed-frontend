@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://jolly-night-9aac.daniela-parra7409.workers.dev/sitemap.xml

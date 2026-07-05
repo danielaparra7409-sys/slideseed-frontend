@@ -1,0 +1,1446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Slideseed — Interactive Lesson Slides from Your Documents</title>
+<meta name="description" content="Turn your lesson plan, notes, or PDF into an interactive lesson in under a minute. Slideseed builds real, scored activities — quizzes, matching, sorting, flip cards — as an offline HTML file your students open anywhere. AI lesson creator for teachers, in English and Spanish.">
+<meta name="keywords" content="interactive lesson creator, document to lesson, AI lesson planner, lesson slides generator, herramienta IA para docentes, Teachy alternativa, interactive activities for students, lecciones interactivas">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Dandelion Bio Blog">
+<link rel="canonical" href="https://jolly-night-9aac.daniela-parra7409.workers.dev/">
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Slideseed">
+<meta property="og:title" content="Slideseed — Interactive Lesson Slides from Your Documents">
+<meta property="og:description" content="Upload your document, get an interactive lesson with real scored activities in under a minute. Works offline. Built for teachers.">
+<meta property="og:url" content="https://jolly-night-9aac.daniela-parra7409.workers.dev/">
+<meta property="og:image" content="https://jolly-night-9aac.daniela-parra7409.workers.dev/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="es_CO">
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Slideseed — Interactive Lesson Slides from Your Documents">
+<meta name="twitter:description" content="Upload your document, get an interactive lesson with real scored activities in under a minute. Works offline. Built for teachers.">
+<meta name="twitter:image" content="https://jolly-night-9aac.daniela-parra7409.workers.dev/og-image.png">
+<!-- Structured data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Slideseed",
+  "applicationCategory": "EducationalApplication",
+  "operatingSystem": "Web",
+  "url": "https://jolly-night-9aac.daniela-parra7409.workers.dev/",
+  "description": "Turns teacher documents (PDF, DOCX, PPTX, TXT) into interactive lessons with six types of scored activities. Downloads as offline HTML, PPTX, or PDF.",
+  "inLanguage": ["en", "es"],
+  "audience": {"@type": "EducationalAudience", "educationalRole": "teacher"},
+  "educationalLevel": ["Kindergarten", "Elementary", "Middle School", "High School", "Higher Education"],
+  "offers": [
+    {"@type": "Offer", "name": "Free", "price": "0", "priceCurrency": "USD"},
+    {"@type": "Offer", "name": "Single", "price": "4.99", "priceCurrency": "USD"},
+    {"@type": "Offer", "name": "Pack", "price": "14.99", "priceCurrency": "USD"},
+    {"@type": "Offer", "name": "Monthly", "price": "19.00", "priceCurrency": "USD"}
+  ],
+  "creator": {"@type": "Organization", "name": "Dandelion Bio Blog", "url": "https://dandelionbioblog.com"}
+}
+</script>
+<style>
+:root{
+  --paper:#F7F2EA;--paper2:#EFE7DA;--line:#DDD3C4;
+  --ink:#1F2B27;--soft:#46544E;--green:#447566;--green2:#355C50;
+  --salmon:#e0907a;--muted:#8A9490;
+  --slide-accent:#447566;--slide-bg:#f5f5f0;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background:var(--paper);color:var(--ink);line-height:1.6;overflow-x:hidden;}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(247,242,234,.96);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:0 40px;height:60px;display:flex;align-items:center;justify-content:space-between;}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.logo-text{font-family:Georgia,serif;font-size:1.1rem;color:var(--ink);}
+.logo-text span{color:var(--green);}
+.nav-links{display:flex;gap:28px;list-style:none;}
+.nav-links a{font-size:.85rem;color:var(--soft);text-decoration:none;transition:color .2s;}
+.nav-links a:hover{color:var(--green);}
+.btn-nav{background:var(--green);color:#fff;border:none;border-radius:6px;padding:8px 20px;font-size:.85rem;font-family:inherit;cursor:pointer;text-decoration:none;transition:background .2s;}
+.btn-nav:hover{background:var(--green2);}
+.hero{min-height:100vh;padding:120px 40px 80px;max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+.hero-eyebrow{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--green);margin-bottom:20px;display:flex;align-items:center;gap:8px;}
+.hero-eyebrow::before{content:'';display:inline-block;width:24px;height:1px;background:var(--green);}
+.hero h1{font-family:Georgia,serif;font-size:clamp(2.2rem,4vw,3.2rem);line-height:1.1;color:var(--ink);margin-bottom:24px;letter-spacing:-.02em;}
+.hero h1 em{font-style:italic;color:var(--green);}
+.hero-body{font-size:1rem;color:var(--soft);line-height:1.7;margin-bottom:32px;max-width:460px;}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:20px;}
+.btn-primary{background:var(--green);color:#fff;border:none;border-radius:8px;padding:14px 32px;font-size:.95rem;font-family:inherit;font-weight:500;cursor:pointer;transition:all .25s;text-decoration:none;display:inline-block;}
+.btn-primary:hover{background:var(--green2);transform:translateY(-1px);box-shadow:0 4px 16px rgba(68,117,102,.25);}
+.btn-ghost{background:none;color:var(--soft);border:1px solid var(--line);border-radius:8px;padding:13px 28px;font-size:.95rem;font-family:inherit;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block;}
+.btn-ghost:hover{border-color:var(--green);color:var(--green);}
+.privacy-strip{display:flex;gap:8px;flex-wrap:wrap;}
+.pbadge{font-size:.72rem;color:var(--soft);background:#fff;border:1px solid var(--line);border-radius:20px;padding:4px 12px;}
+/* UPLOAD CARD */
+.upload-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:28px;box-shadow:0 2px 40px rgba(31,43,39,.08);}
+.step-indicator{display:flex;align-items:center;justify-content:center;margin-bottom:18px;}
+.step-pip{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--line);background:var(--paper);color:var(--muted);font-size:.72rem;font-weight:600;display:flex;align-items:center;justify-content:center;transition:all .3s;flex-shrink:0;}
+.step-pip.active{background:var(--green);border-color:var(--green);color:#fff;}
+.step-pip.done{background:rgba(68,117,102,.15);border-color:var(--green);color:var(--green);}
+.step-line{flex:1;height:1px;background:var(--line);max-width:44px;}
+.card-step{display:none;}.card-step.active{display:block;}
+.step-label{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-bottom:10px;font-weight:600;}
+.upload-area{border:2px dashed var(--line);border-radius:12px;padding:28px 18px;text-align:center;cursor:pointer;transition:all .25s;background:var(--paper);margin-bottom:14px;}
+.upload-area:hover,.upload-area.dragover{border-color:var(--green);background:rgba(68,117,102,.04);}
+.upload-icon{width:44px;height:44px;margin:0 auto 10px;background:rgba(68,117,102,.1);border-radius:12px;display:flex;align-items:center;justify-content:center;}
+.upload-icon svg{width:22px;height:22px;stroke:var(--green);}
+.upload-area h3{font-family:Georgia,serif;font-size:.9rem;color:var(--ink);margin-bottom:4px;}
+.upload-area p{font-size:.75rem;color:var(--muted);}
+.upload-area p span{color:var(--green);font-weight:500;}
+.format-chips{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px;align-items:center;}
+.chip{font-size:.68rem;padding:3px 9px;border-radius:20px;background:var(--paper2);color:var(--soft);border:1px solid var(--line);}
+.chip-label{font-size:.68rem;color:var(--muted);font-weight:600;letter-spacing:.04em;margin-right:2px;}
+#file-input{display:none;}
+.file-chosen{display:none;align-items:center;gap:8px;padding:9px 12px;background:rgba(68,117,102,.08);border-radius:8px;margin-bottom:11px;font-size:.8rem;color:var(--green);}
+.file-chosen.show{display:flex;}
+.file-remove{margin-left:auto;cursor:pointer;color:var(--muted);font-size:.72rem;}
+.grade-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px;}
+.grade-card{border:1.5px solid var(--line);border-radius:9px;padding:9px 7px;cursor:pointer;transition:all .2s;background:var(--paper);text-align:center;}
+.grade-card:hover{border-color:var(--green);}
+.grade-card.selected{border-color:var(--green);background:rgba(68,117,102,.06);}
+.grade-name{font-size:.76rem;font-weight:600;color:var(--ink);margin-bottom:1px;}
+.grade-range{font-size:.65rem;color:var(--green);font-weight:500;}
+.lang-row{margin-bottom:10px;}
+.select-field{padding:8px 12px;border:1px solid var(--line);border-radius:8px;font-size:.8rem;font-family:inherit;color:var(--soft);background:var(--paper);cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2346544E' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px;}
+.lang-row .select-field{width:100%;}
+.theme-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:12px;}
+.theme-card{border:1.5px solid var(--line);border-radius:9px;padding:7px 5px;cursor:pointer;transition:all .2s;background:var(--paper);text-align:center;}
+.theme-card:hover,.theme-card.selected{border-color:var(--green);}
+.theme-card.selected{box-shadow:0 0 0 2px rgba(68,117,102,.15);}
+.theme-preview{border-radius:5px;height:36px;margin-bottom:5px;padding:4px 6px;display:flex;flex-direction:column;gap:3px;}
+.forest-prev{background:#447566;}.ink-prev{background:#1F2B27;}.sand-prev{background:#C4794A;}.sky-prev{background:#2980B9;}.slate-prev{background:#4A5568;}
+.tp-title{font-family:Georgia,serif;font-size:.65rem;color:rgba(255,255,255,.9);font-style:italic;}
+.tp-bar{height:3px;background:rgba(255,255,255,.35);border-radius:2px;}.tp-bar.short{width:55%;}
+.theme-name{font-size:.68rem;font-weight:600;color:var(--ink);}
+.slides-row{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:var(--paper);border:1px solid var(--line);border-radius:8px;margin-bottom:7px;}
+.slides-label span:first-child{font-size:.8rem;color:var(--ink);font-weight:500;}
+.slides-note{font-size:.66rem;color:var(--muted);display:block;}
+.slides-stepper{display:flex;align-items:center;gap:10px;}
+.stepper-btn{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--line);background:#fff;color:var(--soft);font-size:.9rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;line-height:1;}
+.stepper-btn:hover{border-color:var(--green);color:var(--green);}
+.slides-val{font-family:Georgia,serif;font-size:1.2rem;color:var(--green);font-weight:700;min-width:20px;text-align:center;}
+.upgrade-note{font-size:.71rem;color:var(--soft);padding:6px 10px;background:rgba(68,117,102,.06);border-radius:6px;margin-bottom:7px;display:none;justify-content:space-between;align-items:center;}
+.upgrade-note a{color:var(--green);text-decoration:none;font-weight:500;}
+.review-rows{background:var(--paper);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-bottom:12px;}
+.review-row{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-bottom:1px solid var(--line);}
+.review-row:last-child{border-bottom:none;}
+.review-key{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;}
+.review-val{font-size:.8rem;color:var(--ink);font-weight:500;text-align:right;max-width:65%;word-break:break-word;}
+.step-nav{display:flex;align-items:center;justify-content:space-between;margin-top:10px;}
+.btn-next{background:var(--green);color:#fff;border:none;border-radius:7px;padding:8px 18px;font-size:.83rem;font-family:inherit;cursor:pointer;transition:background .2s;}
+.btn-next:hover{background:var(--green2);}
+.btn-back{background:none;color:var(--muted);border:1px solid var(--line);border-radius:7px;padding:7px 14px;font-size:.8rem;font-family:inherit;cursor:pointer;transition:all .2s;}
+.btn-back:hover{color:var(--soft);border-color:var(--soft);}
+.credits-badge{font-size:.7rem;color:var(--green);background:rgba(68,117,102,.08);border:1px solid rgba(68,117,102,.2);border-radius:20px;padding:3px 10px;}
+.generating{display:none;text-align:center;padding:18px 0;}
+.generating.show{display:block;}
+.spinner{width:26px;height:26px;border:2px solid var(--line);border-top-color:var(--green);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 9px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.generating p{font-size:.8rem;color:var(--soft);font-family:Georgia,serif;font-style:italic;}
+.btn-generate{width:100%;background:var(--green);color:#fff;border:none;border-radius:8px;padding:12px;font-size:.92rem;font-family:Georgia,serif;font-style:italic;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:7px;}
+.btn-generate:hover{background:var(--green2);}
+/* SECTIONS */
+.section-divider{max-width:1100px;margin:0 auto;padding:0 40px;border-top:1px solid var(--line);}
+.section-label{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--green);margin-bottom:10px;display:flex;align-items:center;gap:7px;}
+.section-label::before{content:'';display:inline-block;width:18px;height:1px;background:var(--green);}
+.section-title{font-family:Georgia,serif;font-size:clamp(1.7rem,3vw,2.4rem);color:var(--ink);line-height:1.15;margin-bottom:10px;letter-spacing:-.02em;}
+.section-title em{font-style:italic;color:var(--green);}
+.section-sub{font-size:.97rem;color:var(--soft);max-width:520px;line-height:1.65;margin-bottom:44px;}
+.how{max-width:1100px;margin:0 auto;padding:72px 40px;}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;}
+.step{padding:26px 22px;background:#fff;border:1px solid var(--line);transition:box-shadow .2s;}
+.step:first-child{border-radius:12px 0 0 12px;}
+.step:last-child{border-radius:0 12px 12px 0;}
+.step:hover{box-shadow:0 4px 20px rgba(31,43,39,.07);z-index:1;}
+.step-num{font-family:Georgia,serif;font-size:2rem;color:var(--line);line-height:1;margin-bottom:12px;font-style:italic;}
+.step-icon{width:36px;height:36px;background:rgba(68,117,102,.1);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:11px;}
+.step-icon svg{width:17px;height:17px;stroke:var(--green);}
+.step h3{font-family:Georgia,serif;font-size:.92rem;color:var(--ink);margin-bottom:5px;}
+.step p{font-size:.8rem;color:var(--soft);line-height:1.55;}
+.formats-strip{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px 26px;margin-top:36px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;}
+.formats-label{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);flex-shrink:0;}
+.format-badges{display:flex;gap:9px;flex-wrap:wrap;}
+.fbadge{display:flex;align-items:center;gap:7px;padding:9px 14px;border-radius:8px;border:1px solid var(--line);background:var(--paper);font-size:.8rem;color:var(--ink);}
+.fbadge svg{width:15px;height:15px;stroke:var(--green);}
+.fbadge strong{font-family:Georgia,serif;}
+.fbadge span{font-size:.7rem;color:var(--muted);}
+.formats-note{font-size:.72rem;color:var(--muted);margin-left:auto;}
+.features{background:var(--green);padding:72px 40px;}
+.features-inner{max-width:1100px;margin:0 auto;}
+.features .section-label{color:rgba(255,255,255,.6);}
+.features .section-label::before{background:rgba(255,255,255,.4);}
+.features .section-title{color:#fff;margin-bottom:36px;}
+.features .section-title em{color:rgba(255,255,255,.7);}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.feat-card{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:24px;transition:background .2s;}
+.feat-card:hover{background:rgba(255,255,255,.13);}
+.feat-icon{width:36px;height:36px;background:rgba(255,255,255,.12);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:11px;}
+.feat-icon svg{width:17px;height:17px;stroke:rgba(255,255,255,.85);}
+.feat-card h3{font-family:Georgia,serif;font-size:.92rem;color:#fff;margin-bottom:6px;}
+.feat-card p{font-size:.8rem;color:rgba(255,255,255,.62);line-height:1.6;}
+.trust-section{background:var(--ink);padding:72px 40px;}
+.trust-inner{max-width:1100px;margin:0 auto;}
+.trust-section .section-label{color:rgba(255,255,255,.4);}
+.trust-section .section-label::before{background:rgba(255,255,255,.3);}
+.trust-section .section-title{color:#fff;}
+.trust-section .section-title em{color:rgba(247,242,234,.6);}
+.trust-section .section-sub{color:rgba(255,255,255,.5);margin-bottom:36px;}
+.trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:44px;}
+.trust-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:24px;}
+.trust-icon{width:36px;height:36px;background:rgba(68,117,102,.25);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:11px;}
+.trust-icon svg{width:17px;height:17px;stroke:#7cb9aa;}
+.trust-card h3{font-family:Georgia,serif;font-size:.97rem;color:#fff;margin-bottom:8px;}
+.trust-card p{font-size:.82rem;color:rgba(255,255,255,.52);line-height:1.7;margin-bottom:12px;}
+.trust-tip{background:rgba(68,117,102,.2);border:1px solid rgba(68,117,102,.35);border-radius:8px;padding:8px 12px;font-size:.72rem;color:rgba(255,255,255,.58);line-height:1.5;}
+.tip-label{display:block;font-size:.63rem;letter-spacing:.08em;text-transform:uppercase;color:#7cb9aa;margin-bottom:3px;font-weight:600;}
+.manifesto{display:flex;align-items:center;gap:22px;}
+.mline{flex:1;height:1px;background:rgba(255,255,255,.1);}
+.manifesto blockquote{max-width:580px;flex-shrink:0;text-align:center;}
+.manifesto blockquote p{font-family:Georgia,serif;font-style:italic;font-size:.94rem;color:rgba(255,255,255,.68);line-height:1.7;margin-bottom:9px;}
+.manifesto blockquote cite{font-size:.72rem;color:rgba(255,255,255,.32);font-style:normal;}
+.pricing{background:var(--paper2);padding:72px 40px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+.pricing-inner{max-width:1100px;margin:0 auto;}
+.pricing-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:40px;}
+.price-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:26px 22px;position:relative;transition:box-shadow .25s;}
+.price-card:hover{box-shadow:0 8px 28px rgba(31,43,39,.1);}
+.price-card.featured{border-color:var(--green);border-width:2px;}
+.feat-badge{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--green);color:#fff;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;padding:3px 12px;border-radius:20px;white-space:nowrap;}
+.price-name{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:9px;}
+.price-amount{font-family:Georgia,serif;font-size:2.4rem;color:var(--ink);line-height:1;margin-bottom:3px;}
+.price-amount sup{font-size:1rem;vertical-align:super;}
+.price-period{font-size:.75rem;color:var(--muted);margin-bottom:20px;}
+.price-divider{border:none;border-top:1px solid var(--line);margin-bottom:16px;}
+.price-features{list-style:none;margin-bottom:22px;}
+.price-features li{font-size:.81rem;color:var(--soft);padding:4px 0;display:flex;align-items:flex-start;gap:6px;line-height:1.4;}
+.price-features li::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0;margin-top:1px;}
+.btn-price{width:100%;padding:10px;border-radius:8px;font-size:.86rem;font-family:inherit;cursor:pointer;transition:all .2s;text-align:center;display:block;text-decoration:none;}
+.btn-price.primary{background:var(--green);color:#fff;border:none;}
+.btn-price.primary:hover{background:var(--green2);}
+.btn-price.outline{background:none;color:var(--soft);border:1px solid var(--line);}
+.btn-price.outline:hover{border-color:var(--green);color:var(--green);}
+.testimonials{max-width:1100px;margin:0 auto;padding:72px 40px;}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px;}
+.testi-card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:24px;}
+.testi-quote{font-family:Georgia,serif;font-size:.9rem;font-style:italic;color:var(--ink);line-height:1.65;margin-bottom:16px;}
+.testi-quote::before{content:'\201C';color:var(--green);}
+.testi-quote::after{content:'\201D';color:var(--green);}
+.testi-author{display:flex;align-items:center;gap:9px;}
+.testi-avatar{width:32px;height:32px;border-radius:50%;background:var(--paper2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-size:.8rem;color:var(--green);}
+.testi-name{font-size:.8rem;font-weight:500;color:var(--ink);}
+.testi-role{font-size:.7rem;color:var(--muted);}
+.cta-section{max-width:1100px;margin:0 auto;padding:72px 40px;text-align:center;}
+.cta-section h2{font-family:Georgia,serif;font-size:clamp(1.7rem,3vw,2.4rem);color:var(--ink);line-height:1.2;margin-bottom:12px;letter-spacing:-.02em;}
+.cta-section h2 em{font-style:italic;color:var(--green);}
+.cta-section p{font-size:.97rem;color:var(--soft);max-width:420px;margin:0 auto 28px;line-height:1.6;}
+.brand-bar{background:var(--ink);padding:16px 40px;text-align:center;}
+.brand-bar p{font-size:.78rem;color:rgba(255,255,255,.45);}
+.brand-bar a{color:rgba(255,255,255,.75);text-decoration:none;font-family:Georgia,serif;font-style:italic;}
+footer{background:var(--paper2);border-top:1px solid var(--line);padding:40px 40px 26px;}
+.footer-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:32px;margin-bottom:32px;}
+.footer-brand p{font-size:.78rem;color:var(--muted);line-height:1.6;max-width:190px;margin-top:8px;}
+.footer-col h4{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
+.footer-col ul{list-style:none;}
+.footer-col ul li{margin-bottom:6px;}
+.footer-col ul li a{font-size:.8rem;color:var(--soft);text-decoration:none;transition:color .2s;}
+.footer-col ul li a:hover{color:var(--green);}
+.footer-bottom{max-width:1100px;margin:0 auto;padding-top:20px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;}
+.footer-bottom p{font-size:.74rem;color:var(--muted);}
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+/* EDITOR */
+#editor-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(31,43,39,.88);z-index:500;backdrop-filter:blur(4px);}
+#editor-overlay.show{display:flex;flex-direction:column;}
+.editor-topbar{background:#fff;border-bottom:1px solid var(--line);padding:10px 20px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.editor-actions{display:flex;align-items:center;gap:8px;}
+.format-toggle{display:flex;border:1px solid var(--line);border-radius:7px;overflow:hidden;}
+.fmt-btn{padding:6px 13px;font-size:.75rem;font-family:inherit;border:none;background:var(--paper);color:var(--soft);cursor:pointer;transition:all .2s;border-right:1px solid var(--line);}
+.fmt-btn:last-child{border-right:none;}
+.fmt-btn.active{background:var(--green);color:#fff;}
+.btn-download{background:var(--green);color:#fff;border:none;border-radius:7px;padding:8px 18px;font-size:.82rem;font-family:inherit;cursor:pointer;transition:background .2s;display:flex;align-items:center;gap:6px;}
+.btn-download:hover{background:var(--green2);}
+.btn-close-editor{background:none;border:1px solid var(--line);border-radius:7px;padding:7px 13px;font-size:.78rem;font-family:inherit;cursor:pointer;color:var(--muted);transition:all .2s;}
+.btn-close-editor:hover{border-color:var(--salmon);color:var(--salmon);}
+.editor-body{display:flex;flex:1;overflow:hidden;}
+.slides-panel{width:190px;background:var(--paper2);border-right:1px solid var(--line);overflow-y:auto;padding:10px;flex-shrink:0;}
+/* Thumbnails */
+.slide-thumb{border:2px solid var(--line);border-radius:8px;overflow:hidden;cursor:pointer;transition:all .2s;margin-bottom:8px;background:#fff;}
+.slide-thumb.active{border-color:var(--slide-accent);box-shadow:0 0 0 2px rgba(68,117,102,.14);}
+.slide-thumb:hover{border-color:var(--slide-accent);}
+.thumb-bar{height:20px;background:var(--slide-accent);}
+.thumb-content{padding:6px 8px;}
+.thumb-num{font-size:.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px;}
+.thumb-title{font-size:.68rem;font-weight:600;color:var(--ink);line-height:1.3;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;}
+.slide-add{border:1.5px dashed var(--line);border-radius:8px;padding:9px;text-align:center;cursor:pointer;color:var(--muted);font-size:.72rem;transition:all .2s;}
+.slide-add:hover{border-color:var(--green);color:var(--green);}
+/* Canvas */
+.editor-canvas{flex:1;overflow-y:auto;padding:24px 28px;display:flex;justify-content:center;background:#EDEAE4;}
+.slide-editor{width:100%;max-width:720px;}
+/* Visual slide card */
+.slide-edit-card{border-radius:12px;overflow:hidden;border:2px solid transparent;transition:border-color .2s;margin-bottom:24px;box-shadow:0 4px 24px rgba(0,0,0,.10),0 1px 4px rgba(0,0,0,.06);}
+.slide-edit-card.hidden{display:none;}
+.slide-edit-card:focus-within{border-color:var(--slide-accent);}
+/* Colored header */
+.slide-vis-header{padding:16px 22px 20px;position:relative;}
+.slide-vis-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.slide-num-badge{font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.65);}
+.slide-controls{display:flex;gap:4px;}
+.slide-ctrl-btn{background:rgba(255,255,255,.15);border:none;border-radius:5px;padding:3px 8px;font-size:.65rem;cursor:pointer;color:rgba(255,255,255,.82);transition:all .2s;}
+.slide-ctrl-btn:hover{background:rgba(255,255,255,.28);color:#fff;}
+.slide-ctrl-btn.danger:hover{background:rgba(224,144,122,.45);}
+.edit-title-vis{font-family:Georgia,serif;font-size:1.35rem;font-weight:700;color:#fff;outline:none;min-height:1.4em;cursor:text;border-radius:4px;padding:3px 5px;margin:-3px -5px;line-height:1.3;word-break:break-word;}
+.edit-title-vis:empty:before{content:attr(data-ph);opacity:.45;font-style:italic;}
+.edit-title-vis:focus{background:rgba(255,255,255,.12);}
+/* Body section */
+.slide-vis-body{padding:18px 22px 14px;}
+.slide-img-area{border:1.5px dashed var(--line);border-radius:10px;overflow:hidden;text-align:center;cursor:pointer;margin-bottom:8px;background:#fff;transition:border-color .2s;min-height:52px;display:flex;align-items:center;justify-content:center;}
+.slide-img-area:hover{border-color:var(--slide-accent);}
+.slide-img-area.has-img{border-style:solid;border-color:var(--slide-accent);}
+.slide-img-area img{max-width:100%;max-height:200px;object-fit:cover;display:block;width:100%;}
+.img-placeholder{padding:14px;font-size:.74rem;color:var(--muted);}
+.img-url-row{display:flex;gap:6px;margin:0 0 14px;}
+.url-input{flex:1;font-size:.72rem;padding:5px 9px;border:1px solid var(--line);border-radius:6px;font-family:inherit;color:var(--ink);background:var(--paper);}
+.url-input:focus{outline:none;border-color:var(--slide-accent);}
+.url-btn{padding:5px 10px;font-size:.72rem;border:1px solid var(--line);border-radius:6px;background:var(--paper);cursor:pointer;color:var(--soft);white-space:nowrap;transition:all .2s;}
+.url-btn:hover{border-color:var(--green);color:var(--green);}
+.edit-body-vis{font-size:.9rem;color:#46544E;line-height:1.78;outline:none;cursor:text;border-radius:6px;padding:8px;margin:-8px;transition:background .15s;word-break:break-word;min-height:56px;}
+.edit-body-vis:empty:before{content:attr(data-ph);color:#aaa;font-style:italic;}
+.edit-body-vis:focus{background:rgba(68,117,102,.05);outline:1px solid rgba(68,117,102,.18);margin:0;padding:8px;}
+.key-term-vis{padding:9px 13px;background:rgba(255,255,255,.7);border-left:3px solid var(--slide-accent);border-radius:0 8px 8px 0;margin:14px 0 2px;font-size:.8rem;color:#447566;}
+.key-term-vis strong{font-weight:700;}
+/* Activity footer */
+.slide-vis-footer{padding:12px 22px 14px;border-top:1px solid var(--line);background:#fff;}
+.activity-label-sm{font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:7px;font-weight:700;}
+.activity-selector{display:flex;gap:5px;flex-wrap:wrap;}
+.act-btn{padding:5px 12px;border-radius:20px;border:1px solid var(--line);background:var(--paper);font-size:.7rem;cursor:pointer;transition:all .2s;color:var(--soft);}
+.act-btn:hover{border-color:var(--slide-accent);color:var(--slide-accent);}
+.act-btn.selected{background:var(--slide-accent);color:#fff;border-color:var(--slide-accent);}
+.tools-panel{width:240px;background:#fff;border-left:1px solid var(--line);overflow-y:auto;padding:18px 14px;flex-shrink:0;}
+.tools-section{margin-bottom:20px;}
+.tools-section h4{font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;padding-bottom:5px;border-bottom:1px solid var(--line);}
+.color-swatches{display:flex;gap:5px;flex-wrap:wrap;}
+.swatch{width:22px;height:22px;border-radius:50%;cursor:pointer;transition:transform .2s;border:2px solid transparent;}
+.swatch:hover{transform:scale(1.2);}
+.swatch.active{border-color:var(--ink);}
+.font-size-select,.font-family-select{width:100%;padding:5px 8px;border:1px solid var(--line);border-radius:6px;font-size:.73rem;font-family:inherit;color:var(--soft);background:var(--paper);cursor:pointer;}
+/* bg picker */
+.bg-options{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;}
+.bg-opt{height:28px;border-radius:6px;cursor:pointer;border:2px solid transparent;transition:all .2s;}
+.bg-opt:hover,.bg-opt.active{border-color:var(--ink);transform:scale(1.05);}
+/* RESPONSIVE */
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr;gap:36px;padding-top:100px;}
+  .steps{grid-template-columns:repeat(2,1fr);}
+  .step:first-child{border-radius:12px 0 0 0;}.step:last-child{border-radius:0 0 12px 0;}
+  .features-grid,.trust-grid,.testi-grid{grid-template-columns:1fr;}
+  .pricing-grid{grid-template-columns:repeat(2,1fr);}
+  .footer-inner{grid-template-columns:1fr 1fr;}
+  .editor-body{flex-direction:column;}
+  .slides-panel{width:100%;height:80px;display:flex;overflow-x:auto;overflow-y:hidden;gap:8px;padding:8px;}
+  .tools-panel{display:none;}
+}
+@media(max-width:600px){
+  nav{padding:0 18px;}.nav-links{display:none;}
+  .hero,.how,.testimonials,.cta-section{padding:56px 18px;}
+  .features,.pricing,.trust-section{padding:56px 18px;}
+  .steps,.features-grid,.pricing-grid{grid-template-columns:1fr;}
+  .footer-inner{grid-template-columns:1fr;}
+  .manifesto{flex-direction:column;gap:12px;}
+  .formats-strip{flex-direction:column;align-items:flex-start;gap:10px;}
+}
+</style>
+</head>
+<body>
+<nav>
+  <a href="#" class="nav-logo">
+    <svg width="26" height="26" viewBox="0 0 32 32" fill="none"><line x1="16" y1="28" x2="16" y2="8" stroke="#447566" stroke-width="1.5" stroke-linecap="round"/><g stroke="#447566" stroke-width="1.2" stroke-linecap="round"><line x1="16" y1="8" x2="16" y2="2" transform="rotate(0 16 8)"/><line x1="16" y1="8" x2="16" y2="2" transform="rotate(30 16 8)"/><line x1="16" y1="8" x2="16" y2="2" transform="rotate(60 16 8)"/><line x1="16" y1="8" x2="16" y2="2" transform="rotate(90 16 8)"/><line x1="16" y1="8" x2="16" y2="2" transform="rotate(120 16 8)"/><line x1="16" y1="8" x2="16" y2="2" transform="rotate(150 16 8)"/><line x1="16" y1="8" x2="16" y2="2" transform="rotate(180 16 8)"/><line x1="16" y1="8" x2="16" y2="2" transform="rotate(210 16 8)"/><line x1="16" y1="8" x2="16" y2="2" transform="rotate(240 16 8)"/><line x1="16" y1="8" x2="16" y2="2" transform="rotate(270 16 8)"/><line x1="16" y1="8" x2="16" y2="2" transform="rotate(300 16 8)"/><line x1="16" y1="8" x2="16" y2="2" transform="rotate(330 16 8)"/></g><circle cx="16" cy="28" r="2" fill="#447566"/></svg>
+    <span class="logo-text"><span>Slide</span>seed</span>
+  </a>
+  <ul class="nav-links"><li><a href="#how">How it works</a></li><li><a href="#features">Features</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#trust">About</a></li></ul>
+  <a href="#upload" class="btn-nav">Get started</a>
+</nav>
+
+<section class="hero">
+  <div>
+    <div class="hero-eyebrow">By Dandelion Bio Blog</div>
+    <h1>Your documents, turned into <em>lessons students remember</em></h1>
+    <p class="hero-body">Upload your lesson plan or notes. Slideseed reads your content, builds an editable lesson with real interactive activities — quizzes, matching, sorting, flip cards — and produces a fully interactive HTML file adapted to your students' age group.</p>
+    <div class="hero-actions">
+      <a href="#upload" class="btn-primary">Try it free — no account needed</a>
+      <a href="#how" class="btn-ghost">See how it works</a>
+    </div>
+    <div class="privacy-strip">
+      <span class="pbadge">Student data never stored</span>
+      <span class="pbadge">FERPA-conscious design</span>
+      <span class="pbadge">Powered by Claude AI</span>
+    </div>
+  </div>
+
+  <div id="upload">
+    <div class="upload-card">
+      <div class="step-indicator">
+        <div class="step-pip active" id="pip-1">1</div><div class="step-line"></div>
+        <div class="step-pip" id="pip-2">2</div><div class="step-line"></div>
+        <div class="step-pip" id="pip-3">3</div><div class="step-line"></div>
+        <div class="step-pip" id="pip-4">4</div>
+      </div>
+      <div class="card-step active" id="step-1">
+        <div class="step-label">Upload your document</div>
+        <div class="upload-area" id="drop-zone" onclick="document.getElementById('file-input').click()">
+          <div class="upload-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
+          <h3>Drop your document here</h3>
+          <p>or <span>browse files</span> to upload</p>
+        </div>
+        <input type="file" id="file-input" accept=".pdf,.docx,.pptx,.txt" onchange="handleFile(this)">
+        <div class="file-chosen" id="file-chosen">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;stroke:var(--green);flex-shrink:0;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <span id="file-name">document.pdf</span>
+          <span class="file-remove" onclick="removeFile()">✕</span>
+        </div>
+        <div class="format-chips"><span class="chip-label">Input formats:</span><span class="chip">PDF</span><span class="chip">DOCX</span><span class="chip">PPTX</span><span class="chip">TXT</span></div>
+        <div class="step-nav"><span class="credits-badge">2 free generations — no card needed</span><button class="btn-next" onclick="goStep(2)">Next →</button></div>
+      </div>
+      <div class="card-step" id="step-2">
+        <div class="step-label">Who is this lesson for?</div>
+        <div class="grade-grid">
+          <div class="grade-card" onclick="selectGrade(this,'K-2')"><div class="grade-name">Early learners</div><div class="grade-range">K – 2nd</div></div>
+          <div class="grade-card" onclick="selectGrade(this,'3-5')"><div class="grade-name">Elementary</div><div class="grade-range">3rd – 5th</div></div>
+          <div class="grade-card" onclick="selectGrade(this,'6-8')"><div class="grade-name">Middle school</div><div class="grade-range">6th – 8th</div></div>
+          <div class="grade-card" onclick="selectGrade(this,'9-12')"><div class="grade-name">High school</div><div class="grade-range">9th – 12th</div></div>
+          <div class="grade-card" onclick="selectGrade(this,'Univ')"><div class="grade-name">University</div><div class="grade-range">Higher ed</div></div>
+          <div class="grade-card" onclick="selectGrade(this,'Mixed')"><div class="grade-name">Online</div><div class="grade-range">All levels</div></div>
+        </div>
+        <div class="lang-row"><select class="select-field" id="lang-select"><option value="">Language of the lesson</option><option value="en">English</option><option value="es">Español</option><option value="bi">Bilingual EN / ES</option></select></div>
+        <div class="step-nav"><button class="btn-back" onclick="goStep(1)">← Back</button><button class="btn-next" onclick="goStep(3)">Next →</button></div>
+      </div>
+      <div class="card-step" id="step-3">
+        <div class="step-label">Choose a visual theme</div>
+        <div class="theme-grid">
+          <div class="theme-card selected" onclick="selectTheme(this,'forest')"><div class="theme-preview forest-prev"><div class="tp-title">Aa</div><div class="tp-bar"></div><div class="tp-bar short"></div></div><div class="theme-name">Forest</div></div>
+          <div class="theme-card" onclick="selectTheme(this,'ink')"><div class="theme-preview ink-prev"><div class="tp-title">Aa</div><div class="tp-bar"></div><div class="tp-bar short"></div></div><div class="theme-name">Ink</div></div>
+          <div class="theme-card" onclick="selectTheme(this,'sand')"><div class="theme-preview sand-prev"><div class="tp-title">Aa</div><div class="tp-bar"></div><div class="tp-bar short"></div></div><div class="theme-name">Sand</div></div>
+          <div class="theme-card" onclick="selectTheme(this,'sky')"><div class="theme-preview sky-prev"><div class="tp-title">Aa</div><div class="tp-bar"></div><div class="tp-bar short"></div></div><div class="theme-name">Sky</div></div>
+          <div class="theme-card" onclick="selectTheme(this,'slate')"><div class="theme-preview slate-prev"><div class="tp-title">Aa</div><div class="tp-bar"></div><div class="tp-bar short"></div></div><div class="theme-name">Slate</div></div>
+        </div>
+        <div class="slides-row">
+          <div class="slides-label"><span>Number of slides</span><span class="slides-note">Free plan: up to 3</span></div>
+          <div class="slides-stepper"><button class="stepper-btn" onclick="changeSlides(-1)">−</button><span class="slides-val" id="slides-val">3</span><button class="stepper-btn" onclick="changeSlides(1)">+</button></div>
+        </div>
+        <div class="upgrade-note" id="upgrade-note"><span>Upgrade for up to 10 slides</span><a href="#pricing">See plans →</a></div>
+        <div class="step-nav"><button class="btn-back" onclick="goStep(2)">← Back</button><button class="btn-next" onclick="goStep(4)">Next →</button></div>
+      </div>
+      <div class="card-step" id="step-4">
+        <div class="step-label">Ready to generate</div>
+        <div class="review-rows">
+          <div class="review-row"><span class="review-key">Document</span><span class="review-val" id="rev-file">—</span></div>
+          <div class="review-row"><span class="review-key">Grade</span><span class="review-val" id="rev-grade">—</span></div>
+          <div class="review-row"><span class="review-key">Language</span><span class="review-val" id="rev-lang">—</span></div>
+          <div class="review-row"><span class="review-key">Theme</span><span class="review-val" id="rev-theme">Forest</span></div>
+          <div class="review-row"><span class="review-key">Slides</span><span class="review-val" id="rev-slides">3</span></div>
+          <div class="review-row"><span class="review-key">Credits</span><span class="review-val" style="color:var(--green);font-weight:600;">2 free remaining</span></div>
+        </div>
+        <input type="email" id="user-email" class="select-field" placeholder="your@email.com (optional)" style="width:100%;margin-bottom:6px;opacity:.8;">
+        <p style="font-size:.7rem;color:var(--muted);margin-bottom:12px;">Optional — we'll never spam you.</p>
+        <div class="generating" id="generating"><div class="spinner"></div><p id="gen-msg">Reading your document…</p></div>
+        <button class="btn-generate" id="gen-btn" onclick="handleGenerate()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          Generate my lesson — free
+        </button>
+        <div class="step-nav" style="margin-top:9px;"><button class="btn-back" onclick="goStep(3)">← Back</button><div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<section class="how reveal" id="how">
+  <div class="section-label">Process</div>
+  <h2 class="section-title">From document to lesson<br><em>in under a minute</em></h2>
+  <p class="section-sub">You bring the knowledge — Slideseed handles the design. Edit what you want, then download in the format that works for your classroom.</p>
+  <div class="steps">
+    <div class="step"><div class="step-num">01</div><div class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div><h3>Upload your document</h3><p>Your lesson plan, notes, or textbook excerpt. PDF, DOCX, or PPTX.</p></div>
+    <div class="step"><div class="step-num">02</div><div class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg></div><h3>Claude reads and structures</h3><p>The AI identifies key concepts and builds age-appropriate slides with 6 types of interactive activities.</p></div>
+    <div class="step"><div class="step-num">03</div><div class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div><h3>Edit in the browser</h3><p>Change text, reorder slides, add images, choose activity types, adjust colors and fonts.</p></div>
+    <div class="step"><div class="step-num">04</div><div class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div><h3>Download and share</h3><p>Interactive HTML for students, PPTX editable in PowerPoint, or PDF to print.</p></div>
+  </div>
+  <div class="formats-strip">
+    <span class="formats-label">Download as</span>
+    <div class="format-badges">
+      <div class="fbadge"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><div><strong>HTML</strong><span>Interactive · works offline · for students</span></div></div>
+      <div class="fbadge" style="opacity:.6;"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg><div><strong>PPTX</strong><span style="color:var(--salmon);font-style:italic;">Próximamente · Coming soon</span></div></div>
+      <div class="fbadge"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg><div><strong>PDF</strong><span>Print or share as file</span></div></div>
+    </div>
+    <span class="formats-note">PPTX and PDF on paid plans</span>
+  </div>
+</section>
+
+<section class="features reveal" id="features">
+  <div class="features-inner">
+    <div class="section-label">What makes it different</div>
+    <h2 class="section-title">Six activity types.<br><em>All evaluated. All scored.</em></h2>
+    <div class="features-grid">
+      <div class="feat-card"><div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><h3>Quiz with feedback</h3><p>Distractors based on real misconceptions — not obviously wrong. Students learn from every wrong answer.</p></div>
+      <div class="feat-card"><div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="2" width="9" height="9" rx="1"/><rect x="13" y="2" width="9" height="9" rx="1"/><rect x="2" y="13" width="9" height="9" rx="1"/><rect x="13" y="13" width="9" height="9" rx="1"/></svg></div><h3>Term matching</h3><p>Connect terms to definitions by dragging. Points awarded for each correct pair.</p></div>
+      <div class="feat-card"><div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></div><h3>Drag to sort</h3><p>Order steps, events, or concepts correctly. Ideal for processes and timelines.</p></div>
+      <div class="feat-card"><div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="M12 3v18"/></svg></div><h3>Flip cards with scoring</h3><p>Students read the term, predict the definition, then reveal it and self-assess. Earns points on first try.</p></div>
+      <div class="feat-card"><div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div><h3>Fill in the blank</h3><p>Key vocabulary placed in context. Word bank available for younger grades; open text for older students.</p></div>
+      <div class="feat-card"><div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div><h3>Score and report card</h3><p>Every activity contributes to a final score. Students share results via WhatsApp, email, or print.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="trust-section reveal" id="trust">
+  <div class="trust-inner">
+    <div style="margin-bottom:36px;">
+      <div class="section-label">Before you upload</div>
+      <h2 class="section-title">Your curriculum stays yours.<br><em>Always.</em></h2>
+      <p class="section-sub">Clear about what happens to your content and why we charge.</p>
+    </div>
+    <div class="trust-grid">
+      <div class="trust-card"><div class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><h3>What to upload</h3><p>Use materials you have the right to share — your own lesson plans, notes, or open-license content.</p><div class="trust-tip"><span class="tip-label">Good uploads</span>Your lesson plan · Unit summary · Class notes you wrote</div></div>
+      <div class="trust-card"><div class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><h3>What happens to your content</h3><p>Your document is processed once to generate the lesson and is not stored on our servers. Never used to train AI models.</p><div class="trust-tip"><span class="tip-label">Our commitment</span>Processed once · Not stored · Never shared</div></div>
+      <div class="trust-card"><div class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><h3>Why we charge</h3><p>Every generation calls a professional AI model with a real cost. Charging fairly keeps quality high without ads.</p><div class="trust-tip"><span class="tip-label">What your payment covers</span>AI processing · Hosting · Development</div></div>
+    </div>
+    <div class="manifesto"><div class="mline"></div><blockquote><p>"We built Slideseed because preparing interactive lessons takes hours most teachers don't have. You bring the knowledge — we build the experience your students will remember."</p><cite>— Daniela Ardila, founder · Dandelion Bio Blog</cite></blockquote><div class="mline"></div></div>
+  </div>
+</section>
+
+<section class="pricing reveal" id="pricing">
+  <div class="pricing-inner">
+    <div class="section-label">Plans</div>
+    <h2 class="section-title">Start free.<br><em>Pay only when you love it.</em></h2>
+    <p class="section-sub" style="margin-bottom:36px;">Two free generations with no card required.</p>
+    <div class="pricing-grid">
+      <div class="price-card"><div class="price-name">Free</div><div class="price-amount"><sup>$</sup>0</div><div class="price-period">2 generations · no card</div><hr class="price-divider"><ul class="price-features"><li>2 interactive lesson sets</li><li>Up to 3 slides per set</li><li>All 6 activity types</li><li>Student score + report</li><li>HTML download only</li><li>Forest theme</li></ul><a href="#upload" class="btn-price outline">Start free</a></div>
+      <div class="price-card"><div class="price-name">Single</div><div class="price-amount"><sup>$</sup>4<span style="font-size:1.2rem">.99</span></div><div class="price-period">one-time · never expires</div><hr class="price-divider"><ul class="price-features"><li>1 lesson (up to 5 slides)</li><li>All 6 activity types</li><li>All 5 visual themes</li><li>Student score + report</li><li>HTML + PDF download</li><li>Bilingual EN / ES</li></ul><a href="#upload" class="btn-price outline">Buy one</a></div>
+      <div class="price-card featured"><div class="feat-badge">Most popular</div><div class="price-name">Pack</div><div class="price-amount"><sup>$</sup>14<span style="font-size:1.2rem">.99</span></div><div class="price-period">5 generations · never expires</div><hr class="price-divider"><ul class="price-features"><li>5 lessons (up to 8 slides each)</li><li>All activity types + themes</li><li>Student score + report</li><li>HTML + PPTX + PDF</li><li>Built-in slide editor</li><li>Priority speed</li></ul><a href="#upload" class="btn-price primary">Get the Pack</a></div>
+      <div class="price-card"><div class="price-name">Monthly</div><div class="price-amount"><sup>$</sup>19</div><div class="price-period">per month · cancel anytime</div><hr class="price-divider"><ul class="price-features"><li>Unlimited generations</li><li>Up to 10 slides per set</li><li>HTML + PPTX + PDF</li><li>Built-in slide editor</li><li>Grade presets</li><li>Class dashboard + support</li></ul><a href="#upload" class="btn-price outline">Start monthly</a></div>
+    </div>
+  </div>
+</section>
+
+<section class="testimonials reveal">
+  <div class="section-label">Early users</div>
+  <h2 class="section-title">Teachers who tried it</h2>
+  <div class="testi-grid">
+    <div class="testi-card"><p class="testi-quote">I uploaded my ecosystems unit and had three interactive lessons ready in under five minutes. The matching activity is exactly what my students needed.</p><div class="testi-author"><div class="testi-avatar">M</div><div><div class="testi-name">Marcela R.</div><div class="testi-role">5th grade teacher · Bogotá</div></div></div></div>
+    <div class="testi-card"><p class="testi-quote">The quiz distractors are actually plausible — my students can't just guess the longest answer anymore. That alone makes it worth it.</p><div class="testi-author"><div class="testi-avatar">J</div><div><div class="testi-name">James K.</div><div class="testi-role">Middle school science · Texas</div></div></div></div>
+    <div class="testi-card"><p class="testi-quote">The drag-to-sort activity works perfectly for my history timeline lessons. Students finally understand sequence, not just facts.</p><div class="testi-author"><div class="testi-avatar">L</div><div><div class="testi-name">Laura V.</div><div class="testi-role">High school history · Miami</div></div></div></div>
+  </div>
+</section>
+
+<section class="cta-section reveal">
+  <h2>Your next lesson is<br><em>one upload away</em></h2>
+  <p>Drop your document. Edit what you want. Download in the format you need.</p>
+  <a href="#upload" class="btn-primary" style="font-size:.97rem;padding:14px 36px;">Upload your first document</a>
+</section>
+
+<div class="brand-bar"><p>Slideseed is a product by <a href="https://dandelionbioblog.com">Dandelion Bio Blog</a> · Science communication for curious minds</p></div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand"><span class="logo-text" style="font-family:Georgia,serif;font-size:1.2rem;margin-bottom:8px;display:block;"><span style="color:var(--green)">Slide</span>seed</span><p>Interactive lesson slides from your own documents. Built for educators who care about learning.</p></div>
+    <div class="footer-col"><h4>Product</h4><ul><li><a href="#">How it works</a></li><li><a href="#">Features</a></li><li><a href="#">Pricing</a></li><li><a href="#">Sample lessons</a></li></ul></div>
+    <div class="footer-col"><h4>Resources</h4><ul><li><a href="#">Teacher's guide</a></li><li><a href="#">Blog</a></li><li><a href="https://dandelionbioblog.com">Dandelion Bio Blog</a></li></ul></div>
+    <div class="footer-col"><h4>Support</h4><ul><li><a href="#">FAQ</a></li><li><a href="#">Contact</a></li><li><a href="#">Privacy policy</a></li><li><a href="#">Terms of use</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><p>© 2026 Slideseed · <a href="https://dandelionbioblog.com">Dandelion Bio Blog</a></p><p>Made with care for educators worldwide</p></div>
+</footer>
+
+<!-- EDITOR OVERLAY -->
+<div id="editor-overlay">
+  <div class="editor-topbar">
+    <div style="display:flex;flex-direction:column;gap:3px;">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span style="font-family:Georgia,serif;font-size:.9rem;color:var(--ink);">Lesson title:</span>
+        <input type="text" id="lesson-title-input" class="select-field" style="font-family:Georgia,serif;font-size:.88rem;font-style:italic;padding:4px 10px;min-width:200px;" placeholder="Enter lesson title…" oninput="lessonTitle=this.value">
+      </div>
+      <div style="font-size:.68rem;color:var(--muted);">Click any text to edit · Use ↑↓ to reorder · <span style="color:var(--salmon);">Tip: reference your source in the title</span></div>
+    </div>
+    <div class="editor-actions">
+      <div class="format-toggle">
+        <button class="fmt-btn active" onclick="setFmt('html',this)">HTML</button>
+        <button class="fmt-btn" onclick="setFmt('pdf',this)">PDF</button>
+        <button class="fmt-btn" onclick="setFmt('pptx',this)">PPTX</button>
+      </div>
+      <button class="btn-download" onclick="downloadLesson()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download
+      </button>
+      <button class="btn-close-editor" onclick="closeEditor()">Close</button>
+    </div>
+  </div>
+  <div class="editor-body">
+    <div class="slides-panel" id="slides-panel"></div>
+    <div class="editor-canvas"><div class="slide-editor" id="slide-editor"></div></div>
+    <div class="tools-panel">
+      <div class="tools-section">
+        <h4>Set all slides to…</h4>
+        <div style="display:flex;flex-direction:column;gap:5px;" id="global-activity">
+          <button class="act-btn" onclick="setAllActivity('quiz',this)">Quiz</button>
+          <button class="act-btn" onclick="setAllActivity('match',this)">Match</button>
+          <button class="act-btn" onclick="setAllActivity('sort',this)">Sort</button>
+          <button class="act-btn" onclick="setAllActivity('flip',this)">Flip</button>
+          <button class="act-btn" onclick="setAllActivity('fill',this)">Fill</button>
+          <button class="act-btn" onclick="setAllActivity('reflect',this)">Reflect</button>
+        </div>
+      </div>
+      <div class="tools-section">
+        <h4>Theme accent color</h4>
+        <div class="color-swatches" id="theme-swatches">
+          <div class="swatch active" style="background:#447566" onclick="setSwatch(this,'#447566')" title="Forest"></div>
+          <div class="swatch" style="background:#1F2B27" onclick="setSwatch(this,'#1F2B27')" title="Ink"></div>
+          <div class="swatch" style="background:#C4794A" onclick="setSwatch(this,'#C4794A')" title="Sand"></div>
+          <div class="swatch" style="background:#2980B9" onclick="setSwatch(this,'#2980B9')" title="Sky"></div>
+          <div class="swatch" style="background:#4A5568" onclick="setSwatch(this,'#4A5568')" title="Slate"></div>
+          <div class="swatch" style="background:#9B59B6" onclick="setSwatch(this,'#9B59B6')" title="Purple"></div>
+          <div class="swatch" style="background:#e0907a" onclick="setSwatch(this,'#e0907a')" title="Salmon"></div>
+          <div class="swatch" style="background:#2ECC71" onclick="setSwatch(this,'#2ECC71')" title="Mint"></div>
+        </div>
+      </div>
+      <div class="tools-section">
+        <h4>Background</h4>
+        <div class="bg-options" id="bg-options">
+          <div class="bg-opt active" style="background:#f5f5f0" onclick="setBg(this,'#f5f5f0')" title="Light"></div>
+          <div class="bg-opt" style="background:#1a1a2e" onclick="setBg(this,'#1a1a2e')" title="Dark"></div>
+          <div class="bg-opt" style="background:#F7F2EA" onclick="setBg(this,'#F7F2EA')" title="Cream"></div>
+          <div class="bg-opt" style="background:#e8f4f8" onclick="setBg(this,'#e8f4f8')" title="Blue tint"></div>
+          <div class="bg-opt" style="background:#fef9ef" onclick="setBg(this,'#fef9ef')" title="Warm"></div>
+          <div class="bg-opt" style="background:#f0f4f0" onclick="setBg(this,'#f0f4f0')" title="Green tint"></div>
+        </div>
+      </div>
+      <div class="tools-section">
+        <h4>Body font</h4>
+        <select class="font-family-select" onchange="setGlobalFont(this.value)">
+          <option value="'Helvetica Neue',sans-serif">Helvetica (default)</option>
+          <option value="Georgia,serif">Georgia</option>
+          <option value="'Times New Roman',serif">Times New Roman</option>
+          <option value="Arial,sans-serif">Arial</option>
+          <option value="Verdana,sans-serif">Verdana</option>
+        </select>
+      </div>
+      <div class="tools-section">
+        <h4>Font size</h4>
+        <select class="font-size-select" onchange="setFontSize(this.value)">
+          <option value="small">Small</option>
+          <option value="medium" selected>Medium</option>
+          <option value="large">Large</option>
+        </select>
+      </div>
+      <div class="tools-section">
+        <h4>Tips</h4>
+        <p style="font-size:.7rem;color:var(--muted);line-height:1.6;">Click any title or body text to edit inline. Use ↑↓ to reorder slides. Click image area to upload or paste a URL.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const DEV = new URLSearchParams(window.location.search).get('dev')==='true';
+const BACKEND_URL='https://slideseed-backend-production.up.railway.app';
+const SITE_URL='https://jolly-night-9aac.daniela-parra7409.workers.dev'; // TODO: cambiar a https://slideseed.app cuando exista el dominio
+const S={file:null,grade:'',gradeName:'',lang:'',theme:'forest',slides:3};
+let editorSlides=[],lessonTitle='Interactive Lesson',themeAccent='#447566',bgColor='#f5f5f0',bodyFont="'Helvetica Neue',sans-serif",currentFmt='html',activeIdx=0;
+
+const GRADE_CONFIG={
+  'K-2': {emoji:true, fontSize:'1.1rem', fontFamily:"'Comic Sans MS',cursive,sans-serif", useWordBank:true},
+  '3-5': {emoji:true, fontSize:'1rem',   fontFamily:"'Helvetica Neue',sans-serif",       useWordBank:true},
+  '6-8': {emoji:false,fontSize:'.95rem', fontFamily:"'Helvetica Neue',sans-serif",       useWordBank:false},
+  '9-12':{emoji:false,fontSize:'.92rem', fontFamily:"Georgia,serif",                     useWordBank:false},
+  'Univ':{emoji:false,fontSize:'.9rem',  fontFamily:"Georgia,serif",                     useWordBank:false},
+  'Mixed':{emoji:true,fontSize:'1rem',   fontFamily:"'Helvetica Neue',sans-serif",       useWordBank:true}
+};
+
+/* ── STEP NAV ── */
+function goStep(n){
+  if(n>1&&!S.file){flashDZ();return;}
+  if(n>2&&!S.grade){flashGrades();return;}
+  document.querySelectorAll('.step-pip').forEach((p,i)=>{p.classList.remove('active','done');if(i+1<n)p.classList.add('done');if(i+1===n)p.classList.add('active');});
+  document.querySelectorAll('.card-step').forEach((s,i)=>s.classList.toggle('active',i+1===n));
+  if(n===4)populateReview();
+}
+function flashDZ(){const dz=document.getElementById('drop-zone');dz.style.borderColor='#e0907a';dz.querySelector('h3').textContent='Please upload a document first';setTimeout(()=>{dz.style.borderColor='';dz.querySelector('h3').textContent='Drop your document here';},2000);}
+function flashGrades(){document.querySelectorAll('.grade-card').forEach(c=>{c.style.outline='2px solid #e0907a';setTimeout(()=>c.style.outline='',600);});}
+
+/* ── FILE ── */
+function handleFile(i){const f=i.files[0];if(!f)return;S.file=f;document.getElementById('file-name').textContent=f.name;document.getElementById('file-chosen').classList.add('show');}
+function removeFile(){S.file=null;document.getElementById('file-input').value='';document.getElementById('file-chosen').classList.remove('show');}
+const dz=document.getElementById('drop-zone');
+dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('dragover');});
+dz.addEventListener('dragleave',()=>dz.classList.remove('dragover'));
+dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('dragover');const f=e.dataTransfer.files[0];if(f){const dt=new DataTransfer();dt.items.add(f);document.getElementById('file-input').files=dt.files;handleFile(document.getElementById('file-input'));}});
+
+/* ── SELECTORS ── */
+function selectGrade(el,g){document.querySelectorAll('.grade-card').forEach(c=>c.classList.remove('selected'));el.classList.add('selected');S.grade=g;const nm={'K-2':'Early learners (K-2)','3-5':'Elementary (3-5)','6-8':'Middle school (6-8)','9-12':'High school (9-12)','Univ':'University','Mixed':'Online'};S.gradeName=nm[g]||g;}
+function selectTheme(el,t){document.querySelectorAll('.theme-card').forEach(c=>c.classList.remove('selected'));el.classList.add('selected');S.theme=t;const c={forest:'#447566',ink:'#1F2B27',sand:'#C4794A',sky:'#2980B9',slate:'#4A5568'};themeAccent=c[t]||'#447566';}
+function changeSlides(d){const n=S.slides+d;if(n<1)return;if(n>3){document.getElementById('upgrade-note').style.display='flex';return;}document.getElementById('upgrade-note').style.display='none';S.slides=n;document.getElementById('slides-val').textContent=n;}
+function populateReview(){const lm={en:'English',es:'Español',bi:'Bilingual EN/ES','':"—"};const tm={forest:'Forest',ink:'Ink',sand:'Sand',sky:'Sky',slate:'Slate'};document.getElementById('rev-file').textContent=S.file?S.file.name:'—';document.getElementById('rev-grade').textContent=S.gradeName||'—';document.getElementById('rev-lang').textContent=lm[document.getElementById('lang-select').value]||'—';document.getElementById('rev-theme').textContent=tm[S.theme]||S.theme;document.getElementById('rev-slides').textContent=S.slides;}
+
+/* ── GENERATE ── */
+async function handleGenerate(){
+  if(!S.file){goStep(1);return;}
+  const btn=document.getElementById('gen-btn');btn.style.display='none';
+  document.getElementById('generating').classList.add('show');
+  // Rotating loading messages
+  const msgs=['Reading your document…','Extracting key concepts…','Crafting activities…','Building interactive slides…','Almost ready — polishing the lesson…'];
+  let mi=0;
+  const msgEl=document.getElementById('gen-msg');
+  if(msgEl){msgEl.textContent=msgs[0];}
+  const msgInterval=setInterval(()=>{mi=(mi+1)%msgs.length;if(msgEl)msgEl.textContent=msgs[mi];},2800);
+  try{
+    const fd=new FormData();fd.append('file',S.file);
+    const ur=await fetch(`${BACKEND_URL}/upload`,{method:'POST',body:fd});
+    if(!ur.ok)throw new Error(`Upload failed: ${ur.status}`);
+    const {session_id}=await ur.json();
+    S.lang=document.getElementById('lang-select').value||'en';
+    const gr=await fetch(`${BACKEND_URL}/generate`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({session_id,grade:S.grade||'3-5',language:S.lang,theme:S.theme,num_slides:S.slides})});
+    if(!gr.ok)throw new Error(`Generation failed: ${gr.status}`);
+    const data=await gr.json();
+    clearInterval(msgInterval);
+    document.getElementById('generating').classList.remove('show');btn.style.display='flex';
+    openEditor(data);
+  }catch(e){
+    clearInterval(msgInterval);
+    document.getElementById('generating').classList.remove('show');btn.style.display='flex';
+    btn.textContent='Something went wrong — try again';
+    btn.style.cssText='background:rgba(224,144,122,.12);color:var(--salmon);border:1px solid rgba(224,144,122,.3);';
+    setTimeout(()=>{btn.textContent='Generate my lesson — free';btn.removeAttribute('style');btn.disabled=false;},3500);
+    console.error(e);
+  }
+}
+
+/* ── EDITOR ── */
+function openEditor(data){
+  lessonTitle=data.title||'Interactive Lesson';
+  const acts=['quiz','match','sort','flip','fill','reflect'];
+  editorSlides=(data.slides||[]).map((sl,i)=>({
+    id:i+1,title:sl.title||`Slide ${i+1}`,body:sl.body||'',
+    key_term:sl.key_term||'',key_definition:sl.key_definition||'',
+    quiz:sl.quiz||{question:'',correct:'',wrong:[]},
+    fill_blank:sl.fill_blank||{sentence:'',answer:''},
+    drag_items:sl.drag_items||[],
+    activity:sl.activity_hint||acts[i%acts.length],
+    image:null
+  }));
+  setTimeout(()=>{const ti=document.getElementById('lesson-title-input');if(ti)ti.value=lessonTitle;},50);
+  renderEditor();
+  document.getElementById('editor-overlay').classList.add('show');
+  document.body.style.overflow='hidden';
+}
+
+function renderEditor(){renderThumbs();renderSlideCards();setActiveSlide(0);}
+
+function renderThumbs(){
+  const panel=document.getElementById('slides-panel');panel.innerHTML='';
+  editorSlides.forEach((sl,i)=>{
+    const d=document.createElement('div');
+    d.className='slide-thumb'+(i===activeIdx?' active':'');
+    d.innerHTML=`<div class="thumb-bar" style="background:${themeAccent}"></div><div class="thumb-content"><div class="thumb-num">Slide ${sl.id}</div><div class="thumb-title">${esc(sl.title)}</div></div>`;
+    d.onclick=()=>setActiveSlide(i);panel.appendChild(d);
+  });
+  const add=document.createElement('div');add.className='slide-add';add.textContent='+ Add slide';add.onclick=addSlide;panel.appendChild(add);
+}
+
+function renderSlideCards(){
+  const canvas=document.getElementById('slide-editor');canvas.innerHTML='';
+  editorSlides.forEach((sl,i)=>{
+    const card=document.createElement('div');
+    card.className='slide-edit-card'+(i===activeIdx?'':' hidden');
+    card.id=`sc-${i}`;
+    card.innerHTML=`
+      <div class="slide-vis-header" style="background:${themeAccent}">
+        <div class="slide-vis-meta">
+          <span class="slide-num-badge">SLIDE ${sl.id} / ${editorSlides.length}</span>
+          <div class="slide-controls">
+            ${i>0?`<button class="slide-ctrl-btn" onclick="moveSlide(${i},-1)" title="Move up">↑</button>`:''}
+            ${i<editorSlides.length-1?`<button class="slide-ctrl-btn" onclick="moveSlide(${i},1)" title="Move down">↓</button>`:''}
+            ${editorSlides.length>1?`<button class="slide-ctrl-btn danger" onclick="deleteSlide(${i})">✕ Remove</button>`:''}
+          </div>
+        </div>
+        <div class="edit-title-vis" contenteditable="true" data-ph="Slide title…"
+             onblur="updateSlide(${i},'title',this.textContent.trim())"
+             onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}">${esc(sl.title)}</div>
+      </div>
+      <div class="slide-vis-body" style="background:${bgColor}">
+        <div class="slide-img-area${sl.image?' has-img':''}" id="img-${i}" onclick="triggerImg(${i})">
+          ${sl.image?`<img src="${sl.image}" alt="">`:`<div class="img-placeholder">📷 Click to add image (optional)</div>`}
+        </div>
+        <input type="file" id="img-input-${i}" accept="image/*" style="display:none" onchange="handleImg(${i},this)">
+        <div class="img-url-row">
+          <input type="text" id="img-url-${i}" placeholder="Or paste image URL…" class="url-input" onkeydown="if(event.key==='Enter')setImgUrl(${i})">
+          <button onclick="setImgUrl(${i})" class="url-btn">Use URL</button>
+        </div>
+        <div class="edit-body-vis" contenteditable="true" data-ph="Slide content — click to edit…"
+             onblur="updateSlide(${i},'body',this.textContent.trim())">${esc(sl.body)}</div>
+        ${sl.key_term?`<div class="key-term-vis" style="border-left-color:${themeAccent}"><strong>${esc(sl.key_term)}:</strong> ${esc(sl.key_definition)}</div>`:''}
+      </div>
+      <div class="slide-vis-footer">
+        <div class="activity-label-sm">Activity type</div>
+        <div class="activity-selector">
+          <button class="act-btn${sl.activity==='quiz'?' selected':''}" onclick="setSlideAct(${i},'quiz',this)">Quiz</button>
+          <button class="act-btn${sl.activity==='match'?' selected':''}" onclick="setSlideAct(${i},'match',this)">Match</button>
+          <button class="act-btn${sl.activity==='sort'?' selected':''}" onclick="setSlideAct(${i},'sort',this)">Sort</button>
+          <button class="act-btn${sl.activity==='flip'?' selected':''}" onclick="setSlideAct(${i},'flip',this)">Flip</button>
+          <button class="act-btn${sl.activity==='fill'?' selected':''}" onclick="setSlideAct(${i},'fill',this)">Fill</button>
+          <button class="act-btn${sl.activity==='reflect'?' selected':''}" onclick="setSlideAct(${i},'reflect',this)">Reflect</button>
+        </div>
+      </div>`;
+    canvas.appendChild(card);
+  });
+}
+
+function setActiveSlide(i){activeIdx=i;document.querySelectorAll('.slide-thumb').forEach((t,idx)=>t.classList.toggle('active',idx===i));document.querySelectorAll('.slide-edit-card').forEach((c,idx)=>c.classList.toggle('hidden',idx!==i));}
+function updateSlide(i,f,v){editorSlides[i][f]=v;renderThumbs();}
+function moveSlide(i,d){const j=i+d;if(j<0||j>=editorSlides.length)return;[editorSlides[i],editorSlides[j]]=[editorSlides[j],editorSlides[i]];editorSlides.forEach((s,idx)=>s.id=idx+1);activeIdx=j;renderSlideCards();renderThumbs();}
+function deleteSlide(i){if(editorSlides.length<=1)return;editorSlides.splice(i,1);editorSlides.forEach((s,idx)=>s.id=idx+1);activeIdx=Math.min(activeIdx,editorSlides.length-1);renderSlideCards();renderThumbs();}
+function addSlide(){editorSlides.push({id:editorSlides.length+1,title:'New slide',body:'Add content here.',key_term:'',key_definition:'',quiz:{question:'',correct:'',wrong:[]},fill_blank:{sentence:'',answer:''},drag_items:[],activity:'quiz',image:null});activeIdx=editorSlides.length-1;renderSlideCards();renderThumbs();setActiveSlide(activeIdx);}
+function setSlideAct(i,a,el){editorSlides[i].activity=a;el.closest('.activity-selector').querySelectorAll('.act-btn').forEach(b=>b.classList.remove('selected'));el.classList.add('selected');}
+function triggerImg(i){document.getElementById(`img-input-${i}`)?.click();}
+function handleImg(i,input){const f=input.files[0];if(!f)return;const r=new FileReader();r.onload=e=>{editorSlides[i].image=e.target.result;const a=document.getElementById(`img-${i}`);if(a){a.innerHTML=`<img src="${e.target.result}" alt="" style="max-width:100%;max-height:150px;border-radius:8px;">`;a.classList.add('has-img');}};r.readAsDataURL(f);}
+function setImgUrl(i){const inp=document.getElementById(`img-url-${i}`);if(!inp||!inp.value.trim())return;const url=inp.value.trim();editorSlides[i].image=url;const a=document.getElementById(`img-${i}`);if(a){a.innerHTML=`<img src="${url}" alt="" style="max-width:100%;max-height:150px;border-radius:8px;" onerror="this.parentElement.innerHTML='<div class=\\'img-placeholder\\'>Invalid URL</div>'">`;a.classList.add('has-img');}inp.value='';}
+function setAllActivity(a,el){editorSlides.forEach(s=>s.activity=a);document.querySelectorAll('#global-activity .act-btn').forEach(b=>b.classList.remove('selected'));el.classList.add('selected');renderSlideCards();}
+function setSwatch(el,c){
+  themeAccent=c;
+  document.querySelectorAll('.swatch').forEach(s=>s.classList.remove('active'));el.classList.add('active');
+  document.documentElement.style.setProperty('--slide-accent',c);
+  document.querySelectorAll('.slide-vis-header').forEach(h=>h.style.background=c);
+  document.querySelectorAll('.thumb-bar').forEach(b=>b.style.background=c);
+  document.querySelectorAll('.key-term-vis').forEach(k=>k.style.borderLeftColor=c);
+  document.querySelectorAll('.act-btn.selected').forEach(b=>{b.style.background=c;b.style.borderColor=c;});
+}
+function setBg(el,c){
+  bgColor=c;
+  document.querySelectorAll('.bg-opt').forEach(s=>s.classList.remove('active'));el.classList.add('active');
+  document.documentElement.style.setProperty('--slide-bg',c);
+  document.querySelectorAll('.slide-vis-body').forEach(b=>b.style.background=c);
+}
+function setGlobalFont(f){bodyFont=f;}
+function setFontSize(sz){const m={small:'.82rem',medium:'.95rem',large:'1.08rem'};document.querySelectorAll('.edit-body-vis').forEach(el=>el.style.fontSize=m[sz]);}
+function setFmt(f,el){currentFmt=f;document.querySelectorAll('.fmt-btn').forEach(b=>b.classList.remove('active'));el.classList.add('active');}
+function closeEditor(){document.getElementById('editor-overlay').classList.remove('show');document.body.style.overflow='';}
+
+/* ── DOWNLOAD ── */
+function downloadLesson(){
+  if(currentFmt==='html'){
+    dlFile(buildStudentHTML(),'slideseed-lesson.html','text/html');
+  } else if(currentFmt==='pptx'){
+    exportPPTX();
+  } else if(currentFmt==='pdf'){
+    const w=window.open('','_blank');
+    if(!w){alert('Allow popups for this site to use PDF export.');return;}
+    w.document.open();
+    w.document.write(buildStudentHTML());
+    w.document.close();
+    setTimeout(function(){w.print();},900);
+  }
+}
+function dlFile(c,n,t){const b=new Blob([c],{type:t});const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download=n;document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(u);}
+
+/* ── PPTX export (backend /export/pptx; falls back gracefully if not deployed yet) ── */
+async function exportPPTX(){
+  const btn=document.querySelector('.btn-download');
+  const prev=btn?btn.textContent:'';
+  if(btn){btn.textContent='Building PPTX…';btn.disabled=true;}
+  try{
+    const r=await fetch(`${BACKEND_URL}/export/pptx`,{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({title:lessonTitle,language:S.lang||'en',grade:S.grade||'3-5',accent:themeAccent,slides:editorSlides})
+    });
+    if(!r.ok)throw new Error('PPTX endpoint not available: '+r.status);
+    const blob=await r.blob();
+    const u=URL.createObjectURL(blob);
+    const a=document.createElement('a');a.href=u;a.download='slideseed-lesson.pptx';
+    document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(u);
+  }catch(e){
+    console.error(e);
+    alert('PPTX próximamente — por ahora usa HTML o PDF. / PPTX coming soon — use HTML or PDF for now.');
+  }finally{
+    if(btn){btn.textContent=prev;btn.disabled=false;}
+  }
+}
+
+
+
+
+/* ── BUILD STUDENT HTML ── */
+function buildStudentHTML(){
+  const color=themeAccent;
+  const lang=S.lang||'en';
+  const grade=S.grade||'3-5';
+  const cfg=GRADE_CONFIG[grade]||GRADE_CONFIG['3-5'];
+  const total=editorSlides.length;
+  const E=cfg.emoji;
+  const rgb=hexToRgb(color);
+
+  const gradeCSS=grade==='K-2'?`
+    body{font-size:18px;}
+    .sh h2{font-size:1.8rem;}
+    .sl-body{font-size:1.12rem;line-height:1.9;}
+    .qopt{font-size:1rem;padding:13px 17px;}
+    .qopt-letter{width:34px;height:34px;font-size:.78rem;}
+    .act-block{border-radius:20px;padding:22px 24px;}
+    .snb{font-size:.98rem;padding:13px 30px;}
+    .sort-item,.match-term,.match-def{font-size:.98rem;min-height:52px;}
+    .word-chip{font-size:.92rem;padding:8px 18px;}
+  `:grade==='9-12'||grade==='Univ'?`
+    .sh h2{font-size:1.35rem;font-weight:600;letter-spacing:-.01em;}
+    .act-block{border-left:4px solid ${color};border-radius:4px 16px 16px 4px;}
+    .act-lbl{font-size:.55rem;letter-spacing:.15em;}
+    .quiz-q{font-size:.92rem;}
+    .sl-body{line-height:1.9;letter-spacing:.012em;}
+  `:'';
+
+  const dots=editorSlides.map((s,i)=>`<span class="pd" id="pd-${i}"></span>`).join('');
+
+  // Key-term highlighter: finds first occurrence in body, wraps in <mark class="key-hl">
+  function hlBody(body,term){
+    if(!term||!body)return esc(body||'');
+    const idx=body.toLowerCase().indexOf(term.toLowerCase());
+    if(idx<0)return esc(body);
+    return esc(body.slice(0,idx))+'<mark class="key-hl">'+esc(body.slice(idx,idx+term.length))+'</mark>'+esc(body.slice(idx+term.length));
+  }
+
+  let slidesHTML='';
+  editorSlides.forEach((sl,i)=>{
+    const act=sl.activity||'quiz';
+    const letters=['A','B','C','D','E'];
+    let actBlock='';
+
+    if(act==='quiz'&&sl.quiz&&sl.quiz.correct){
+      const opts=[sl.quiz.correct,...(sl.quiz.wrong||[])].sort(()=>Math.random()-.5);
+      const correctIdx=opts.indexOf(sl.quiz.correct);
+      actBlock=`<div class="act-block">
+        <div class="act-lbl">${E?'🧠 ':''}${lang==='es'?'Pregunta rápida':'Quick Check'}</div>
+        <div class="quiz-q">${esc(sl.quiz.question)}</div>
+        <div class="quiz-opts" data-correct-idx="${correctIdx}" data-sid="${i}" id="qo-${i}">
+          ${opts.map((o,qi)=>`<button class="qopt" data-idx="${qi}" onclick="checkQ(this)"><span class="qopt-letter">${letters[qi]||qi+1}</span><span>${esc(o)}</span></button>`).join('')}
+        </div>
+        <div class="feedback" id="fb-${i}"></div>
+      </div>`;
+
+    } else if(act==='match'){
+      const pairs=[];
+      if(sl.key_term&&sl.key_definition) pairs.push({term:sl.key_term,def:sl.key_definition});
+      if(sl.quiz&&sl.quiz.question&&sl.quiz.correct) pairs.push({term:sl.quiz.question,def:sl.quiz.correct});
+      // fallback: pair consecutive drag_items if still need more pairs
+      if(pairs.length<2&&sl.drag_items&&sl.drag_items.length>=2){
+        for(let k=0;k+1<sl.drag_items.length&&pairs.length<4;k+=2){
+          pairs.push({term:sl.drag_items[k],def:sl.drag_items[k+1]});
+        }
+      }
+      if(pairs.length>0){
+        const shuffledDefs=pairs.map((p,idx)=>({...p,oi:idx})).sort(()=>Math.random()-.5);
+        actBlock=`<div class="act-block">
+          <div class="act-lbl">${E?'🔗 ':''}${lang==='es'?'Relaciona':'Match'}</div>
+          <p style="font-size:.8rem;color:#888;margin-bottom:12px;">${lang==='es'?'Toca un término, luego su definición':'Tap a term, then its matching definition'}</p>
+          <div class="match-wrap" id="match-${i}">
+            <div class="match-terms">${pairs.map((p,j)=>`<div class="match-term" data-pi="${j}" onclick="mClick(this,'${i}')">${esc(p.term)}</div>`).join('')}</div>
+            <div class="match-defs">${shuffledDefs.map((p)=>`<div class="match-def" data-pi="${p.oi}" onclick="mClick(this,'${i}')">${esc(p.def)}</div>`).join('')}</div>
+          </div>
+          <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="snb primary" onclick="checkMatch('${i}',${pairs.length})">${lang==='es'?'Verificar':'Check'}</button>
+            <button class="snb" onclick="resetMatch('${i}')">${lang==='es'?'Reiniciar':'Reset'}</button>
+          </div>
+          <div class="feedback" id="fb-${i}"></div>
+        </div>`;
+      }
+
+    } else if(act==='sort'&&sl.drag_items&&sl.drag_items.length){
+      const shuffled=[...sl.drag_items].sort(()=>Math.random()-.5);
+      actBlock=`<div class="act-block">
+        <div class="act-lbl">${E?'📋 ':''}${lang==='es'?'Ordena los pasos':'Put these in order'}</div>
+        <p style="font-size:.8rem;color:#888;margin-bottom:12px;">${lang==='es'?'Arrastra para reordenar':'Drag to reorder'}</p>
+        <div class="sort-list" id="sort-${i}" data-correct="${esc(JSON.stringify(sl.drag_items))}">
+          ${shuffled.map((item,j)=>`<div class="sort-item" draggable="true" ondragstart="sortDrag(event,${j})" ondragover="event.preventDefault()" ondrop="sortDrop(event,${j},'${i}')"><span class="sort-handle">&#8942;&#8942;</span><span class="sort-text">${esc(item)}</span></div>`).join('')}
+        </div>
+        <div style="margin-top:12px;display:flex;gap:8px;">
+          <button class="snb primary" onclick="checkSort('${i}')">${lang==='es'?'Verificar orden':'Check order'}</button>
+          <button class="snb" onclick="shuffleSort('${i}')">${lang==='es'?'Mezclar':'Shuffle'}</button>
+        </div>
+        <div class="feedback" id="fb-${i}"></div>
+      </div>`;
+
+    } else if(act==='flip'){
+      actBlock=`<div class="act-block">
+        <div class="act-lbl">${E?'🔄 ':''}${lang==='es'?'Tarjeta — toca para revelar':'Flip card — tap to reveal'}</div>
+        <div class="flip-wrap">
+          <div class="flip-card" id="fc-${i}" onclick="flipCard(${i})">
+            <div class="flip-front"><div class="flip-front-term">${E?'💡 ':''}${esc(sl.key_term||sl.title)}</div><span class="flip-hint">${lang==='es'?'Toca para revelar':'Tap to reveal'}</span></div>
+            <div class="flip-back">${esc(sl.key_definition||sl.body.substring(0,200))}</div>
+          </div>
+        </div>
+        <div class="flip-assess" id="flip-assess-${i}" style="display:none;margin-top:14px;">
+          <p style="font-size:.85rem;color:#555;margin-bottom:10px;font-weight:500;">${lang==='es'?'¿Lo sabías?':'Did you know it?'}</p>
+          <div style="display:flex;gap:9px;">
+            <button class="snb primary" onclick="scoreFlip(${i},true)">${E?'✅ ':''}${lang==='es'?'Sí, lo sabía':'Yes, I knew it'}</button>
+            <button class="snb" onclick="scoreFlip(${i},false)">${E?'❌ ':''}${lang==='es'?'Aún no':'Not yet'}</button>
+          </div>
+        </div>
+        <div class="feedback" id="fb-${i}"></div>
+      </div>`;
+
+    } else if(act==='fill'&&sl.fill_blank&&sl.fill_blank.sentence){
+      const parts=sl.fill_blank.sentence.split('___');
+      const ans=sl.fill_blank.answer||'';
+      const wordBank=cfg.useWordBank&&sl.drag_items&&sl.drag_items.length?
+        `<div class="word-bank"><div class="wb-label">${lang==='es'?'Banco de palabras':'Word bank'}</div>${[...new Set(sl.drag_items.concat(ans))].sort(()=>Math.random()-.5).map(w=>`<span class="word-chip" onclick="useWord(this,'fill-${i}')">${esc(w)}</span>`).join('')}</div>`:'';
+      actBlock=`<div class="act-block">
+        <div class="act-lbl">${E?'✍️ ':''}${lang==='es'?'Completa el espacio':'Fill in the blank'}</div>
+        ${wordBank}
+        <p class="fill-sent">${esc(parts[0]||'')}<input type="text" class="fill-inp" id="fill-${i}" data-ans="${esc(ans)}" placeholder="${lang==='es'?'escribe aquí…':'type here…'}" onkeydown="if(event.key==='Enter')checkFill('${i}')">${esc(parts[1]||'')}</p>
+        <button class="snb primary" style="margin-top:12px;" onclick="checkFill('${i}')">${lang==='es'?'Verificar':'Check'}</button>
+        <div class="feedback" id="fb-${i}"></div>
+      </div>`;
+
+    } else {
+      actBlock=`<div class="act-block">
+        <div class="act-lbl">${E?'💭 ':''}${lang==='es'?'Reflexión':'Reflection'}</div>
+        <p style="font-size:.86rem;color:#666;font-style:italic;margin-bottom:12px;line-height:1.65;">${lang==='es'?'Con tus propias palabras, ¿cuál es la idea más importante?':'In your own words, what is the most important idea from this slide?'}</p>
+        <textarea class="refl-inp" placeholder="${lang==='es'?'Escribe tu reflexión aquí…':'Write your reflection here…'}" rows="3" id="refl-${i}"></textarea>
+        <button class="snb primary" style="margin-top:10px;" onclick="checkReflect(${i})">${E?'💾 ':''}${lang==='es'?'Guardar reflexión':'Save reflection'}</button>
+        <div class="feedback" id="fb-${i}"></div>
+      </div>`;
+    }
+
+    slidesHTML+=`
+    <section class="ls" id="ls-${i}" style="display:${i===0?'block':'none'}">
+      <div class="ls-inner">
+        <div class="sh">
+          <span class="sh-num">${lang==='es'?'Diapositiva':'Slide'} ${i+1} ${lang==='es'?'de':'of'} ${total}</span>
+          <h2>${E&&grade==='K-2'?'⭐ ':''}${esc(sl.title)}</h2>
+        </div>
+        <div class="sc-body">
+          ${sl.image?`<img src="${sl.image}" class="sl-img" alt="">`:''}
+          <p class="sl-body">${hlBody(sl.body,sl.key_term)}</p>
+          ${actBlock}
+        </div>
+        <div class="sn">
+          ${i>0?`<button class="snb" onclick="gLS(${i-1})">&#8592; ${lang==='es'?'Anterior':'Previous'}</button>`:'<span></span>'}
+          ${i<total-1?`<button class="snb primary" onclick="gLS(${i+1})">${lang==='es'?'Siguiente':'Next'} &#8594;</button>`:`<button class="snb primary" onclick="showScore()">${lang==='es'?'Ver puntaje':'See my score'} ${E?'🎉':''}</button>`}
+        </div>
+      </div>
+    </section>`;
+  });
+
+  return `<!DOCTYPE html>
+<html lang="${lang}">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>${esc(lessonTitle)}</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',${cfg.fontFamily};background:${bgColor};color:#1F2B27;min-height:100vh;-webkit-font-smoothing:antialiased;}
+/* ── Header ── */
+.lh{background:${color};padding:13px 22px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 1px 0 rgba(255,255,255,.08),0 4px 24px rgba(0,0,0,.22);}
+.lh h1{font-family:'Fraunces',Georgia,serif;font-size:1rem;font-style:italic;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:65%;font-weight:600;}
+.lh-badge{font-size:.67rem;background:rgba(255,255,255,.15);border-radius:20px;padding:4px 12px;color:rgba(255,255,255,.88);white-space:nowrap;letter-spacing:.02em;}
+/* ── Progress dots ── */
+.prog{display:flex;align-items:center;justify-content:center;gap:6px;padding:9px 20px 13px;background:${color};}
+.pd{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.22);transition:all .38s cubic-bezier(.4,0,.2,1);display:inline-block;}
+.pd.active{background:#fff;width:22px;border-radius:3.5px;}
+.pd.done{background:rgba(255,255,255,.5);}
+/* ── Slide card ── */
+.ls{max-width:660px;margin:24px auto 48px;padding:0 14px;}
+.ls-inner{background:#fff;border-radius:22px;overflow:hidden;box-shadow:0 2px 4px rgba(0,0,0,.04),0 10px 40px rgba(31,43,39,.1),0 24px 64px rgba(31,43,39,.05);animation:fadeUp .42s cubic-bezier(.16,1,.3,1);}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+/* ── Slide header ── */
+.sh{padding:28px 28px 24px;background:${color};color:#fff;position:relative;overflow:hidden;}
+.sh::before{content:'';position:absolute;inset:0;background:linear-gradient(145deg,rgba(255,255,255,.09) 0%,transparent 55%);}
+.sh::after{content:'';position:absolute;right:-50px;bottom:-50px;width:180px;height:180px;border-radius:50%;background:rgba(0,0,0,.07);}
+.sh-num{font-size:.59rem;letter-spacing:.16em;text-transform:uppercase;opacity:.65;display:block;margin-bottom:10px;font-family:'Inter',sans-serif;font-weight:500;}
+.sh h2{font-family:'Fraunces',Georgia,serif;font-size:1.52rem;line-height:1.18;position:relative;z-index:1;font-weight:600;}
+/* ── Slide body ── */
+.sc-body{padding:24px 28px 18px;}
+.sl-img{width:100%;max-height:220px;object-fit:cover;border-radius:14px;margin-bottom:20px;box-shadow:0 4px 16px rgba(0,0,0,.08);}
+.sl-body{font-size:${cfg.fontSize};color:#3C4D45;line-height:1.88;margin-bottom:22px;letter-spacing:.008em;}
+.key-hl{background:rgba(${rgb},.13);border-radius:4px;padding:1px 5px;font-weight:600;color:${color};}
+/* ── Activity block ── */
+.act-block{background:linear-gradient(140deg,rgba(${rgb},.04) 0%,rgba(${rgb},.08) 100%);border:1.5px solid rgba(${rgb},.13);border-radius:18px;padding:20px 22px;margin-bottom:18px;}
+.act-lbl{display:inline-flex;align-items:center;gap:5px;font-size:.57rem;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:${color};border-radius:20px;padding:4px 12px;margin-bottom:16px;font-weight:700;box-shadow:0 2px 10px rgba(${rgb},.28);}
+/* ── Quiz ── */
+.quiz-q{font-size:.97rem;font-weight:600;color:#1A2822;margin-bottom:16px;line-height:1.5;}
+.quiz-opts{display:flex;flex-direction:column;gap:9px;}
+.qopt{padding:12px 16px;border:2px solid #DDD9D2;border-radius:13px;background:#fff;font-family:inherit;font-size:.88rem;cursor:pointer;text-align:left;transition:all .16s ease;display:flex;align-items:center;gap:13px;line-height:1.45;width:100%;color:#3C4D45;}
+.qopt-letter{width:30px;height:30px;flex-shrink:0;border-radius:50%;background:#EDE9E3;color:#9A9490;font-size:.7rem;font-weight:700;display:flex;align-items:center;justify-content:center;transition:all .16s ease;letter-spacing:.02em;}
+.qopt:hover:not(:disabled){border-color:${color};background:rgba(${rgb},.03);transform:translateX(4px);}
+.qopt:hover:not(:disabled) .qopt-letter{background:${color};color:#fff;}
+.qopt.correct{background:#f0faf1;border-color:#57b65f;animation:popIn .38s cubic-bezier(.175,.885,.32,1.275);}
+.qopt.correct .qopt-letter{background:#4caf50;color:#fff;}
+.qopt.wrong{background:#fff4f4;border-color:#e57373;}
+.qopt.wrong .qopt-letter{background:#e57373;color:#fff;}
+.qopt:disabled{cursor:default;}
+@keyframes popIn{0%{transform:scale(.96);}65%{transform:scale(1.03);}100%{transform:scale(1);}}
+/* ── Feedback ── */
+.feedback{font-size:.84rem;margin-top:13px;padding:11px 15px;border-radius:12px;display:none;line-height:1.5;font-weight:500;align-items:center;gap:9px;border-left:4px solid;}
+.feedback.show{display:flex;}
+.feedback.ok{background:#f0faf1;color:#1b5e20;border-color:#4caf50;}
+.feedback.no{background:#fff4f4;color:#b71c1c;border-color:#e57373;}
+.feedback.partial{background:#fffde7;color:#e65100;border-color:#ff9800;}
+/* ── Match ── */
+.match-wrap{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.match-terms,.match-defs{display:flex;flex-direction:column;gap:8px;}
+.match-term{padding:11px 14px;background:#fff;border:2px solid #DDD9D2;border-left:4px solid #DDD9D2;border-radius:12px;font-size:.83rem;font-weight:600;color:#1A2822;min-height:46px;display:flex;align-items:center;cursor:pointer;transition:all .16s;user-select:none;}
+.match-term:hover:not(.locked){border-left-color:${color};border-color:${color};background:rgba(${rgb},.03);}
+.match-term.selected{border-color:${color};border-left-color:${color};background:rgba(${rgb},.07);box-shadow:0 0 0 3px rgba(${rgb},.2);}
+.match-def{padding:11px 14px;background:${color};color:#fff;border-radius:12px;font-size:.83rem;cursor:pointer;min-height:46px;display:flex;align-items:center;transition:all .16s;user-select:none;font-weight:500;box-shadow:0 2px 10px rgba(${rgb},.22);}
+.match-def:hover:not(.locked){opacity:.88;transform:translateY(-2px);box-shadow:0 5px 16px rgba(${rgb},.32);}
+.match-def.selected{outline:3px solid rgba(255,255,255,.75);box-shadow:0 0 0 5px rgba(${rgb},.38);}
+.match-item.locked{pointer-events:none;}
+/* ── Sort ── */
+.sort-list{display:flex;flex-direction:column;gap:8px;}
+.sort-item{padding:12px 15px;background:#fff;border:2px solid #DDD9D2;border-radius:13px;cursor:grab;font-size:.87rem;transition:all .16s;user-select:none;display:flex;align-items:center;gap:12px;color:#3C4D45;}
+.sort-handle{color:#C4BEB8;font-size:1.1rem;flex-shrink:0;}
+.sort-item:active{cursor:grabbing;box-shadow:0 8px 28px rgba(0,0,0,.12);transform:scale(1.01);}
+.sort-item.drag-over{border-color:${color};background:rgba(${rgb},.04);}
+.sort-item.correct-pos{border-color:#57b65f;border-left:4px solid #57b65f;background:#f0faf1;}
+.sort-item.wrong-pos{border-color:#e57373;border-left:4px solid #e57373;background:#fff4f4;}
+/* ── Flip card ── */
+.flip-wrap{perspective:1200px;}
+.flip-card{width:100%;height:190px;position:relative;cursor:pointer;transform-style:preserve-3d;transition:transform .6s cubic-bezier(.4,.2,.2,1);}
+.flip-card.flipped{transform:rotateY(180deg);}
+.flip-front,.flip-back{position:absolute;width:100%;height:100%;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center;backface-visibility:hidden;-webkit-backface-visibility:hidden;}
+.flip-front{color:#fff;gap:10px;background:linear-gradient(135deg,${color} 0%,rgba(${rgb},.78) 100%);box-shadow:0 4px 20px rgba(${rgb},.3);}
+.flip-front-term{font-family:'Fraunces',Georgia,serif;font-size:1.2rem;font-style:italic;font-weight:600;line-height:1.25;}
+.flip-hint{font-size:.61rem;opacity:.62;letter-spacing:.07em;font-family:'Inter',sans-serif;}
+.flip-back{background:#fff;border:2.5px solid rgba(${rgb},.2);color:#1A2822;font-size:.91rem;transform:rotateY(180deg);line-height:1.65;box-shadow:0 4px 20px rgba(0,0,0,.06);}
+/* ── Word bank / Fill ── */
+.word-bank{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;padding:13px 15px;background:rgba(255,255,255,.88);border-radius:13px;border:1.5px solid rgba(${rgb},.1);}
+.wb-label{font-size:.57rem;letter-spacing:.12em;text-transform:uppercase;color:#8A9490;font-weight:700;width:100%;margin-bottom:5px;}
+.word-chip{padding:7px 16px;background:${color};color:#fff;border-radius:20px;font-size:.82rem;cursor:pointer;transition:all .16s;font-weight:500;box-shadow:0 1px 5px rgba(${rgb},.22);}
+.word-chip:hover{opacity:.88;transform:translateY(-2px);box-shadow:0 4px 12px rgba(${rgb},.3);}
+.word-chip.used{opacity:.22;pointer-events:none;text-decoration:line-through;}
+.fill-sent{font-size:${cfg.fontSize};color:#3C4D45;line-height:2.7;}
+.fill-inp{border:none;border-bottom:2.5px solid ${color};background:transparent;font-family:inherit;font-size:${cfg.fontSize};padding:3px 10px;outline:none;width:165px;color:#1A2822;transition:all .2s;}
+.fill-inp:focus{border-bottom-width:3px;}
+.fill-inp.correct{border-bottom-color:#4caf50;color:#1b5e20;}
+/* ── Reflection ── */
+.refl-inp{width:100%;padding:13px 15px;border:2px solid #DDD9D2;border-radius:13px;font-family:inherit;font-size:.9rem;color:#1A2822;resize:vertical;min-height:100px;transition:all .2s;line-height:1.65;}
+.refl-inp:focus{outline:none;border-color:${color};box-shadow:0 0 0 3px rgba(${rgb},.12);}
+/* ── Nav ── */
+.sn{padding:16px 24px;border-top:1px solid #EDE9E2;display:flex;justify-content:space-between;align-items:center;background:#fdfbf8;}
+.snb{padding:11px 28px;border-radius:12px;border:2px solid #DDD9D2;background:#fff;font-family:inherit;font-size:.87rem;font-weight:600;cursor:pointer;transition:all .16s;color:#46544E;}
+.snb:hover{border-color:${color};color:${color};transform:translateY(-1px);}
+.snb.primary{background:${color};color:#fff;border:none;box-shadow:0 3px 16px rgba(${rgb},.3);}
+.snb.primary:hover{opacity:.93;transform:translateY(-2px);box-shadow:0 6px 24px rgba(${rgb},.38);}
+/* ── Score screen ── */
+#score-screen{display:none;max-width:520px;margin:24px auto 64px;padding:0 14px;}
+.score-card{background:#fff;border-radius:24px;overflow:hidden;box-shadow:0 4px 8px rgba(0,0,0,.04),0 16px 60px rgba(31,43,39,.13);}
+.score-top{background:${color};padding:40px 32px 36px;text-align:center;position:relative;overflow:hidden;}
+.score-top::before{content:'';position:absolute;inset:0;background:linear-gradient(140deg,rgba(255,255,255,.1) 0%,transparent 55%);}
+.score-top::after{content:'';position:absolute;bottom:-50px;right:-50px;width:180px;height:180px;border-radius:50%;background:rgba(0,0,0,.07);}
+.sc-circle{width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.1);border:3px solid rgba(255,255,255,.32);color:#fff;display:flex;align-items:center;justify-content:center;flex-direction:column;margin:0 auto 18px;position:relative;z-index:1;animation:scaleIn .5s .08s cubic-bezier(.175,.885,.32,1.275) both;}
+@keyframes scaleIn{from{transform:scale(.55);opacity:0;}to{transform:scale(1);opacity:1;}}
+.sc-num{font-family:'Fraunces',Georgia,serif;font-size:3rem;font-weight:600;line-height:1;}
+.sc-lbl{font-size:.59rem;opacity:.7;letter-spacing:.09em;text-transform:uppercase;margin-top:3px;}
+.sc-title{font-family:'Fraunces',Georgia,serif;font-size:1.5rem;color:#fff;position:relative;z-index:1;font-style:italic;}
+.score-body{padding:26px 28px;}
+.sc-sub{font-size:.9rem;color:#46544E;margin-bottom:20px;line-height:1.65;text-align:center;}
+.score-breakdown{background:#F5F1EC;border-radius:14px;padding:16px 18px;margin-bottom:22px;}
+.score-row{display:flex;justify-content:space-between;align-items:center;font-size:.83rem;color:#46544E;padding:7px 0;border-bottom:1px solid #EDE8E0;}
+.score-row:last-child{border-bottom:none;}
+.score-row .ok{color:#2e7d32;font-weight:700;}
+.score-row .no{color:#c62828;font-weight:700;}
+.share-row{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;}
+.share-btn{padding:11px 20px;border-radius:12px;border:2px solid #DDD9D2;background:#F5F1EC;font-family:inherit;font-size:.84rem;font-weight:500;cursor:pointer;transition:all .16s;color:#46544E;}
+.share-btn:hover{border-color:${color};color:${color};transform:translateY(-1px);}
+/* ── Confetti ── */
+.cf-wrap{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:999;overflow:hidden;}
+.cf{position:absolute;top:-12px;border-radius:2px;animation:cfFall linear forwards;}
+@keyframes cfFall{to{transform:translateY(110vh) rotate(720deg);opacity:0;}}
+.powered{text-align:center;padding:20px;font-size:.71rem;color:#A0A890;letter-spacing:.01em;}
+.powered a{color:${color};text-decoration:none;font-weight:600;}
+${gradeCSS}
+@media print{
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
+  .lh,.prog,.sn,.share-row,.cf-wrap,.powered{display:none!important;}
+  #score-screen{display:none!important;}
+  body{background:#fff!important;}
+  .lesson-wrap{background:#fff!important;padding:0!important;}
+  .ls{display:block!important;margin:0!important;padding:0!important;break-after:page;page-break-after:always;}
+  .ls:last-of-type{break-after:auto;page-break-after:auto;}
+  .ls-inner{animation:none!important;box-shadow:none!important;border-radius:0!important;}
+  .act-block .feedback,.act-block button:not(.qopt){display:none!important;}
+  .qopt{pointer-events:none;cursor:default;}
+  .flip-front,.flip-back{position:static!important;transform:none!important;-webkit-backface-visibility:visible!important;backface-visibility:visible!important;}
+  .flip-card-inner{transform:none!important;position:static!important;}
+  .flip-back{border-top:1px dashed #DDD3C4;margin-top:8px;}
+}
+</style>
+</head>
+<body>
+<div class="lh"><h1>${esc(lessonTitle)}</h1><span class="lh-badge">${S.gradeName||grade} · ${lang==='es'?'Español':lang==='bi'?'EN/ES':'English'}</span></div>
+<div class="prog" id="prog-row">${dots}</div>
+${slidesHTML}
+<div id="score-screen">
+  <div class="score-card">
+    <div class="score-top">
+      <div class="sc-circle"><span class="sc-num" id="sc-pct">—</span><span class="sc-lbl">${lang==='es'?'Puntaje':'Score'}</span></div>
+      <div class="sc-title" id="sc-msg"></div>
+    </div>
+    <div class="score-body">
+      <p class="sc-sub" id="sc-det"></p>
+      <div class="score-breakdown" id="sc-breakdown"></div>
+      <div class="share-row">
+        <button class="share-btn" onclick="restart()">${E?'🔄 ':''}${lang==='es'?'Reintentar':'Try again'}</button>
+        <button class="share-btn" onclick="shareWA()">${E?'💬 ':''}${lang==='es'?'Compartir':'Share'}</button>
+        <button class="share-btn" onclick="window.print()">${E?'🖨️ ':''}${lang==='es'?'Imprimir':'Print'}</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="powered">${E?'🌿 ':''}${lang==='es'?'Lección interactiva por':'Interactive lesson by'} <a href="${SITE_URL}" target="_blank">Slideseed</a> · <a href="https://dandelionbioblog.com" target="_blank">Dandelion Bio Blog</a></div>
+<script>
+var cur=0,pts=0,maxPts=0,breakdown=[],bdKeys={},answered={},flipAnswered={};
+var TOTAL=${total};
+function bdSet(k,label,p){if(bdKeys[k])return;bdKeys[k]=1;breakdown.push({label:label,pts:p,max:1});}
+function updateDots(n){
+  document.querySelectorAll('.pd').forEach(function(d,i){d.className='pd'+(i<n?' done':i===n?' active':'');});
+}
+function gLS(n){
+  document.querySelectorAll('.ls').forEach(function(s){s.style.display='none';});
+  var el=document.getElementById('ls-'+n);
+  if(el){
+    var inner=el.querySelector('.ls-inner');
+    if(inner){inner.style.animation='none';void inner.offsetWidth;inner.style.animation='';}
+    el.style.display='block';
+  }
+  cur=n;updateDots(n);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function checkQ(btn){
+  var container=btn.closest('.quiz-opts');
+  if(!container)return;
+  var sid=container.dataset.sid;
+  var correctIdx=parseInt(container.dataset.correctIdx);
+  var btnIdx=parseInt(btn.dataset.idx);
+  if(answered[sid])return;
+  answered[sid]=true;maxPts++;
+  var isOk=btnIdx===correctIdx;
+  container.querySelectorAll('.qopt').forEach(function(b){b.disabled=true;});
+  if(isOk){pts++;btn.classList.add('correct');}
+  else{btn.classList.add('wrong');var cb=container.querySelector('[data-idx="'+correctIdx+'"]');if(cb)cb.classList.add('correct');}
+  var fb=document.getElementById('fb-'+sid);
+  if(fb){fb.textContent=isOk?'${E?'✅ ':''}${lang==='es'?'¡Correcto! Bien hecho.':'Correct! Well done.'}':'${E?'❌ ':''}${lang==='es'?'No del todo — revisa el contenido.':'Not quite — review the content above.'}';fb.className='feedback show '+(isOk?'ok':'no');}
+  bdSet('quiz-'+sid,'Quiz '+(parseInt(sid)+1),isOk?1:0);
+}
+var mState={};
+var mColors=['#4caf50','#2196f3','#ff5722','#9c27b0'];
+function mClick(el,sid){
+  var isTerm=el.classList.contains('match-term');
+  var pi=parseInt(el.dataset.pi);
+  var st=mState[sid]=mState[sid]||{t:null,d:null,conn:{},pairN:0};
+  // If already locked (paired), undo that pairing
+  if(el.classList.contains('locked')){
+    var pn=el.dataset.pn;
+    document.querySelectorAll('#match-'+sid+' [data-pn="'+pn+'"]').forEach(function(x){
+      x.classList.remove('locked');x.style.borderColor='';x.style.background='';x.style.color='';x.removeAttribute('data-pn');
+    });
+    // remove from conn
+    Object.keys(st.conn).forEach(function(k){if(st.conn[k]===parseInt(pn)||parseInt(k)===pi)delete st.conn[k];});
+    return;
+  }
+  if(isTerm){
+    if(st.t!==null){var prev=document.querySelector('#match-'+sid+' .match-term[data-pi="'+st.t+'"]');if(prev)prev.classList.remove('selected');}
+    if(st.t===pi){st.t=null;return;}
+    st.t=pi;el.classList.add('selected');
+  }else{
+    if(st.d!==null){var prev=document.querySelector('#match-'+sid+' .match-def[data-pi="'+st.d+'"]');if(prev)prev.classList.remove('selected');}
+    if(st.d===pi){st.d=null;return;}
+    st.d=pi;el.classList.add('selected');
+  }
+  if(st.t!==null&&st.d!==null){
+    var col=mColors[st.pairN%mColors.length];
+    var tEl=document.querySelector('#match-'+sid+' .match-term[data-pi="'+st.t+'"]');
+    var dEl=document.querySelector('#match-'+sid+' .match-def[data-pi="'+st.d+'"]');
+    if(tEl&&dEl){
+      [tEl,dEl].forEach(function(x){x.classList.remove('selected');x.classList.add('locked');x.style.borderColor=col;x.style.background=col+'22';x.style.color='inherit';x.dataset.pn=st.pairN;});
+      tEl.style.color='';dEl.style.color='#fff';
+      st.conn[st.t]=st.d;st.pairN++;st.t=null;st.d=null;
+    }
+  }
+}
+function checkMatch(sid,total){
+  var st=mState[sid]||{conn:{}};
+  var fb=document.getElementById('fb-'+sid);
+  if(!answered['match-'+sid]){answered['match-'+sid]=true;maxPts++;}
+  var correct=0;
+  for(var k in st.conn){if(parseInt(k)===st.conn[k])correct++;}
+  var ok=correct===total&&total>0;
+  if(ok)pts++;
+  var msg='';
+  if(ok)msg='${E?'✅ ':''}'+'${lang==='es'?'¡Todo correcto!':'All correct!'}';
+  else if(correct>0)msg='${E?'⚠️ ':''}'+'${lang==='es'?'Casi — ':'Almost — '}'+correct+'${lang==='es'?' de ':' of '}'+total+'${lang==='es'?' correctos. Toca un par para cambiar.':" correct. Tap a pair to undo it."}';
+  else msg='${E?'❌ ':''}'+'${lang==='es'?'Toca un término y luego su definición':'Tap a term then its matching definition'}';
+  if(fb){fb.textContent=msg;fb.className='feedback show '+(ok?'ok':correct>0?'partial':'no');}
+  // Color results
+  document.querySelectorAll('#match-'+sid+' .match-term[data-pn]').forEach(function(t){
+    var tpi=parseInt(t.dataset.pi);
+    var isOk=st.conn[tpi]===tpi;
+    t.style.borderColor=isOk?'#4caf50':'#ef9a9a';t.style.background=isOk?'#e8f5e920':'#fce4ec20';
+  });
+  bdSet('match-'+sid,'Match '+(parseInt(sid)+1),ok?1:0);
+}
+function resetMatch(sid){
+  mState[sid]={t:null,d:null,conn:{},pairN:0};
+  document.querySelectorAll('#match-'+sid+' .match-term,#match-'+sid+' .match-def').forEach(function(x){x.classList.remove('selected','locked');x.style.borderColor='';x.style.background='';x.style.color='';x.removeAttribute('data-pn');});
+  var fb=document.getElementById('fb-'+sid);if(fb){fb.className='feedback';fb.textContent='';}
+}
+var sortDragIdx=null;
+function sortDrag(e,i){sortDragIdx=i;e.dataTransfer.effectAllowed='move';}
+function sortDrop(e,i,sid){
+  e.preventDefault();if(sortDragIdx===null||sortDragIdx===i)return;
+  var list=document.getElementById('sort-'+sid);
+  var items=Array.from(list.querySelectorAll('.sort-item'));
+  var el=items[sortDragIdx];items.splice(sortDragIdx,1);items.splice(i,0,el);
+  list.innerHTML='';
+  items.forEach(function(item,j){item.setAttribute('ondragstart','sortDrag(event,'+j+')');item.setAttribute('ondrop','sortDrop(event,'+j+",'"+sid+"')");list.appendChild(item);});
+  sortDragIdx=null;
+}
+function checkSort(sid){
+  var list=document.getElementById('sort-'+sid);
+  var correct=JSON.parse(list.dataset.correct);
+  var items=Array.from(list.querySelectorAll('.sort-item'));
+  var fb=document.getElementById('fb-'+sid);
+  if(!answered['sort-'+sid]){answered['sort-'+sid]=true;maxPts++;}
+  var allOk=true;
+  items.forEach(function(item,i){
+    var sp=item.querySelector('.sort-text');
+    var text=sp?sp.textContent.trim():item.textContent.replace(/^\W+/,'').trim();
+    var isOk=correct[i]&&correct[i].trim()===text;
+    item.classList.remove('correct-pos','wrong-pos');item.classList.add(isOk?'correct-pos':'wrong-pos');
+    if(!isOk)allOk=false;
+  });
+  if(allOk)pts++;
+  if(fb){fb.textContent=allOk?'${E?'✅ ':''}${lang==='es'?'¡Orden correcto!':'Correct order!'}':'${E?'❌ ':''}${lang==='es'?'Revisa el orden':'Not quite — check the order'}';fb.className='feedback show '+(allOk?'ok':'no');}
+  bdSet('sort-'+sid,'Sort '+(parseInt(sid)+1),allOk?1:0);
+}
+function shuffleSort(sid){
+  var list=document.getElementById('sort-'+sid);
+  var items=Array.from(list.querySelectorAll('.sort-item'));
+  items.sort(function(){return Math.random()-.5;});
+  list.innerHTML='';
+  items.forEach(function(item,j){item.setAttribute('ondragstart','sortDrag(event,'+j+')');item.setAttribute('ondrop','sortDrop(event,'+j+",'"+sid+"')");item.classList.remove('correct-pos','wrong-pos');list.appendChild(item);});
+}
+function flipCard(i){
+  var fc=document.getElementById('fc-'+i);fc.classList.toggle('flipped');
+  if(fc.classList.contains('flipped')){var a=document.getElementById('flip-assess-'+i);if(a)a.style.display='block';}
+}
+function scoreFlip(i,knew){
+  if(!flipAnswered[i]){flipAnswered[i]=true;maxPts++;if(knew)pts++;}
+  var a=document.getElementById('flip-assess-'+i);if(a)a.style.display='none';
+  var fb=document.getElementById('fb-'+i);
+  if(fb){fb.textContent=knew?'${E?'✅ ':''}${lang==='es'?'¡Genial! Sigue así.':'Great! Keep it up.'}':'${E?'💪 ':''}${lang==='es'?'Sigue practicando.':'Keep practicing.'}';fb.className='feedback show '+(knew?'ok':'no');}
+  bdSet('flip-'+i,'Flip '+(i+1),knew?1:0);
+}
+function checkFill(sid){
+  var inp=document.getElementById('fill-'+sid);
+  if(!inp)return;
+  var val=inp.value.trim();
+  if(!val)return;
+  var ans=String(inp.dataset.ans||'').trim();
+  var norm=function(s){return s.toLowerCase().replace(/[áéíóúüñ]/g,function(c){return{'á':'a','é':'e','í':'i','ó':'o','ú':'u','ü':'u','ñ':'n'}[c]||c;}).replace(/[^a-z0-9]/g,'');};
+  var ok=norm(val)===norm(ans);
+  var fb=document.getElementById('fb-'+sid);
+  if(answered['fill-'+sid])return;
+  answered['fill-'+sid]=true;maxPts++;if(ok)pts++;
+  if(ok)inp.classList.add('correct');
+  inp.disabled=true;
+  if(fb){fb.textContent=ok?'${E?'✅ ':''}${lang==='es'?'¡Correcto!':'Correct!'}':'${E?'❌ ':''}${lang==='es'?'Respuesta: ':'Answer: '}'+ans;fb.className='feedback show '+(ok?'ok':'no');}
+  bdSet('fill-'+sid,'Fill '+(parseInt(sid)+1),ok?1:0);
+}
+function useWord(chip,inputId){
+  var inp=document.getElementById(inputId);if(!inp||inp.disabled)return;
+  inp.value=chip.textContent.trim();
+  document.querySelectorAll('.word-chip').forEach(function(c){c.classList.remove('used');});
+  chip.classList.add('used');
+  checkFill(inputId.replace('fill-',''));
+}
+function checkReflect(sid){
+  var ta=document.getElementById('refl-'+sid);
+  if(!ta||!ta.value.trim())return;
+  var fb=document.getElementById('fb-'+sid);
+  if(!answered['reflect-'+sid]){answered['reflect-'+sid]=true;maxPts++;pts++;}
+  if(fb){fb.textContent='${E?'💭 ':''}${lang==='es'?'¡Reflexión guardada!':'Reflection saved!'}';fb.className='feedback show ok';}
+  bdSet('reflect-'+sid,'Reflect '+(parseInt(sid)+1),1);
+}
+function goNext(){if(cur<TOTAL-1){gLS(cur+1);}else{showScore();}}
+function goPrev(){if(cur>0)gLS(cur-1);}
+function showScore(){
+  var pct=maxPts>0?Math.round(pts/maxPts*100):100;
+  var ep=document.getElementById('sc-pct');if(ep)ep.textContent=pct+'%';
+  var em=document.getElementById('sc-msg');
+  if(em)em.textContent=pct>=80?'${E?'🎉 ':''}${lang==='es'?'¡Excelente trabajo!':'Excellent work!'}':pct>=60?'${E?'👍 ':''}${lang==='es'?'¡Buen trabajo!':'Good job!'}':'${E?'💪 ':''}${lang==='es'?'¡Sigue practicando!':'Keep practicing!'}';
+  var ed=document.getElementById('sc-det');
+  if(ed)ed.textContent=(lang==='es'?'Obtuviste ':'You got ')+pts+'/'+maxPts+' '+(lang==='es'?'correctas':'correct');
+  var bk=document.getElementById('sc-breakdown');
+  if(bk)bk.innerHTML=breakdown.map(function(b){return '<div class="score-row"><span>'+b.label+'</span><span class="'+(b.pts===b.max?'ok':'no')+'">'+(b.pts===b.max?'${E?'✅':'✓'}':'${E?'❌':'✗'}')+'</span></div>';}).join('');
+  var ss=document.getElementById('score-screen');if(ss)ss.style.display='block';
+  if(pct>=80)launchConfetti();
+}
+function restart(){
+  pts=0;maxPts=0;answered={};flipAnswered={};breakdown=[];bdKeys={};mState={};
+  document.querySelectorAll('.fill-inp').forEach(function(i){i.disabled=false;i.classList.remove('correct');});
+  document.querySelectorAll('.feedback').forEach(function(f){f.className='feedback';f.textContent='';});
+  document.querySelectorAll('.qopt').forEach(function(b){b.classList.remove('correct','wrong');b.disabled=false;});
+  document.querySelectorAll('.fill-inp').forEach(function(i){i.value='';});
+  document.querySelectorAll('.word-chip').forEach(function(c){c.classList.remove('used');});
+  document.querySelectorAll('.refl-inp').forEach(function(t){t.value='';});
+  document.querySelectorAll('.match-term,.match-def').forEach(function(x){x.classList.remove('selected','locked');x.style.borderColor='';x.style.background='';x.style.color='';x.removeAttribute('data-pn');});
+  document.querySelectorAll('.sort-item').forEach(function(x){x.classList.remove('correct-pos','wrong-pos');});
+  document.querySelectorAll('.flip-card').forEach(function(x){x.classList.remove('flipped');});
+  document.querySelectorAll('.flip-assess').forEach(function(x){x.style.display='none';});
+  var ss=document.getElementById('score-screen');if(ss)ss.style.display='none';
+  gLS(0);
+}
+function launchConfetti(){
+  var cols=['${color}','#e0907a','#f5c518','#4CAF50','#2196F3','#9C27B0'];
+  var wrap=document.querySelector('.cf-wrap');if(!wrap)return;
+  wrap.innerHTML='';
+  for(var k=0;k<80;k++){(function(k){
+    setTimeout(function(){
+      var d=document.createElement('div');d.className='cf';
+      d.style.left=Math.random()*100+'%';
+      d.style.width=(5+Math.random()*7)+'px';d.style.height=(5+Math.random()*10)+'px';
+      d.style.background=cols[Math.floor(Math.random()*cols.length)];
+      d.style.animationDuration=(1.2+Math.random()*1.8)+'s';
+      d.style.animationDelay=(Math.random()*.5)+'s';
+      d.style.borderRadius=Math.random()>.5?'50%':'2px';
+      wrap.appendChild(d);
+    },k*20);
+  })(k);}
+}
+function shareWA(){
+  var score=document.getElementById('sc-pct').textContent;
+  var msg='${lang==='es'?'¡Completé una lección interactiva!':'I completed an interactive lesson!'}\\n${lang==='es'?'Puntaje':'Score'}: '+score+'\\n${SITE_URL}';
+  window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
+}
+function copyRes(){
+  var txt='${jsEsc(lessonTitle)}\\n${lang==='es'?'Puntaje':'Score'}: '+document.getElementById('sc-pct').textContent+'\\nSlideseed';
+  if(navigator.clipboard){navigator.clipboard.writeText(txt).catch(function(){});}
+}
+gLS(0);
+window.gLS=gLS;window.checkQ=checkQ;window.mClick=mClick;window.checkMatch=checkMatch;window.resetMatch=resetMatch;
+window.sortDrag=sortDrag;window.sortDrop=sortDrop;window.checkSort=checkSort;window.shuffleSort=shuffleSort;
+window.flipCard=flipCard;window.scoreFlip=scoreFlip;window.checkFill=checkFill;window.useWord=useWord;
+window.checkReflect=checkReflect;window.showScore=showScore;window.restart=restart;window.shareWA=shareWA;window.copyRes=copyRes;
+\u003c/script>
+</body>
+</html>
+`;
+}
+
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/`/g,'&#96;').replace(/\$/g,'&#36;');}
+/* Escape a value for inclusion inside a single-quoted JS string in the generated student HTML */
+function jsEsc(s){return String(s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\r?\n/g,'\\n').replace(/</g,'\\x3C');}
+function hexToRgb(hex){hex=(hex||'').replace('#','');if(hex.length===3)hex=hex.split('').map(function(c){return c+c;}).join('');var r=parseInt(hex.substr(0,2),16)||0;var g=parseInt(hex.substr(2,2),16)||0;var b=parseInt(hex.substr(4,2),16)||0;return r+','+g+','+b;}
+</script>
+</body>
+</html>
