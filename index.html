@@ -363,7 +363,10 @@ footer{background:var(--paper2);border-top:1px solid var(--line);padding:40px 40
     <span class="logo-text"><span>Slide</span>seed</span>
   </a>
   <ul class="nav-links"><li><a href="#how">How it works</a></li><li><a href="#features">Features</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#trust">About</a></li></ul>
-  <a href="#upload" class="btn-nav">Get started</a>
+  <div style="display:flex;align-items:center;gap:8px;">
+    <span id="auth-area" style="display:flex;align-items:center;gap:8px;font-size:.82rem;color:var(--soft);"></span>
+    <a href="#upload" class="btn-nav">Get started</a>
+  </div>
 </nav>
 
 <section class="hero">
@@ -686,6 +689,8 @@ function populateReview(){const lm={en:'English',es:'Español',bi:'Bilingual EN/
 /* ── GENERATE ── */
 async function handleGenerate(){
   if(!S.file){goStep(1);return;}
+  const _ah=(window.authHeader?await window.authHeader():{});
+  if(!_ah.Authorization){alert('Inicia sesión (botón arriba a la derecha) para generar tu lección.');if(window.refreshAuthUI)window.refreshAuthUI();return;}
   const btn=document.getElementById('gen-btn');btn.style.display='none';
   document.getElementById('generating').classList.add('show');
   // Rotating loading messages
@@ -700,7 +705,9 @@ async function handleGenerate(){
     if(!ur.ok)throw new Error(`Upload failed: ${ur.status}`);
     const {session_id}=await ur.json();
     S.lang=document.getElementById('lang-select').value||'en';
-    const gr=await fetch(`${BACKEND_URL}/generate`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({session_id,grade:S.grade||'3-5',language:S.lang,theme:S.theme,num_slides:S.slides})});
+    const gr=await fetch(`${BACKEND_URL}/generate`,{method:'POST',headers:{'Content-Type':'application/json',..._ah},body:JSON.stringify({session_id,grade:S.grade||'3-5',language:S.lang,theme:S.theme,num_slides:S.slides})});
+    if(gr.status===402)throw new Error('NO_CREDITS');
+    if(gr.status===401)throw new Error('NOT_LOGGED_IN');
     if(!gr.ok)throw new Error(`Generation failed: ${gr.status}`);
     const data=await gr.json();
     clearInterval(msgInterval);
@@ -709,6 +716,8 @@ async function handleGenerate(){
   }catch(e){
     clearInterval(msgInterval);
     document.getElementById('generating').classList.remove('show');btn.style.display='flex';
+    if(e&&e.message==='NO_CREDITS'){btn.textContent='Sin créditos — mira los planes';location.hash='#pricing';if(window.refreshAuthUI)window.refreshAuthUI();setTimeout(function(){btn.textContent='Generate my lesson — free';btn.removeAttribute('style');},4000);console.error(e);return;}
+    if(e&&e.message==='NOT_LOGGED_IN'){alert('Tu sesión expiró. Vuelve a iniciar sesión arriba.');if(window.refreshAuthUI)window.refreshAuthUI();btn.textContent='Generate my lesson — free';console.error(e);return;}
     btn.textContent='Something went wrong — try again';
     btn.style.cssText='background:rgba(224,144,122,.12);color:var(--salmon);border:1px solid rgba(224,144,122,.3);';
     setTimeout(()=>{btn.textContent='Generate my lesson — free';btn.removeAttribute('style');btn.disabled=false;},3500);
@@ -1441,6 +1450,47 @@ function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').
 /* Escape a value for inclusion inside a single-quoted JS string in the generated student HTML */
 function jsEsc(s){return String(s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\r?\n/g,'\\n').replace(/</g,'\\x3C');}
 function hexToRgb(hex){hex=(hex||'').replace('#','');if(hex.length===3)hex=hex.split('').map(function(c){return c+c;}).join('');var r=parseInt(hex.substr(0,2),16)||0;var g=parseInt(hex.substr(2,2),16)||0;var b=parseInt(hex.substr(4,2),16)||0;return r+','+g+','+b;}
+</script>
+<!-- ── Supabase auth: login con Google + enlace por correo (magic link) ── -->
+<script type="module">
+  import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+  const SUPABASE_URL = 'https://vpuxvlrzqksaycwabqyp.supabase.co'
+  const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_bHqaAo13SKvUggBJX3Haiw_2g0Zy7bd'
+  const BK = 'https://slideseed-backend-production.up.railway.app'
+  const sb = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY)
+  window.sb = sb
+  window.loginGoogle = () => sb.auth.signInWithOAuth({ provider:'google', options:{ redirectTo: window.location.origin } })
+  window.loginEmail = async () => {
+    const email = prompt('Escribe tu correo y te enviamos un enlace de acceso:')
+    if(!email) return
+    const { error } = await sb.auth.signInWithOtp({ email, options:{ emailRedirectTo: window.location.origin } })
+    alert(error ? ('Error: ' + error.message) : 'Listo. Revisa tu correo y abre el enlace para entrar.')
+  }
+  window.logout = async () => { await sb.auth.signOut(); location.reload() }
+  window.authHeader = async () => {
+    const { data:{ session } } = await sb.auth.getSession()
+    return session ? { 'Authorization': 'Bearer ' + session.access_token } : {}
+  }
+  async function refreshAuthUI(){
+    const bar = document.getElementById('auth-area'); if(!bar) return
+    const { data:{ session } } = await sb.auth.getSession()
+    if(session){
+      let creds = ''
+      try{
+        const r = await fetch(BK + '/auth/me', { headers:{ 'Authorization':'Bearer ' + session.access_token } })
+        if(r.ok){ const u = await r.json(); creds = ' · ' + u.credits + ' créditos' }
+      }catch(e){}
+      bar.innerHTML = '<span>' + session.user.email + creds + '</span>' +
+        '<button class="btn-nav" style="margin-left:8px;" onclick="logout()">Salir</button>'
+    } else {
+      bar.innerHTML =
+        '<button class="btn-nav" style="background:none;color:var(--soft);border:1px solid var(--line);" onclick="loginEmail()">Correo</button>' +
+        '<button class="btn-nav" onclick="loginGoogle()">Entrar con Google</button>'
+    }
+  }
+  window.refreshAuthUI = refreshAuthUI
+  sb.auth.onAuthStateChange(() => refreshAuthUI())
+  refreshAuthUI()
 </script>
 </body>
 </html>
