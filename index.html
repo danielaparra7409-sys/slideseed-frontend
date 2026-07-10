@@ -522,9 +522,9 @@ footer{background:var(--paper2);border-top:1px solid var(--line);padding:40px 40
     <p class="section-sub" style="margin-bottom:36px;">Two free generations with no card required.</p>
     <div class="pricing-grid">
       <div class="price-card"><div class="price-name">Free</div><div class="price-amount"><sup>$</sup>0</div><div class="price-period">2 generations · no card</div><hr class="price-divider"><ul class="price-features"><li>2 interactive lesson sets</li><li>Up to 3 slides per set</li><li>All 6 activity types</li><li>Student score + report</li><li>HTML download only</li><li>Forest theme</li></ul><a href="#upload" class="btn-price outline">Start free</a></div>
-      <div class="price-card"><div class="price-name">Single</div><div class="price-amount"><sup>$</sup>4<span style="font-size:1.2rem">.99</span></div><div class="price-period">one-time · never expires</div><hr class="price-divider"><ul class="price-features"><li>1 lesson (up to 5 slides)</li><li>All 6 activity types</li><li>All 5 visual themes</li><li>Student score + report</li><li>HTML + PDF download</li><li>Bilingual EN / ES</li></ul><a href="#upload" class="btn-price outline">Buy one</a></div>
-      <div class="price-card featured"><div class="feat-badge">Most popular</div><div class="price-name">Pack</div><div class="price-amount"><sup>$</sup>14<span style="font-size:1.2rem">.99</span></div><div class="price-period">5 generations · never expires</div><hr class="price-divider"><ul class="price-features"><li>5 lessons (up to 8 slides each)</li><li>All activity types + themes</li><li>Student score + report</li><li>HTML + PPTX + PDF</li><li>Built-in slide editor</li><li>Priority speed</li></ul><a href="#upload" class="btn-price primary">Get the Pack</a></div>
-      <div class="price-card"><div class="price-name">Monthly</div><div class="price-amount"><sup>$</sup>19</div><div class="price-period">per month · cancel anytime</div><hr class="price-divider"><ul class="price-features"><li>Unlimited generations</li><li>Up to 10 slides per set</li><li>HTML + PPTX + PDF</li><li>Built-in slide editor</li><li>Grade presets</li><li>Class dashboard + support</li></ul><a href="#upload" class="btn-price outline">Start monthly</a></div>
+      <div class="price-card"><div class="price-name">Single</div><div class="price-amount"><sup>$</sup>5<span style="font-size:1.2rem">.99</span></div><div class="price-period">one-time · never expires</div><hr class="price-divider"><ul class="price-features"><li>1 lesson (up to 5 slides)</li><li>All 6 activity types</li><li>All 5 visual themes</li><li>Student score + report</li><li>HTML + PDF download</li><li>Bilingual EN / ES</li></ul><a href="#pricing" class="btn-price outline" onclick="buyPlan('single');return false;">Buy one</a></div>
+      <div class="price-card featured"><div class="feat-badge">Most popular</div><div class="price-name">Pack</div><div class="price-amount"><sup>$</sup>11<span style="font-size:1.2rem">.99</span></div><div class="price-period">6 lessons · never expires</div><hr class="price-divider"><ul class="price-features"><li>6 lessons (up to 8 slides each)</li><li>All activity types + themes</li><li>Student score + report</li><li>HTML + PPTX + PDF</li><li>Built-in slide editor</li><li>Priority speed</li></ul><a href="#pricing" class="btn-price primary" onclick="buyPlan('pack');return false;">Get the Pack</a></div>
+      <div class="price-card"><div class="price-name">Monthly</div><div class="price-amount"><sup>$</sup>14<span style="font-size:1.2rem">.99</span></div><div class="price-period">per month · cancel anytime</div><hr class="price-divider"><ul class="price-features"><li>Up to 60 lessons per month</li><li>Up to 10 slides per set</li><li>HTML + PPTX + PDF</li><li>Built-in slide editor</li><li>Grade presets</li><li>Class dashboard + support</li></ul><a href="#pricing" class="btn-price outline" onclick="buyPlan('monthly');return false;">Start monthly</a></div>
     </div>
   </div>
 </section>
@@ -701,7 +701,7 @@ async function handleGenerate(){
   const msgInterval=setInterval(()=>{mi=(mi+1)%msgs.length;if(msgEl)msgEl.textContent=msgs[mi];},2800);
   try{
     const fd=new FormData();fd.append('file',S.file);
-    const ur=await fetch(`${BACKEND_URL}/upload`,{method:'POST',body:fd});
+    const ur=await fetch(`${BACKEND_URL}/upload`,{method:'POST',headers:_ah,body:fd});
     if(!ur.ok)throw new Error(`Upload failed: ${ur.status}`);
     const {session_id}=await ur.json();
     S.lang=document.getElementById('lang-select').value||'en';
@@ -1208,6 +1208,7 @@ ${slidesHTML}
 <div class="powered">${E?'🌿 ':''}${lang==='es'?'Lección interactiva por':'Interactive lesson by'} <a href="${SITE_URL}" target="_blank">Slideseed</a> · <a href="https://dandelionbioblog.com" target="_blank">Dandelion Bio Blog</a></div>
 <script>
 var cur=0,pts=0,maxPts=0,breakdown=[],bdKeys={},answered={},flipAnswered={};
+var lang=${JSON.stringify(lang)};
 var TOTAL=${total};
 function bdSet(k,label,p){if(bdKeys[k])return;bdKeys[k]=1;breakdown.push({label:label,pts:p,max:1});}
 function updateDots(n){
@@ -1478,7 +1479,7 @@ function hexToRgb(hex){hex=(hex||'').replace('#','');if(hex.length===3)hex=hex.s
       let creds = ''
       try{
         const r = await fetch(BK + '/auth/me', { headers:{ 'Authorization':'Bearer ' + session.access_token } })
-        if(r.ok){ const u = await r.json(); creds = ' · ' + u.credits + ' créditos' }
+        if(r.ok){ const u = await r.json(); creds = (u.period_limit!=null) ? ((u.plan==='monthly' ? ' · Golden Seed \ud83c\udf31 · ' : ' · ') + u.period_used + '/' + u.period_limit + ' este mes') : (' · ' + u.credits + ' créditos') }
       }catch(e){}
       bar.innerHTML = '<span>' + session.user.email + creds + '</span>' +
         '<button class="btn-nav" style="margin-left:8px;" onclick="logout()">Salir</button>'
@@ -1492,5 +1493,126 @@ function hexToRgb(hex){hex=(hex||'').replace('#','');if(hex.length===3)hex=hex.s
   sb.auth.onAuthStateChange(() => refreshAuthUI())
   refreshAuthUI()
 </script>
+<!-- ── Paddle: checkout de pagos (Merchant of Record) ──
+     Al crear la cuenta Paddle, reemplazar los 5 valores de PADDLE_CFG:
+     token: Developer Tools -> Authentication -> Client-side token (live o sandbox)
+     env:   'sandbox' para pruebas, 'production' al lanzar
+     prices: Catalog -> Products -> copiar cada price id (price_...)          -->
+<script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
+<script>
+  var PADDLE_CFG = {
+    token: 'test_d664a541c42b67fc965a03a41d2',
+    env: 'sandbox',
+    prices: {
+      single:  'pri_01kwz8nn3s07cq2gr1bb7r8g5x',
+      pack:    'pri_01kwz8tveyev8c795ce33nf79m',
+      monthly: 'pri_01kwz915j3j19h1qsnnd0epz4p'
+    }
+  };
+  var _paddleReady = false;
+  function initPaddle(){
+    if(_paddleReady) return true;
+    if(PADDLE_CFG.token.indexOf('REEMPLAZAR') === 0) return false;
+    if(PADDLE_CFG.env === 'sandbox') Paddle.Environment.set('sandbox');
+    try{ Paddle.Initialize({
+      token: PADDLE_CFG.token,
+      eventCallback: function(ev){
+        if(ev && ev.name === 'checkout.completed'){
+          // El webhook acredita en segundos; refrescar créditos con margen
+          setTimeout(function(){ if(window.refreshAuthUI) window.refreshAuthUI(); }, 4000);
+          setTimeout(function(){ if(window.refreshAuthUI) window.refreshAuthUI(); }, 12000);
+        if(window._lastPurchasePlan === 'monthly' && window.showGoldenSeedWelcome) window.showGoldenSeedWelcome();
+        }
+      }
+    }); }catch(e){ console.error('Paddle init fallo (no rompe la pagina):', e); }
+    _paddleReady = true;
+    return true;
+  }
+  function showGoldenSeedWelcome(){
+  if(localStorage.getItem('gs_welcome_shown')) return;
+  localStorage.setItem('gs_welcome_shown', '1');
+  var d = document.createElement('div');
+  d.style.cssText = 'position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:9999;background:#fff;border:2px solid #d4af37;border-radius:12px;padding:16px 20px;box-shadow:0 8px 24px rgba(0,0,0,.15);max-width:420px;text-align:center;';
+  d.innerHTML = '<div style="font-weight:700;font-size:1.1em;margin-bottom:6px;">\u00a1Bienvenida, Golden Seed! \ud83c\udf31</div><div style="color:#666;font-size:.95em;margin-bottom:10px;">Ya tienes hasta 60 lecciones interactivas cada mes, con todos los formatos y el editor incluido. Gracias por confiar en Slideseed \u2014 vamos a hacer que tus clases brillen.</div><button onclick="this.parentElement.remove()" style="background:#d4af37;color:#fff;border:none;border-radius:8px;padding:6px 16px;cursor:pointer;">\u00a1Genial!</button>';
+  document.body.appendChild(d);
+}
+window.showGoldenSeedWelcome = showGoldenSeedWelcome;
+async function buyPlan(plan){
+  window._lastPurchasePlan = plan;
+    if(!window.sb){ alert('Cargando… intenta de nuevo en unos segundos.'); return; }
+    var s = await window.sb.auth.getSession();
+    var session = s && s.data ? s.data.session : null;
+    if(!session){
+      alert('Inicia sesión (botón arriba a la derecha) antes de comprar, para acreditar tus generaciones a tu cuenta.');
+      if(window.refreshAuthUI) window.refreshAuthUI();
+      return;
+    }
+    if(!initPaddle()){
+      alert('Los pagos estarán disponibles muy pronto. Mientras tanto disfruta tus generaciones gratis.');
+      return;
+    }
+    Paddle.Checkout.open({
+      items: [{ priceId: PADDLE_CFG.prices[plan], quantity: 1 }],
+      customData: { user_id: session.user.id },
+      customer: { email: session.user.email },
+      settings: { displayMode: 'overlay', theme: 'light', locale: 'es' }
+    });
+  }
+</script>
+<script>
+(function(){
+  var BK='https://slideseed-backend-production.up.railway.app';
+  if(!document.querySelector('script[src*="checkout.wompi.co"]')){
+    var w=document.createElement('script'); w.src='https://checkout.wompi.co/widget.js'; document.head.appendChild(w);
+  }
+  function isCO(){ try{ return (Intl.DateTimeFormat().resolvedOptions().timeZone||'').indexOf('Bogota')>-1; }catch(e){ return false; } }
+  var saved=null; try{ saved=localStorage.getItem('ss_currency'); }catch(e){}
+  window.SS_CURRENCY = saved || (isCO()?'COP':'USD');
+
+  window.buyPlanWompi = async function(plan){
+    if(!window.authHeader){ alert('Cargando… intenta de nuevo.'); return; }
+    var h=await window.authHeader();
+    if(!h.Authorization){ alert('Inicia sesión para comprar.'); if(window.refreshAuthUI) window.refreshAuthUI(); return; }
+    if(typeof window.WidgetCheckout!=='function'){ alert('Cargando el pago… intenta de nuevo en un segundo.'); return; }
+    try{
+      var r=await fetch(BK+'/wompi/checkout?plan='+encodeURIComponent(plan),{method:'POST',headers:h});
+      if(r.status===401){ alert('Tu sesión expiró.'); if(window.refreshAuthUI) window.refreshAuthUI(); return; }
+      if(!r.ok){ alert('No se pudo iniciar el pago.'); return; }
+      var d=await r.json();
+      var checkout=new WidgetCheckout({ currency:d.currency, amountInCents:d.amountInCents, reference:d.reference, publicKey:d.publicKey, signature:{integrity:d.signature}, customerData:{email:d.customerEmail} });
+      checkout.open(function(){ setTimeout(function(){ if(window.refreshAuthUI) window.refreshAuthUI(); },4000); setTimeout(function(){ if(window.refreshAuthUI) window.refreshAuthUI(); },12000); });
+    }catch(e){ console.error('Wompi',e); alert('Error iniciando el pago.'); }
+  };
+
+  var _orig=window.buyPlan;
+  window.buyPlan=function(plan){ if(window.SS_CURRENCY==='COP') return window.buyPlanWompi(plan); if(typeof _orig==='function') return _orig(plan); alert('Pago no disponible.'); };
+
+  function applyCards(){
+    document.querySelectorAll('.price-card').forEach(function(c){
+      var n=((c.querySelector('.price-name')||{}).textContent||'').trim().toLowerCase();
+      var a=c.querySelector('.price-amount'), p=c.querySelector('.price-period'); if(!a) return;
+      if(window.SS_CURRENCY==='COP'){
+        if(n==='single') a.innerHTML='<sup>$</sup>8.900';
+        else if(n==='pack') a.innerHTML='<sup>$</sup>24.900';
+        else if(n==='monthly'){ a.innerHTML='<sup>$</sup>19.900'; if(p) p.textContent='COP/mes · cancela cuando quieras'; }
+      } else {
+        if(n==='single') a.innerHTML='<sup>$</sup>5<span style="font-size:1.2rem">.99</span>';
+        else if(n==='pack') a.innerHTML='<sup>$</sup>11<span style="font-size:1.2rem">.99</span>';
+        else if(n==='monthly'){ a.innerHTML='<sup>$</sup>14<span style="font-size:1.2rem">.99</span>'; if(p) p.textContent='per month · cancel anytime'; }
+      }
+    });
+  }
+  window.setSSCurrency=function(cur){ window.SS_CURRENCY=cur; try{ localStorage.setItem('ss_currency',cur); }catch(e){} applyCards(); renderToggle(); };
+  function renderToggle(){
+    var host=document.querySelector('.pricing .pricing-inner')||document.querySelector('.pricing'); if(!host) return;
+    var box=document.getElementById('ss-cur'); if(!box){ box=document.createElement('div'); box.id='ss-cur'; box.style.cssText='display:flex;gap:8px;justify-content:center;margin:0 0 18px;font-size:.85rem;'; var g=host.querySelector('.pricing-grid'); if(g) host.insertBefore(box,g); else host.appendChild(box); }
+    var cop=window.SS_CURRENCY==='COP';
+    box.innerHTML='<button onclick="setSSCurrency(\'COP\')" style="cursor:pointer;border-radius:20px;padding:5px 14px;border:1px solid #DDD9D2;'+(cop?'background:#447566;color:#fff;':'background:#fff;color:#46544E;')+'">🇨🇴 Pesos (Nequi/PSE)</button><button onclick="setSSCurrency(\'USD\')" style="cursor:pointer;border-radius:20px;padding:5px 14px;border:1px solid #DDD9D2;'+(!cop?'background:#447566;color:#fff;':'background:#fff;color:#46544E;')+'">🌎 USD</button>';
+  }
+  function init(){ applyCards(); renderToggle(); }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
+})();
+</script>
+<script>document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll(".reveal").forEach(function(e){e.classList.add("visible");});});</script>
 </body>
 </html>
