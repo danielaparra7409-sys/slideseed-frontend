@@ -3,19 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>if(location.hostname==='slideseed-frontend.pages.dev'){location.replace('https://slideseed.app'+location.pathname+location.search+location.hash);}</script>
 <title>Slideseed — Interactive Lesson Slides from Your Documents</title>
 <meta name="description" content="Turn your lesson plan, notes, or PDF into an interactive lesson in under a minute. Slideseed builds real, scored activities — quizzes, matching, sorting, flip cards — as an offline HTML file your students open anywhere. AI lesson creator for teachers, in English and Spanish.">
 <meta name="keywords" content="interactive lesson creator, document to lesson, AI lesson planner, lesson slides generator, herramienta IA para docentes, Teachy alternativa, interactive activities for students, lecciones interactivas">
 <meta name="robots" content="index, follow">
-<meta name="author" content="Dandelion Bio Blog">
-<link rel="canonical" href="https://jolly-night-9aac.daniela-parra7409.workers.dev/">
+<meta name="author" content="Slideseed">
+<link rel="canonical" href="https://slideseed.app/">
 <!-- Open Graph -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Slideseed">
 <meta property="og:title" content="Slideseed — Interactive Lesson Slides from Your Documents">
 <meta property="og:description" content="Upload your document, get an interactive lesson with real scored activities in under a minute. Works offline. Built for teachers.">
-<meta property="og:url" content="https://jolly-night-9aac.daniela-parra7409.workers.dev/">
-<meta property="og:image" content="https://jolly-night-9aac.daniela-parra7409.workers.dev/og-image.png">
+<meta property="og:url" content="https://slideseed.app/">
+<meta property="og:image" content="https://slideseed.app/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:locale" content="en_US">
@@ -24,7 +25,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Slideseed — Interactive Lesson Slides from Your Documents">
 <meta name="twitter:description" content="Upload your document, get an interactive lesson with real scored activities in under a minute. Works offline. Built for teachers.">
-<meta name="twitter:image" content="https://jolly-night-9aac.daniela-parra7409.workers.dev/og-image.png">
+<meta name="twitter:image" content="https://slideseed.app/og-image.png">
 <!-- Structured data -->
 <script type="application/ld+json">
 {
@@ -33,7 +34,7 @@
   "name": "Slideseed",
   "applicationCategory": "EducationalApplication",
   "operatingSystem": "Web",
-  "url": "https://jolly-night-9aac.daniela-parra7409.workers.dev/",
+  "url": "https://slideseed.app/",
   "description": "Turns teacher documents (PDF, DOCX, PPTX, TXT) into interactive lessons with six types of scored activities. Downloads as offline HTML, PPTX, or PDF.",
   "inLanguage": ["en", "es"],
   "audience": {"@type": "EducationalAudience", "educationalRole": "teacher"},
@@ -41,10 +42,10 @@
   "offers": [
     {"@type": "Offer", "name": "Free", "price": "0", "priceCurrency": "USD"},
     {"@type": "Offer", "name": "Single", "price": "4.99", "priceCurrency": "USD"},
-    {"@type": "Offer", "name": "Pack", "price": "14.99", "priceCurrency": "USD"},
+    {"@type": "Offer", "name": "Pack", "price": "11.99", "priceCurrency": "USD"},
     {"@type": "Offer", "name": "Monthly", "price": "19.00", "priceCurrency": "USD"}
   ],
-  "creator": {"@type": "Organization", "name": "Dandelion Bio Blog", "url": "https://dandelionbioblog.com"}
+  "creator": {"@type": "Organization", "name": "Slideseed"}
 }
 </script>
 <style>
@@ -371,7 +372,6 @@ footer{background:var(--paper2);border-top:1px solid var(--line);padding:40px 40
 
 <section class="hero">
   <div>
-    <div class="hero-eyebrow">By Dandelion Bio Blog</div>
     <h1>Your documents, turned into <em>lessons students remember</em></h1>
     <p class="hero-body">Upload your lesson plan or notes. Slideseed reads your content, builds an editable lesson with real interactive activities — quizzes, matching, sorting, flip cards — and produces a fully interactive HTML file adapted to your students' age group.</p>
     <div class="hero-actions">
@@ -397,15 +397,11 @@ footer{background:var(--paper2);border-top:1px solid var(--line);padding:40px 40
         <div class="step-label">Upload your document</div>
         <div class="upload-area" id="drop-zone" onclick="document.getElementById('file-input').click()">
           <div class="upload-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
-          <h3>Drop your document here</h3>
+          <h3>Drop your document(s) here</h3>
           <p>or <span>browse files</span> to upload</p>
         </div>
-        <input type="file" id="file-input" accept=".pdf,.docx,.pptx,.txt" onchange="handleFile(this)">
-        <div class="file-chosen" id="file-chosen">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;stroke:var(--green);flex-shrink:0;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-          <span id="file-name">document.pdf</span>
-          <span class="file-remove" onclick="removeFile()">✕</span>
-        </div>
+        <input type="file" id="file-input" accept=".pdf,.docx,.pptx,.txt" multiple onchange="handleFiles(this)">
+        <div id="files-list"></div>
         <div class="format-chips"><span class="chip-label">Input formats:</span><span class="chip">PDF</span><span class="chip">DOCX</span><span class="chip">PPTX</span><span class="chip">TXT</span></div>
         <div class="step-nav"><span class="credits-badge">2 free generations — no card needed</span><button class="btn-next" onclick="goStep(2)">Next →</button></div>
       </div>
@@ -419,7 +415,7 @@ footer{background:var(--paper2);border-top:1px solid var(--line);padding:40px 40
           <div class="grade-card" onclick="selectGrade(this,'Univ')"><div class="grade-name">University</div><div class="grade-range">Higher ed</div></div>
           <div class="grade-card" onclick="selectGrade(this,'Mixed')"><div class="grade-name">Online</div><div class="grade-range">All levels</div></div>
         </div>
-        <div class="lang-row"><select class="select-field" id="lang-select"><option value="">Language of the lesson</option><option value="en">English</option><option value="es">Español</option><option value="bi">Bilingual EN / ES</option></select></div>
+        <div class="lang-row"><select class="select-field" id="lang-select"><option value="">Language of the lesson</option><option value="en">English</option><option value="es">Español</option></select></div>
         <div class="step-nav"><button class="btn-back" onclick="goStep(1)">← Back</button><button class="btn-next" onclick="goStep(3)">Next →</button></div>
       </div>
       <div class="card-step" id="step-3">
@@ -432,10 +428,10 @@ footer{background:var(--paper2);border-top:1px solid var(--line);padding:40px 40
           <div class="theme-card" onclick="selectTheme(this,'slate')"><div class="theme-preview slate-prev"><div class="tp-title">Aa</div><div class="tp-bar"></div><div class="tp-bar short"></div></div><div class="theme-name">Slate</div></div>
         </div>
         <div class="slides-row">
-          <div class="slides-label"><span>Number of slides</span><span class="slides-note">Free plan: up to 3</span></div>
+          <div class="slides-label"><span>Number of slides</span><span class="slides-note" id="slides-note">Free plan: up to 3</span></div>
           <div class="slides-stepper"><button class="stepper-btn" onclick="changeSlides(-1)">−</button><span class="slides-val" id="slides-val">3</span><button class="stepper-btn" onclick="changeSlides(1)">+</button></div>
         </div>
-        <div class="upgrade-note" id="upgrade-note"><span>Upgrade for up to 10 slides</span><a href="#pricing">See plans →</a></div>
+        <div class="upgrade-note" id="upgrade-note"><span id="upgrade-note-txt">Upgrade for more slides</span><a href="#pricing">See plans →</a></div>
         <div class="step-nav"><button class="btn-back" onclick="goStep(2)">← Back</button><button class="btn-next" onclick="goStep(4)">Next →</button></div>
       </div>
       <div class="card-step" id="step-4">
@@ -448,8 +444,8 @@ footer{background:var(--paper2);border-top:1px solid var(--line);padding:40px 40
           <div class="review-row"><span class="review-key">Slides</span><span class="review-val" id="rev-slides">3</span></div>
           <div class="review-row"><span class="review-key">Credits</span><span class="review-val" style="color:var(--green);font-weight:600;">2 free remaining</span></div>
         </div>
-        <input type="email" id="user-email" class="select-field" placeholder="your@email.com (optional)" style="width:100%;margin-bottom:6px;opacity:.8;">
-        <p style="font-size:.7rem;color:var(--muted);margin-bottom:12px;">Optional — we'll never spam you.</p>
+        <textarea id="ai-focus" class="select-field" rows="2" placeholder="Focus / topic for the AI (optional) — e.g. 'Center it on cell classification' · Enfoque para la IA (opcional)" style="width:100%;margin-bottom:4px;resize:vertical;font-family:inherit;"></textarea>
+        <p style="font-size:.7rem;color:var(--muted);margin-bottom:12px;">Guide the AI toward the main topic — useful with multiple documents. · Guía a la IA hacia el tema principal.</p>
         <div class="generating" id="generating"><div class="spinner"></div><p id="gen-msg">Reading your document…</p></div>
         <button class="btn-generate" id="gen-btn" onclick="handleGenerate()">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
@@ -477,7 +473,7 @@ footer{background:var(--paper2);border-top:1px solid var(--line);padding:40px 40
     <span class="formats-label">Download as</span>
     <div class="format-badges">
       <div class="fbadge"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><div><strong>HTML</strong><span>Interactive · works offline · for students</span></div></div>
-      <div class="fbadge" style="opacity:.6;"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg><div><strong>PPTX</strong><span style="color:var(--salmon);font-style:italic;">Próximamente · Coming soon</span></div></div>
+      <div class="fbadge"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg><div><strong>PPTX</strong><span>Editable in PowerPoint · with images</span></div></div>
       <div class="fbadge"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg><div><strong>PDF</strong><span>Print or share as file</span></div></div>
     </div>
     <span class="formats-note">PPTX and PDF on paid plans</span>
@@ -492,7 +488,7 @@ footer{background:var(--paper2);border-top:1px solid var(--line);padding:40px 40
       <div class="feat-card"><div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><h3>Quiz with feedback</h3><p>Distractors based on real misconceptions — not obviously wrong. Students learn from every wrong answer.</p></div>
       <div class="feat-card"><div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="2" width="9" height="9" rx="1"/><rect x="13" y="2" width="9" height="9" rx="1"/><rect x="2" y="13" width="9" height="9" rx="1"/><rect x="13" y="13" width="9" height="9" rx="1"/></svg></div><h3>Term matching</h3><p>Connect terms to definitions by dragging. Points awarded for each correct pair.</p></div>
       <div class="feat-card"><div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></div><h3>Drag to sort</h3><p>Order steps, events, or concepts correctly. Ideal for processes and timelines.</p></div>
-      <div class="feat-card"><div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="M12 3v18"/></svg></div><h3>Flip cards with scoring</h3><p>Students read the term, predict the definition, then reveal it and self-assess. Earns points on first try.</p></div>
+      <div class="feat-card"><div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="M12 3v18"/></svg></div><h3>Try &amp; reveal cards</h3><p>Students write what they recall first, then reveal the answer and self-assess — real retrieval practice, scored with partial credit.</p></div>
       <div class="feat-card"><div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div><h3>Fill in the blank</h3><p>Key vocabulary placed in context. Word bank available for younger grades; open text for older students.</p></div>
       <div class="feat-card"><div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div><h3>Score and report card</h3><p>Every activity contributes to a final score. Students share results via WhatsApp, email, or print.</p></div>
     </div>
@@ -511,7 +507,7 @@ footer{background:var(--paper2);border-top:1px solid var(--line);padding:40px 40
       <div class="trust-card"><div class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><h3>What happens to your content</h3><p>Your document is processed once to generate the lesson and is not stored on our servers. Never used to train AI models.</p><div class="trust-tip"><span class="tip-label">Our commitment</span>Processed once · Not stored · Never shared</div></div>
       <div class="trust-card"><div class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><h3>Why we charge</h3><p>Every generation calls a professional AI model with a real cost. Charging fairly keeps quality high without ads.</p><div class="trust-tip"><span class="tip-label">What your payment covers</span>AI processing · Hosting · Development</div></div>
     </div>
-    <div class="manifesto"><div class="mline"></div><blockquote><p>"We built Slideseed because preparing interactive lessons takes hours most teachers don't have. You bring the knowledge — we build the experience your students will remember."</p><cite>— Daniela Ardila, founder · Dandelion Bio Blog</cite></blockquote><div class="mline"></div></div>
+    <div class="manifesto"><div class="mline"></div><blockquote><p>"We built Slideseed because preparing interactive lessons takes hours most teachers don't have. You bring the knowledge — we build the experience your students will remember."</p><cite>— Daniela Ardila, founder</cite></blockquote><div class="mline"></div></div>
   </div>
 </section>
 
@@ -521,10 +517,10 @@ footer{background:var(--paper2);border-top:1px solid var(--line);padding:40px 40
     <h2 class="section-title">Start free.<br><em>Pay only when you love it.</em></h2>
     <p class="section-sub" style="margin-bottom:36px;">Two free generations with no card required.</p>
     <div class="pricing-grid">
-      <div class="price-card"><div class="price-name">Free</div><div class="price-amount"><sup>$</sup>0</div><div class="price-period">2 generations · no card</div><hr class="price-divider"><ul class="price-features"><li>2 interactive lesson sets</li><li>Up to 3 slides per set</li><li>All 6 activity types</li><li>Student score + report</li><li>HTML download only</li><li>Forest theme</li></ul><a href="#upload" class="btn-price outline">Start free</a></div>
-      <div class="price-card"><div class="price-name">Single</div><div class="price-amount"><sup>$</sup>5<span style="font-size:1.2rem">.99</span></div><div class="price-period">one-time · never expires</div><hr class="price-divider"><ul class="price-features"><li>1 lesson (up to 5 slides)</li><li>All 6 activity types</li><li>All 5 visual themes</li><li>Student score + report</li><li>HTML + PDF download</li><li>Bilingual EN / ES</li></ul><a href="#pricing" class="btn-price outline" onclick="buyPlan('single');return false;">Buy one</a></div>
-      <div class="price-card featured"><div class="feat-badge">Most popular</div><div class="price-name">Pack</div><div class="price-amount"><sup>$</sup>11<span style="font-size:1.2rem">.99</span></div><div class="price-period">6 lessons · never expires</div><hr class="price-divider"><ul class="price-features"><li>6 lessons (up to 8 slides each)</li><li>All activity types + themes</li><li>Student score + report</li><li>HTML + PPTX + PDF</li><li>Built-in slide editor</li><li>Priority speed</li></ul><a href="#pricing" class="btn-price primary" onclick="buyPlan('pack');return false;">Get the Pack</a></div>
-      <div class="price-card"><div class="price-name">Monthly</div><div class="price-amount"><sup>$</sup>14<span style="font-size:1.2rem">.99</span></div><div class="price-period">per month · cancel anytime</div><hr class="price-divider"><ul class="price-features"><li>Up to 60 lessons per month</li><li>Up to 10 slides per set</li><li>HTML + PPTX + PDF</li><li>Built-in slide editor</li><li>Grade presets</li><li>Class dashboard + support</li></ul><a href="#pricing" class="btn-price outline" onclick="buyPlan('monthly');return false;">Start monthly</a></div>
+      <div class="price-card"><div class="price-name">Free</div><div class="price-amount"><sup>$</sup>0</div><div class="price-period">2 generations · no card</div><hr class="price-divider"><ul class="price-features"><li>2 lessons to try</li><li>Up to 3 slides · 1 document</li><li>All 6 activity types</li><li>Student score + report</li><li>HTML download</li></ul><a href="#upload" class="btn-price outline">Start free</a></div>
+      <div class="price-card"><div class="price-name">Single</div><div class="price-amount"><sup>$</sup>5<span style="font-size:1.2rem">.99</span></div><div class="price-period">one-time · never expires</div><hr class="price-divider"><ul class="price-features"><li>1 lesson · up to 5 slides</li><li>1 document · extract images</li><li>All 6 activities + themes</li><li>English or Spanish</li><li>HTML + PDF download</li></ul><a href="#pricing" class="btn-price outline" onclick="buyPlan('single');return false;">Buy one</a></div>
+      <div class="price-card featured"><div class="feat-badge">Most popular</div><div class="price-name">Pack</div><div class="price-amount"><sup>$</sup>11<span style="font-size:1.2rem">.99</span></div><div class="price-period">6 lessons · never expires</div><hr class="price-divider"><ul class="price-features"><li>6 lessons · up to 8 slides</li><li>Up to 2 documents per lesson</li><li>Extract images from your docs</li><li>All activities + themes</li><li>HTML + PPTX + PDF</li><li>Built-in editor · priority</li></ul><a href="#pricing" class="btn-price primary" onclick="buyPlan('pack');return false;">Get the Pack</a></div>
+      <div class="price-card"><div class="price-name">Monthly</div><div class="price-amount"><sup>$</sup>14<span style="font-size:1.2rem">.99</span></div><div class="price-period">per month · cancel anytime</div><hr class="price-divider"><ul class="price-features"><li>Up to 40 lessons / month</li><li>Up to 10 slides · 3 documents</li><li>Extract images from your docs</li><li>HTML + PPTX + PDF</li><li>Built-in editor · grade presets</li><li>Priority support</li></ul><a href="#pricing" class="btn-price outline" onclick="buyPlan('monthly');return false;">Start monthly</a></div>
     </div>
   </div>
 </section>
@@ -545,16 +541,16 @@ footer{background:var(--paper2);border-top:1px solid var(--line);padding:40px 40
   <a href="#upload" class="btn-primary" style="font-size:.97rem;padding:14px 36px;">Upload your first document</a>
 </section>
 
-<div class="brand-bar"><p>Slideseed is a product by <a href="https://dandelionbioblog.com">Dandelion Bio Blog</a> · Science communication for curious minds</p></div>
+<div class="brand-bar"><p>Slideseed · Interactive lessons from your own documents, built for teachers</p></div>
 
 <footer>
   <div class="footer-inner">
     <div class="footer-brand"><span class="logo-text" style="font-family:Georgia,serif;font-size:1.2rem;margin-bottom:8px;display:block;"><span style="color:var(--green)">Slide</span>seed</span><p>Interactive lesson slides from your own documents. Built for educators who care about learning.</p></div>
     <div class="footer-col"><h4>Product</h4><ul><li><a href="#">How it works</a></li><li><a href="#">Features</a></li><li><a href="#">Pricing</a></li><li><a href="#">Sample lessons</a></li></ul></div>
-    <div class="footer-col"><h4>Resources</h4><ul><li><a href="#">Teacher's guide</a></li><li><a href="#">Blog</a></li><li><a href="https://dandelionbioblog.com">Dandelion Bio Blog</a></li></ul></div>
-    <div class="footer-col"><h4>Support</h4><ul><li><a href="#">FAQ</a></li><li><a href="#">Contact</a></li><li><a href="#">Privacy policy</a></li><li><a href="#">Terms of use</a></li></ul></div>
+    <div class="footer-col"><h4>Resources</h4><ul><li><a href="#">Teacher's guide</a></li><li><a href="#">Sample lessons</a></li></ul></div>
+    <div class="footer-col"><h4>Support</h4><ul><li><a href="#">FAQ</a></li><li><a href="#">Contact</a></li><li><a href="/privacy.html">Privacy policy</a></li><li><a href="/terms.html">Terms of use</a></li></ul></div>
   </div>
-  <div class="footer-bottom"><p>© 2026 Slideseed · <a href="https://dandelionbioblog.com">Dandelion Bio Blog</a></p><p>Made with care for educators worldwide</p></div>
+  <div class="footer-bottom"><p>© 2026 Slideseed</p><p>Made with care for educators worldwide</p></div>
 </footer>
 
 <!-- EDITOR OVERLAY -->
@@ -568,10 +564,10 @@ footer{background:var(--paper2);border-top:1px solid var(--line);padding:40px 40
       <div style="font-size:.68rem;color:var(--muted);">Click any text to edit · Use ↑↓ to reorder · <span style="color:var(--salmon);">Tip: reference your source in the title</span></div>
     </div>
     <div class="editor-actions">
-      <div class="format-toggle">
-        <button class="fmt-btn active" onclick="setFmt('html',this)">HTML</button>
-        <button class="fmt-btn" onclick="setFmt('pdf',this)">PDF</button>
-        <button class="fmt-btn" onclick="setFmt('pptx',this)">PPTX</button>
+      <div class="format-toggle" id="format-toggle">
+        <button class="fmt-btn active" data-fmt="html" onclick="setFmt('html',this)">HTML</button>
+        <button class="fmt-btn" data-fmt="pdf" onclick="setFmt('pdf',this)">PDF</button>
+        <button class="fmt-btn" data-fmt="pptx" onclick="setFmt('pptx',this)">PPTX</button>
       </div>
       <button class="btn-download" onclick="downloadLesson()">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
@@ -594,6 +590,24 @@ footer{background:var(--paper2);border-top:1px solid var(--line);padding:40px 40
           <button class="act-btn" onclick="setAllActivity('fill',this)">Fill</button>
           <button class="act-btn" onclick="setAllActivity('reflect',this)">Reflect</button>
         </div>
+      </div>
+      <div class="tools-section" id="doc-images-section" style="display:none;">
+        <h4>Images from your document</h4>
+        <p style="font-size:.66rem;color:var(--muted);line-height:1.5;margin-bottom:8px;">Click one to add it to the current slide.</p>
+        <div id="doc-images" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;"></div>
+      </div>
+      <div class="tools-section">
+        <h4>Source · Reference (APA)</h4>
+        <textarea id="ref-input" oninput="lessonReference=this.value" placeholder="Author, A. (2024). Title of the source. Publisher/Journal." style="width:100%;min-height:54px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;font-size:.78rem;font-family:inherit;line-height:1.5;resize:vertical;box-sizing:border-box;color:var(--ink);"></textarea>
+        <p style="font-size:.66rem;color:var(--muted);line-height:1.5;margin-top:5px;">Shown at the end of the lesson. Edit to fix or add the citation. · Aparece al final; edítala si hace falta.</p>
+      </div>
+      <div class="tools-section">
+        <h4>Score display · Nota</h4>
+        <div class="format-toggle" id="score-mode-toggle">
+          <button class="fmt-btn active" onclick="setScoreMode('pct',this)">Percent&nbsp;%</button>
+          <button class="fmt-btn" onclick="setScoreMode('frac',this)">Fraction&nbsp;X/N</button>
+        </div>
+        <p style="font-size:.66rem;color:var(--muted);line-height:1.5;margin-top:6px;">How the student sees their final score. / Cómo ve el alumno su nota final.</p>
       </div>
       <div class="tools-section">
         <h4>Theme accent color</h4>
@@ -648,9 +662,13 @@ footer{background:var(--paper2);border-top:1px solid var(--line);padding:40px 40
 <script>
 const DEV = new URLSearchParams(window.location.search).get('dev')==='true';
 const BACKEND_URL='https://slideseed-backend-production.up.railway.app';
-const SITE_URL='https://jolly-night-9aac.daniela-parra7409.workers.dev'; // TODO: cambiar a https://slideseed.app cuando exista el dominio
-const S={file:null,grade:'',gradeName:'',lang:'',theme:'forest',slides:3};
-let editorSlides=[],lessonTitle='Interactive Lesson',themeAccent='#447566',bgColor='#f5f5f0',bodyFont="'Helvetica Neue',sans-serif",currentFmt='html',activeIdx=0;
+const SITE_URL='https://slideseed.app'; // TODO: cambiar a https://slideseed.app cuando exista el dominio
+const S={file:null,files:[],images:[],grade:'',gradeName:'',lang:'',theme:'forest',slides:3,maxSlides:3,maxDocs:1,plan:'free'};
+const SLIDE_CAPS={free:3,single:5,pack:8,monthly:10};
+const DOC_CAPS={free:1,single:1,pack:2,monthly:3};
+const FORMAT_CAPS={free:['html'],single:['html','pdf'],pack:['html','pdf','pptx'],monthly:['html','pdf','pptx']};
+const PLAN_LABEL={free:'Free',single:'Single',pack:'Pack',monthly:'Monthly'};
+let editorSlides=[],lessonTitle='Interactive Lesson',lessonReference='',themeAccent='#447566',bgColor='#f5f5f0',bodyFont="'Helvetica Neue',sans-serif",currentFmt='html',activeIdx=0,scoreMode='pct';
 
 const GRADE_CONFIG={
   'K-2': {emoji:true, fontSize:'1.1rem', fontFamily:"'Comic Sans MS',cursive,sans-serif", useWordBank:true},
@@ -663,49 +681,113 @@ const GRADE_CONFIG={
 
 /* ── STEP NAV ── */
 function goStep(n){
-  if(n>1&&!S.file){flashDZ();return;}
+  if(n>1&&(!S.files||!S.files.length)){flashDZ();return;}
   if(n>2&&!S.grade){flashGrades();return;}
   document.querySelectorAll('.step-pip').forEach((p,i)=>{p.classList.remove('active','done');if(i+1<n)p.classList.add('done');if(i+1===n)p.classList.add('active');});
   document.querySelectorAll('.card-step').forEach((s,i)=>s.classList.toggle('active',i+1===n));
   if(n===4)populateReview();
 }
-function flashDZ(){const dz=document.getElementById('drop-zone');dz.style.borderColor='#e0907a';dz.querySelector('h3').textContent='Please upload a document first';setTimeout(()=>{dz.style.borderColor='';dz.querySelector('h3').textContent='Drop your document here';},2000);}
+function _dzDefault(){return window.SS_LANG==='es'?'Suelta tu documento aquí':'Drop your document(s) here';}
+function flashDZ(){const dz=document.getElementById('drop-zone');dz.style.borderColor='#e0907a';dz.querySelector('h3').textContent=(window.SS_LANG==='es'?'Primero sube un documento':'Please upload a document first');setTimeout(()=>{dz.style.borderColor='';dz.querySelector('h3').textContent=_dzDefault();},2000);}
 function flashGrades(){document.querySelectorAll('.grade-card').forEach(c=>{c.style.outline='2px solid #e0907a';setTimeout(()=>c.style.outline='',600);});}
 
-/* ── FILE ── */
-function handleFile(i){const f=i.files[0];if(!f)return;S.file=f;document.getElementById('file-name').textContent=f.name;document.getElementById('file-chosen').classList.add('show');}
-function removeFile(){S.file=null;document.getElementById('file-input').value='';document.getElementById('file-chosen').classList.remove('show');}
+/* ── FILES (multi-document) ── */
+function addFiles(list){
+  S.files=S.files||[];
+  var cap=S.maxDocs||1;
+  for(const f of list){
+    if(S.files.length>=cap){flashDZmsg(cap>1?('Tu plan permite '+cap+' documentos'):'Varios documentos: mejora tu plan (Pack 2, Monthly 3)');break;}
+    if(!/\.(pdf|docx|pptx|txt)$/i.test(f.name)){flashDZmsg('Solo PDF, DOCX, PPTX o TXT');continue;}
+    if(S.files.some(x=>x.name===f.name&&x.size===f.size))continue;
+    S.files.push(f);
+  }
+  renderFilesList();
+}
+function renderFilesList(){
+  const box=document.getElementById('files-list');if(!box)return;
+  S.files=S.files||[];
+  box.innerHTML=S.files.map((f,i)=>'<div class="file-chosen show" style="margin-top:8px;"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;stroke:var(--green);flex-shrink:0;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span>'+f.name+'</span><span class="file-remove" onclick="removeFileAt('+i+')">✕</span></div>').join('');
+}
+function removeFileAt(i){S.files.splice(i,1);document.getElementById('file-input').value='';renderFilesList();}
+function handleFiles(input){addFiles(input.files);}
+function flashDZmsg(msg){const dz=document.getElementById('drop-zone');const h=dz.querySelector('h3');const prev=h.textContent;dz.style.borderColor='#e0907a';h.textContent=msg;setTimeout(()=>{dz.style.borderColor='';h.textContent=_dzDefault();},2000);}
 const dz=document.getElementById('drop-zone');
 dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('dragover');});
 dz.addEventListener('dragleave',()=>dz.classList.remove('dragover'));
-dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('dragover');const f=e.dataTransfer.files[0];if(f){const dt=new DataTransfer();dt.items.add(f);document.getElementById('file-input').files=dt.files;handleFile(document.getElementById('file-input'));}});
+dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('dragover');if(e.dataTransfer.files&&e.dataTransfer.files.length)addFiles(e.dataTransfer.files);});
 
 /* ── SELECTORS ── */
 function selectGrade(el,g){document.querySelectorAll('.grade-card').forEach(c=>c.classList.remove('selected'));el.classList.add('selected');S.grade=g;const nm={'K-2':'Early learners (K-2)','3-5':'Elementary (3-5)','6-8':'Middle school (6-8)','9-12':'High school (9-12)','Univ':'University','Mixed':'Online'};S.gradeName=nm[g]||g;}
 function selectTheme(el,t){document.querySelectorAll('.theme-card').forEach(c=>c.classList.remove('selected'));el.classList.add('selected');S.theme=t;const c={forest:'#447566',ink:'#1F2B27',sand:'#C4794A',sky:'#2980B9',slate:'#4A5568'};themeAccent=c[t]||'#447566';}
-function changeSlides(d){const n=S.slides+d;if(n<1)return;if(n>3){document.getElementById('upgrade-note').style.display='flex';return;}document.getElementById('upgrade-note').style.display='none';S.slides=n;document.getElementById('slides-val').textContent=n;}
-function populateReview(){const lm={en:'English',es:'Español',bi:'Bilingual EN/ES','':"—"};const tm={forest:'Forest',ink:'Ink',sand:'Sand',sky:'Sky',slate:'Slate'};document.getElementById('rev-file').textContent=S.file?S.file.name:'—';document.getElementById('rev-grade').textContent=S.gradeName||'—';document.getElementById('rev-lang').textContent=lm[document.getElementById('lang-select').value]||'—';document.getElementById('rev-theme').textContent=tm[S.theme]||S.theme;document.getElementById('rev-slides').textContent=S.slides;}
+function changeSlides(d){const n=S.slides+d;if(n<1)return;if(n>S.maxSlides){document.getElementById('upgrade-note').style.display=(S.maxSlides<10)?'flex':'none';return;}document.getElementById('upgrade-note').style.display='none';S.slides=n;document.getElementById('slides-val').textContent=n;}
+function updateSlideNote(){
+  var note=document.getElementById('slides-note');
+  if(note)note.textContent=(PLAN_LABEL[S.plan]||'Free')+' plan: up to '+S.maxSlides;
+  var up=document.getElementById('upgrade-note-txt');
+  if(up)up.textContent='Upgrade for up to 10 slides';
+}
+window.applyPlanSlideCap=function(plan,admin){
+  S.plan=plan||'free';
+  S.admin=!!admin;
+  S.maxSlides=S.admin?10:(SLIDE_CAPS[S.plan]||3);
+  S.maxDocs=S.admin?20:(DOC_CAPS[S.plan]||1);
+  if(S.slides>S.maxSlides){S.slides=S.maxSlides;var v=document.getElementById('slides-val');if(v)v.textContent=S.slides;}
+  var un=document.getElementById('upgrade-note');if(un&&S.slides<=S.maxSlides)un.style.display='none';
+  updateSlideNote();
+};
+function populateReview(){const lm={en:'English',es:'Español',bi:'Bilingual EN/ES','':"—"};const tm={forest:'Forest',ink:'Ink',sand:'Sand',sky:'Sky',slate:'Slate'};document.getElementById('rev-file').textContent=(S.files&&S.files.length)?(S.files.length===1?S.files[0].name:S.files.length+' documentos'):'—';document.getElementById('rev-grade').textContent=S.gradeName||'—';document.getElementById('rev-lang').textContent=lm[document.getElementById('lang-select').value]||'—';document.getElementById('rev-theme').textContent=tm[S.theme]||S.theme;document.getElementById('rev-slides').textContent=S.slides;}
 
 /* ── GENERATE ── */
 async function handleGenerate(){
-  if(!S.file){goStep(1);return;}
+  if(!S.files||!S.files.length){goStep(1);return;}
   const _ah=(window.authHeader?await window.authHeader():{});
   if(!_ah.Authorization){alert('Inicia sesión (botón arriba a la derecha) para generar tu lección.');if(window.refreshAuthUI)window.refreshAuthUI();return;}
   const btn=document.getElementById('gen-btn');btn.style.display='none';
   document.getElementById('generating').classList.add('show');
-  // Rotating loading messages
-  const msgs=['Reading your document…','Extracting key concepts…','Crafting activities…','Building interactive slides…','Almost ready — polishing the lesson…'];
+  // Rotating loading messages — bilingües + tips + ánimo (la generación toma un momento)
+  const _esL=(S.lang==='es'||window.SS_LANG==='es');
+  const msgs=_esL?[
+    'Leyendo tu documento…',
+    '✨ Tip: puedes editar cada actividad en el editor antes de descargar.',
+    'Identificando los conceptos clave…',
+    '🌿 Lo operativo queda resuelto; tu forma de enseñar sigue siendo tuya.',
+    'Creando las actividades interactivas…',
+    '💚 Menos horas preparando material, más tiempo para enseñar a profundidad.',
+    'Armando las diapositivas…',
+    '📎 Con los planes Pack y Mensual puedes combinar varios documentos en una lección.',
+    '📚 Funciona con PDF, Word, PowerPoint y texto.',
+    '🖼️ Tip: lleva las imágenes de tu documento a las diapositivas.',
+    '☕ Buen momento para un café — ya casi está.',
+    'Casi listo — puliendo los detalles…',
+    'Respira 💚 en un momento tienes tu lección lista. ¡Vas a alegrarle el día a tus estudiantes!'
+  ]:[
+    'Reading your document…',
+    '✨ Tip: you can edit every activity in the editor before downloading.',
+    'Identifying key concepts…',
+    '🌿 The busywork is handled; your way of teaching stays yours.',
+    'Crafting the interactive activities…',
+    '💚 Less time prepping materials, more time to teach deeply.',
+    'Building the slides…',
+    '📎 On the Pack and Monthly plans you can combine several documents into one lesson.',
+    '📚 Works with PDF, Word, PowerPoint and text.',
+    '🖼️ Tip: bring the images from your document into the slides.',
+    '☕ Good moment for a coffee — almost there.',
+    'Almost ready — polishing the details…',
+    'Take a breath 💚 your lesson is almost here. Your students are going to love it!'
+  ];
   let mi=0;
   const msgEl=document.getElementById('gen-msg');
   if(msgEl){msgEl.textContent=msgs[0];}
   const msgInterval=setInterval(()=>{mi=(mi+1)%msgs.length;if(msgEl)msgEl.textContent=msgs[mi];},2800);
   try{
-    const fd=new FormData();fd.append('file',S.file);
+    const fd=new FormData();S.files.forEach(f=>fd.append('files',f));
     const ur=await fetch(`${BACKEND_URL}/upload`,{method:'POST',headers:_ah,body:fd});
     if(!ur.ok)throw new Error(`Upload failed: ${ur.status}`);
-    const {session_id}=await ur.json();
+    const up=await ur.json();const session_id=up.session_id;
+    S.images=Array.isArray(up.images)?up.images:[];
     S.lang=document.getElementById('lang-select').value||'en';
-    const gr=await fetch(`${BACKEND_URL}/generate`,{method:'POST',headers:{'Content-Type':'application/json',..._ah},body:JSON.stringify({session_id,grade:S.grade||'3-5',language:S.lang,theme:S.theme,num_slides:S.slides})});
+    const _focus=(document.getElementById('ai-focus')?document.getElementById('ai-focus').value:'').trim().slice(0,300);
+    const gr=await fetch(`${BACKEND_URL}/generate`,{method:'POST',headers:{'Content-Type':'application/json',..._ah},body:JSON.stringify({session_id,grade:S.grade||'3-5',language:S.lang,theme:S.theme,num_slides:S.slides,focus:_focus})});
     if(gr.status===402)throw new Error('NO_CREDITS');
     if(gr.status===401)throw new Error('NOT_LOGGED_IN');
     if(!gr.ok)throw new Error(`Generation failed: ${gr.status}`);
@@ -728,6 +810,7 @@ async function handleGenerate(){
 /* ── EDITOR ── */
 function openEditor(data){
   lessonTitle=data.title||'Interactive Lesson';
+  lessonReference=data.reference||'';
   const acts=['quiz','match','sort','flip','fill','reflect'];
   editorSlides=(data.slides||[]).map((sl,i)=>({
     id:i+1,title:sl.title||`Slide ${i+1}`,body:sl.body||'',
@@ -735,16 +818,37 @@ function openEditor(data){
     quiz:sl.quiz||{question:'',correct:'',wrong:[]},
     fill_blank:sl.fill_blank||{sentence:'',answer:''},
     drag_items:sl.drag_items||[],
+    flip_cards:sl.flip_cards||null,
+    match_pairs:sl.match_pairs||null,
+    sort_kind:sl.sort_kind||null,
+    classify_cats:sl.classify_cats||null,
+    classify_items:sl.classify_items||null,
+    reflect_prompt:sl.reflect_prompt||'',
+    cer_model:sl.cer_model||'',
     activity:sl.activity_hint||acts[i%acts.length],
     image:null
   }));
-  setTimeout(()=>{const ti=document.getElementById('lesson-title-input');if(ti)ti.value=lessonTitle;},50);
+  setTimeout(()=>{const ti=document.getElementById('lesson-title-input');if(ti)ti.value=lessonTitle;const ri=document.getElementById('ref-input');if(ri)ri.value=lessonReference;},50);
   renderEditor();
   document.getElementById('editor-overlay').classList.add('show');
   document.body.style.overflow='hidden';
 }
 
-function renderEditor(){renderThumbs();renderSlideCards();setActiveSlide(0);}
+function renderEditor(){renderThumbs();renderSlideCards();setActiveSlide(0);renderDocImages();applyFormatGating();}
+function renderDocImages(){
+  var sec=document.getElementById('doc-images-section');var box=document.getElementById('doc-images');
+  if(!sec||!box)return;
+  var imgs=S.images||[];
+  if(!imgs.length){sec.style.display='none';box.innerHTML='';return;}
+  sec.style.display='block';
+  box.innerHTML=imgs.map(function(im,i){return '<img src="'+im.data_uri+'" title="'+im.width+'×'+im.height+' — add to current slide" onclick="useDocImage('+i+')" style="width:100%;height:64px;object-fit:contain;background:#fff;border-radius:6px;border:1px solid #ddd3c4;padding:2px;cursor:pointer;transition:transform .15s;" onmouseover="this.style.transform=\'scale(1.06)\'" onmouseout="this.style.transform=\'\'">';}).join('');
+}
+function useDocImage(i){
+  var im=(S.images||[])[i];if(!im)return;
+  editorSlides[activeIdx].image=im.data_uri;
+  var a=document.getElementById('img-'+activeIdx);
+  if(a){a.innerHTML='<img src="'+im.data_uri+'" alt="" style="max-width:100%;max-height:150px;border-radius:8px;">';a.classList.add('has-img');}
+}
 
 function renderThumbs(){
   const panel=document.getElementById('slides-panel');panel.innerHTML='';
@@ -800,6 +904,7 @@ function renderSlideCards(){
           <button class="act-btn${sl.activity==='fill'?' selected':''}" onclick="setSlideAct(${i},'fill',this)">Fill</button>
           <button class="act-btn${sl.activity==='reflect'?' selected':''}" onclick="setSlideAct(${i},'reflect',this)">Reflect</button>
         </div>
+        <div class="act-edit" id="acted-${i}">${actEditorHTML(i)}</div>
       </div>`;
     canvas.appendChild(card);
   });
@@ -809,8 +914,125 @@ function setActiveSlide(i){activeIdx=i;document.querySelectorAll('.slide-thumb')
 function updateSlide(i,f,v){editorSlides[i][f]=v;renderThumbs();}
 function moveSlide(i,d){const j=i+d;if(j<0||j>=editorSlides.length)return;[editorSlides[i],editorSlides[j]]=[editorSlides[j],editorSlides[i]];editorSlides.forEach((s,idx)=>s.id=idx+1);activeIdx=j;renderSlideCards();renderThumbs();}
 function deleteSlide(i){if(editorSlides.length<=1)return;editorSlides.splice(i,1);editorSlides.forEach((s,idx)=>s.id=idx+1);activeIdx=Math.min(activeIdx,editorSlides.length-1);renderSlideCards();renderThumbs();}
-function addSlide(){editorSlides.push({id:editorSlides.length+1,title:'New slide',body:'Add content here.',key_term:'',key_definition:'',quiz:{question:'',correct:'',wrong:[]},fill_blank:{sentence:'',answer:''},drag_items:[],activity:'quiz',image:null});activeIdx=editorSlides.length-1;renderSlideCards();renderThumbs();setActiveSlide(activeIdx);}
-function setSlideAct(i,a,el){editorSlides[i].activity=a;el.closest('.activity-selector').querySelectorAll('.act-btn').forEach(b=>b.classList.remove('selected'));el.classList.add('selected');}
+function addSlide(){
+  var cap=S.maxSlides||3;
+  if(editorSlides.length>=cap){alert((S.lang==='es'?'Tu plan permite hasta ':'Your plan allows up to ')+cap+(S.lang==='es'?' diapositivas por lección. Mejora tu plan para más.':' slides per lesson. Upgrade for more.'));return;}
+  editorSlides.push({id:editorSlides.length+1,title:'New slide',body:'Add content here.',key_term:'',key_definition:'',quiz:{question:'',correct:'',wrong:[]},fill_blank:{sentence:'',answer:''},drag_items:[],activity:'quiz',image:null});activeIdx=editorSlides.length-1;renderSlideCards();renderThumbs();setActiveSlide(activeIdx);
+}
+function setSlideAct(i,a,el){editorSlides[i].activity=a;el.closest('.activity-selector').querySelectorAll('.act-btn').forEach(b=>b.classList.remove('selected'));el.classList.add('selected');reActEd(i);}
+function setScoreMode(m,el){scoreMode=m;el.parentElement.querySelectorAll('.fmt-btn').forEach(b=>b.classList.remove('active'));el.classList.add('active');}
+
+/* ── ACTIVITY CONTENT EDITOR — teacher edits the AI-suggested activity ── */
+function reActEd(i){var el=document.getElementById('acted-'+i);if(el)el.innerHTML=actEditorHTML(i);}
+function updA(i,f,v){editorSlides[i][f]=v;}
+function updAObj(i,o,f,v){editorSlides[i][o]=editorSlides[i][o]||{};editorSlides[i][o][f]=v;}
+function updSort(i,v){editorSlides[i].drag_items=v.split('\n').map(function(s){return s.trim();}).filter(Boolean);}
+function setSortKind(i,k){editorSlides[i].sort_kind=k;reActEd(i);}
+function updClassifyCats(i,v){editorSlides[i].classify_cats=v.split('\n').map(function(s){return s.trim();}).filter(Boolean);}
+function updClassifyItems(i,v){editorSlides[i].classify_items=v.split('\n').map(function(line){var idx=line.indexOf('=');if(idx<0)return null;return {text:line.slice(0,idx).trim(),cat:line.slice(idx+1).trim()};}).filter(function(x){return x&&x.text&&x.cat;});}
+function updateQuizOpt(i,j,v){var q=editorSlides[i].quiz;if(j===0)q.correct=v;else q.wrong[j-1]=v;}
+function updWhy(i,j,v){var q=editorSlides[i].quiz;q.wrong_why=q.wrong_why||[];if(j>0)q.wrong_why[j-1]=v;}
+function setQuizCorrect(i,j){var q=editorSlides[i].quiz;if(j>0){q.wrong_why=q.wrong_why||[];var nc=q.wrong[j-1];q.wrong[j-1]=q.correct;q.correct=nc;q.wrong_why[j-1]='';reActEd(i);}}
+function addQuizOpt(i){var q=editorSlides[i].quiz;q.wrong=q.wrong||[];q.wrong_why=q.wrong_why||[];q.wrong.push('');q.wrong_why.push('');reActEd(i);}
+function removeQuizOpt(i,j){var q=editorSlides[i].quiz;if(j>0){q.wrong.splice(j-1,1);q.wrong_why=q.wrong_why||[];q.wrong_why.splice(j-1,1);reActEd(i);}}
+function updFlipCard(i,ci,f,v){var s=editorSlides[i];s.flip_cards=s.flip_cards||[{term:'',def:''}];s.flip_cards[ci][f]=v;if(ci===0){if(f==='term')s.key_term=v;if(f==='def')s.key_definition=v;}}
+function addFlipCard(i){var s=editorSlides[i];s.flip_cards=s.flip_cards||[];s.flip_cards.push({term:'',def:''});reActEd(i);}
+function removeFlipCard(i,ci){var s=editorSlides[i];if(s.flip_cards&&s.flip_cards.length>1){s.flip_cards.splice(ci,1);s.key_term=s.flip_cards[0].term;s.key_definition=s.flip_cards[0].def;reActEd(i);}}
+function updMatchPair(i,pi,f,v){var s=editorSlides[i];s.match_pairs=s.match_pairs||[{term:'',def:''}];s.match_pairs[pi][f]=v;if(pi===0){if(f==='term')s.key_term=v;if(f==='def')s.key_definition=v;}}
+function addMatchPair(i){var s=editorSlides[i];s.match_pairs=s.match_pairs||[];if(s.match_pairs.length<5){s.match_pairs.push({term:'',def:''});reActEd(i);}}
+function removeMatchPair(i,pi){var s=editorSlides[i];if(s.match_pairs&&s.match_pairs.length>1){s.match_pairs.splice(pi,1);reActEd(i);}}
+function actEditorHTML(i){
+  var sl=editorSlides[i],a=sl.activity||'quiz';
+  var lang=(typeof S!=='undefined'&&S.lang)?S.lang:'en';
+  var box=function(inner){return '<div style="margin-top:10px;padding:12px 14px;background:#faf8f4;border:1px solid #eae4da;border-radius:12px;">'+inner+'</div>';};
+  var lbl=function(t){return '<div style="font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;color:#8a7f70;font-weight:700;margin:2px 0 6px;">'+t+'</div>';};
+  var istyle='width:100%;padding:7px 10px;border:1px solid #ddd3c4;border-radius:8px;font-size:.82rem;margin-bottom:8px;box-sizing:border-box;font-family:inherit;';
+  var inp=function(val,ph,h){return '<input type="text" value="'+esc(val||'')+'" placeholder="'+ph+'" oninput="'+h+'" style="'+istyle+'">';};
+  var tarea=function(val,ph,h,rows){return '<textarea rows="'+(rows||2)+'" placeholder="'+ph+'" oninput="'+h+'" style="'+istyle+'resize:vertical;">'+esc(val||'')+'</textarea>';};
+  if(a==='quiz'){
+    sl.quiz=sl.quiz||{question:'',correct:'',wrong:[]};sl.quiz.wrong=sl.quiz.wrong||[];sl.quiz.wrong_why=sl.quiz.wrong_why||[];
+    var opts=[sl.quiz.correct||''].concat(sl.quiz.wrong);
+    var wstyle='width:calc(100% - 32px);margin:0 0 8px 32px;padding:5px 9px;border:1px dashed #ddd3c4;border-radius:8px;font-size:.74rem;box-sizing:border-box;font-family:inherit;color:#6b6055;';
+    var rows=opts.map(function(o,j){
+      var row='<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">'
+        +'<input type="radio" name="qc-'+i+'" '+(j===0?'checked':'')+' onclick="setQuizCorrect('+i+','+j+')" title="Mark correct / Marcar correcta" style="cursor:pointer;flex:0 0 auto;">'
+        +'<input type="text" value="'+esc(o)+'" oninput="updateQuizOpt('+i+','+j+',this.value)" placeholder="'+(j===0?'Correct answer / Respuesta correcta':'Option / Opción')+'" style="flex:1;padding:6px 9px;border:1px solid '+(j===0?'#9cc19a':'#ddd3c4')+';border-radius:8px;font-size:.82rem;box-sizing:border-box;">'
+        +(j>0?'<button onclick="removeQuizOpt('+i+','+j+')" title="Remove" style="flex:0 0 auto;border:none;background:#f0e9df;color:#a15c4a;border-radius:6px;width:24px;height:24px;cursor:pointer;font-size:.8rem;">&#10005;</button>':'<span style="width:24px;flex:0 0 auto;"></span>')
+        +'</div>';
+      if(j>0){row+='<input type="text" value="'+esc((sl.quiz.wrong_why||[])[j-1]||'')+'" oninput="updWhy('+i+','+j+',this.value)" placeholder="Why this is a common error (optional) &middot; Por qué es un error común (opcional)" style="'+wstyle+'">';}
+      return row;
+    }).join('');
+    return box(lbl('Question &middot; Pregunta')+inp(sl.quiz.question,'Type the question&hellip;',"updAObj("+i+",'quiz','question',this.value)")
+      +lbl('Options &mdash; select the correct one &middot; Marca la correcta')+rows
+      +'<button onclick="addQuizOpt('+i+')" style="margin:2px 0 10px;border:1px dashed #cdbfa8;background:transparent;color:#8a7f70;border-radius:8px;padding:5px 12px;font-size:.75rem;cursor:pointer;">+ Add option</button>'
+      +lbl('Why the correct answer is right &middot; Por qué la respuesta correcta es correcta')
+      +tarea(sl.quiz.explain,'Shown as feedback so the student learns, not just scores&hellip;',"updAObj("+i+",'quiz','explain',this.value)",2));
+  }
+  if(a==='fill'){
+    sl.fill_blank=sl.fill_blank||{sentence:'',answer:''};
+    return box(lbl('Sentence &mdash; use ___ for the blank &middot; Usa ___ para el espacio')+inp(sl.fill_blank.sentence,'The powerhouse of the cell is the ___.',"updAObj("+i+",'fill_blank','sentence',this.value)")
+      +lbl('Answer &middot; Respuesta')+inp(sl.fill_blank.answer,'mitochondria',"updAObj("+i+",'fill_blank','answer',this.value)")
+      +lbl('Other accepted answers &middot; Otras respuestas válidas')+inp(sl.fill_blank.alt,'mitochondrion, mitocondria (comma/| separated)',"updAObj("+i+",'fill_blank','alt',this.value)")
+      +'<div style="font-size:.66rem;color:#8a7f70;line-height:1.5;">'+(lang==='es'?'Se aceptan sinónimos o la versión ES/EN. Ignora mayúsculas y tildes.':'Synonyms or the ES/EN version are accepted. Case & accents ignored.')+'</div>');
+  }
+  if(a==='flip'){
+    if(!sl.flip_cards||!sl.flip_cards.length)sl.flip_cards=[{term:sl.key_term||'',def:sl.key_definition||''}];
+    var frows=sl.flip_cards.map(function(c,ci){
+      return '<div style="border:1px solid #eae4da;border-radius:10px;padding:9px 10px;margin-bottom:8px;background:#fff;">'
+        +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;"><span style="font-size:.6rem;letter-spacing:.06em;text-transform:uppercase;color:#8a7f70;font-weight:700;">'+(lang==='es'?'Tarjeta ':'Card ')+(ci+1)+'</span>'
+        +(sl.flip_cards.length>1?'<button onclick="removeFlipCard('+i+','+ci+')" title="Remove" style="border:none;background:#f0e9df;color:#a15c4a;border-radius:6px;width:22px;height:22px;cursor:pointer;font-size:.75rem;">&#10005;</button>':'')+'</div>'
+        +'<input type="text" value="'+esc(c.term||'')+'" oninput="updFlipCard('+i+','+ci+',\'term\',this.value)" placeholder="'+(lang==='es'?'Término / pregunta':'Term / prompt')+'" style="'+istyle+'margin-bottom:6px;">'
+        +'<textarea rows="2" oninput="updFlipCard('+i+','+ci+',\'def\',this.value)" placeholder="'+(lang==='es'?'Respuesta a revelar':'Answer to reveal')+'" style="'+istyle+'resize:vertical;margin-bottom:0;">'+esc(c.def||'')+'</textarea>'
+        +'</div>';
+    }).join('');
+    return box('<div style="font-size:.68rem;color:#8a7f70;margin-bottom:8px;line-height:1.5;">Try &amp; reveal &middot; Intenta y revela: el alumno escribe, revela y se autoeval&uacute;a. Varias tarjetas = m&aacute;s pr&aacute;ctica (el punto se reparte entre ellas).</div>'
+      +frows
+      +'<button onclick="addFlipCard('+i+')" style="margin-top:2px;border:1px dashed #cdbfa8;background:transparent;color:#8a7f70;border-radius:8px;padding:5px 12px;font-size:.75rem;cursor:pointer;">+ '+(lang==='es'?'Añadir tarjeta':'Add card')+'</button>');
+  }
+  if(a==='match'){
+    if(!sl.match_pairs||!sl.match_pairs.length){
+      sl.match_pairs=(sl.key_term||sl.key_definition)?[{term:sl.key_term||'',def:sl.key_definition||''}]:[{term:'',def:''},{term:'',def:''}];
+    }
+    var mrows=sl.match_pairs.map(function(p,pi){
+      return '<div style="display:flex;gap:6px;align-items:center;margin-bottom:6px;">'
+        +'<span style="font-size:.7rem;color:#8a7f70;font-weight:700;flex:0 0 14px;">'+(pi+1)+'</span>'
+        +'<input type="text" value="'+esc(p.term||'')+'" oninput="updMatchPair('+i+','+pi+',\'term\',this.value)" placeholder="'+(lang==='es'?'Término':'Term')+'" style="flex:1;padding:6px 9px;border:1px solid #ddd3c4;border-radius:8px;font-size:.8rem;box-sizing:border-box;">'
+        +'<span style="color:#cdbfa8;">↔</span>'
+        +'<input type="text" value="'+esc(p.def||'')+'" oninput="updMatchPair('+i+','+pi+',\'def\',this.value)" placeholder="'+(lang==='es'?'Definición':'Definition')+'" style="flex:1;padding:6px 9px;border:1px solid #ddd3c4;border-radius:8px;font-size:.8rem;box-sizing:border-box;">'
+        +(sl.match_pairs.length>1?'<button onclick="removeMatchPair('+i+','+pi+')" title="Remove" style="flex:0 0 auto;border:none;background:#f0e9df;color:#a15c4a;border-radius:6px;width:22px;height:22px;cursor:pointer;font-size:.75rem;">&#10005;</button>':'<span style="width:22px;flex:0 0 auto;"></span>')
+        +'</div>';
+    }).join('');
+    return box('<div style="font-size:.68rem;color:#8a7f70;margin-bottom:8px;line-height:1.5;">'+(lang==='es'?'Relaciona: 2–5 pares (término↔definición, causa↔efecto). El puntaje se reparte por pares correctos.':'Match: 2–5 pairs (term↔definition, cause↔effect). Score splits by correct pairs.')+'</div>'
+      +mrows
+      +(sl.match_pairs.length<5?'<button onclick="addMatchPair('+i+')" style="margin-top:2px;border:1px dashed #cdbfa8;background:transparent;color:#8a7f70;border-radius:8px;padding:5px 12px;font-size:.75rem;cursor:pointer;">+ '+(lang==='es'?'Añadir par':'Add pair')+'</button>':''));
+  }
+  if(a==='sort'){
+    sl.drag_items=sl.drag_items||[];
+    var kind=sl.sort_kind==='classify'?'classify':'order';
+    var seg=function(on){return 'flex:1;padding:6px 8px;border-radius:8px;font-size:.74rem;cursor:pointer;font-weight:600;border:1px solid '+(on?themeAccent:'#ddd3c4')+';background:'+(on?themeAccent:'#fff')+';color:'+(on?'#fff':'#8a7f70')+';';};
+    var toggle='<div style="display:flex;gap:6px;margin-bottom:10px;">'
+      +'<button onclick="setSortKind('+i+',\'order\')" style="'+seg(kind==='order')+'">'+(lang==='es'?'Ordenar pasos':'Order steps')+'</button>'
+      +'<button onclick="setSortKind('+i+',\'classify\')" style="'+seg(kind==='classify')+'">'+(lang==='es'?'Clasificar':'Classify')+'</button>'
+      +'</div>';
+    if(kind==='classify'){
+      sl.classify_cats=sl.classify_cats||[];sl.classify_items=sl.classify_items||[];
+      var itemsText=sl.classify_items.map(function(it){return (it.text||'')+' = '+(it.cat||'');}).join('\n');
+      return box(toggle
+        +lbl('Categories &mdash; one per line &middot; Categor&iacute;as, una por l&iacute;nea')
+        +tarea(sl.classify_cats.join('\n'),'Mezcla\nCompuesto',"updClassifyCats("+i+",this.value)",3)
+        +lbl('Items &mdash; one per line as: item = category &middot; &Iacute;tem = categor&iacute;a')
+        +tarea(itemsText,'Agua = Compuesto\nAire = Mezcla\nSal = Compuesto',"updClassifyItems("+i+",this.value)",5));
+    }
+    return box(toggle
+      +lbl('Steps in correct order &mdash; one per line &middot; Pasos en orden, uno por l&iacute;nea')
+      +tarea((sl.drag_items||[]).join('\n'),'Step 1\nStep 2\nStep 3',"updSort("+i+",this.value)",4));
+  }
+  return box('<div style="font-size:.68rem;color:#8a7f70;margin-bottom:8px;line-height:1.5;">'+(lang==='es'?'Argumento científico (CER): el alumno escribe Afirmación, Evidencia y Razonamiento, luego revela tu respuesta modelo y se autoevalúa.':'Science argument (CER): the student writes Claim, Evidence and Reasoning, then reveals your model answer and self-assesses.')+'</div>'
+    +lbl('Argument prompt &middot; Pregunta / consigna')
+    +tarea(sl.reflect_prompt,'e.g. ¿Por qué las plantas necesitan luz? Argumenta con CER.',"updA("+i+",'reflect_prompt',this.value)",2)
+    +lbl('Model answer (optional) &middot; Respuesta modelo (opcional)')
+    +tarea(sl.cer_model,'A strong claim + evidence + reasoning the student compares against&hellip;',"updA("+i+",'cer_model',this.value)",3));
+}
 function triggerImg(i){document.getElementById(`img-input-${i}`)?.click();}
 function handleImg(i,input){const f=input.files[0];if(!f)return;const r=new FileReader();r.onload=e=>{editorSlides[i].image=e.target.result;const a=document.getElementById(`img-${i}`);if(a){a.innerHTML=`<img src="${e.target.result}" alt="" style="max-width:100%;max-height:150px;border-radius:8px;">`;a.classList.add('has-img');}};r.readAsDataURL(f);}
 function setImgUrl(i){const inp=document.getElementById(`img-url-${i}`);if(!inp||!inp.value.trim())return;const url=inp.value.trim();editorSlides[i].image=url;const a=document.getElementById(`img-${i}`);if(a){a.innerHTML=`<img src="${url}" alt="" style="max-width:100%;max-height:150px;border-radius:8px;" onerror="this.parentElement.innerHTML='<div class=\\'img-placeholder\\'>Invalid URL</div>'">`;a.classList.add('has-img');}inp.value='';}
@@ -832,13 +1054,39 @@ function setBg(el,c){
 }
 function setGlobalFont(f){bodyFont=f;}
 function setFontSize(sz){const m={small:'.82rem',medium:'.95rem',large:'1.08rem'};document.querySelectorAll('.edit-body-vis').forEach(el=>el.style.fontSize=m[sz]);}
-function setFmt(f,el){currentFmt=f;document.querySelectorAll('.fmt-btn').forEach(b=>b.classList.remove('active'));el.classList.add('active');}
+function fmtAllowed(f){return S.admin||(FORMAT_CAPS[S.plan]||['html']).indexOf(f)>=0;}
+function setFmt(f,el){
+  if(!fmtAllowed(f)){
+    var need=f==='pptx'?'Pack':'Single';
+    alert((S.lang==='es'?'El formato '+f.toUpperCase()+' está disponible desde el plan '+need+'. Mejora tu plan para usarlo.':f.toUpperCase()+' downloads are available on the '+need+' plan and up. Upgrade to use it.'));
+    return;
+  }
+  currentFmt=f;document.querySelectorAll('#format-toggle .fmt-btn').forEach(b=>b.classList.remove('active'));el.classList.add('active');
+}
+function applyFormatGating(){
+  var allowed=FORMAT_CAPS[S.plan]||['html'];
+  document.querySelectorAll('#format-toggle .fmt-btn[data-fmt]').forEach(function(b){
+    var ok=allowed.indexOf(b.dataset.fmt)>=0;
+    b.style.opacity=ok?'':'0.45';
+    b.title=ok?'':(S.lang==='es'?'Disponible en un plan superior':'Available on a higher plan');
+    b.querySelector('.fmt-lock')&&b.querySelector('.fmt-lock').remove();
+    if(!ok)b.insertAdjacentHTML('beforeend',' <span class="fmt-lock">🔒</span>');
+  });
+  // si el formato actual ya no está permitido, volver a HTML
+  if(allowed.indexOf(currentFmt)<0){currentFmt='html';var h=document.querySelector('#format-toggle .fmt-btn[data-fmt="html"]');if(h){document.querySelectorAll('#format-toggle .fmt-btn').forEach(function(b){b.classList.remove('active');});h.classList.add('active');}}
+}
 function closeEditor(){document.getElementById('editor-overlay').classList.remove('show');document.body.style.overflow='';}
 
 /* ── DOWNLOAD ── */
+function safeName(ext){
+  var t=(lessonTitle||'').trim().replace(/[\\\/:*?"<>|\n\r\t]+/g,' ').replace(/\s+/g,' ').trim().slice(0,90);
+  if(!t)t='slideseed-lesson';
+  return t+'.'+ext;
+}
 function downloadLesson(){
+  if(!fmtAllowed(currentFmt)){currentFmt='html';}
   if(currentFmt==='html'){
-    dlFile(buildStudentHTML(),'slideseed-lesson.html','text/html');
+    dlFile(buildStudentHTML(),safeName('html'),'text/html');
   } else if(currentFmt==='pptx'){
     exportPPTX();
   } else if(currentFmt==='pdf'){
@@ -847,6 +1095,7 @@ function downloadLesson(){
     w.document.open();
     w.document.write(buildStudentHTML());
     w.document.close();
+    try{w.document.title=(lessonTitle||'slideseed-lesson');}catch(e){}
     setTimeout(function(){w.print();},900);
   }
 }
@@ -860,12 +1109,12 @@ async function exportPPTX(){
   try{
     const r=await fetch(`${BACKEND_URL}/export/pptx`,{
       method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({title:lessonTitle,language:S.lang||'en',grade:S.grade||'3-5',accent:themeAccent,slides:editorSlides})
+      body:JSON.stringify({title:lessonTitle,language:S.lang||'en',grade:S.grade||'3-5',accent:themeAccent,reference:lessonReference,slides:editorSlides})
     });
     if(!r.ok)throw new Error('PPTX endpoint not available: '+r.status);
     const blob=await r.blob();
     const u=URL.createObjectURL(blob);
-    const a=document.createElement('a');a.href=u;a.download='slideseed-lesson.pptx';
+    const a=document.createElement('a');a.href=u;a.download=safeName('pptx');
     document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(u);
   }catch(e){
     console.error(e);
@@ -923,25 +1172,31 @@ function buildStudentHTML(){
     let actBlock='';
 
     if(act==='quiz'&&sl.quiz&&sl.quiz.correct){
-      const opts=[sl.quiz.correct,...(sl.quiz.wrong||[])].sort(()=>Math.random()-.5);
-      const correctIdx=opts.indexOf(sl.quiz.correct);
+      const qwhy=sl.quiz.wrong_why||[];
+      const optObjs=[{t:sl.quiz.correct,c:true,w:''}].concat((sl.quiz.wrong||[]).map((o,wi)=>({t:o,c:false,w:qwhy[wi]||''}))).sort(()=>Math.random()-.5);
+      const correctIdx=optObjs.findIndex(o=>o.c);
       actBlock=`<div class="act-block">
         <div class="act-lbl">${E?'🧠 ':''}${lang==='es'?'Pregunta rápida':'Quick Check'}</div>
         <div class="quiz-q">${esc(sl.quiz.question)}</div>
-        <div class="quiz-opts" data-correct-idx="${correctIdx}" data-sid="${i}" id="qo-${i}">
-          ${opts.map((o,qi)=>`<button class="qopt" data-idx="${qi}" onclick="checkQ(this)"><span class="qopt-letter">${letters[qi]||qi+1}</span><span>${esc(o)}</span></button>`).join('')}
+        <div class="quiz-opts" data-correct-idx="${correctIdx}" data-sid="${i}" data-explain="${esc(sl.quiz.explain||'')}" id="qo-${i}">
+          ${optObjs.map((o,qi)=>`<button class="qopt" data-idx="${qi}" data-why="${esc(o.w)}" onclick="checkQ(this)"><span class="qopt-letter">${letters[qi]||qi+1}</span><span class="qopt-text">${esc(o.t)}</span></button>`).join('')}
         </div>
         <div class="feedback" id="fb-${i}"></div>
       </div>`;
 
     } else if(act==='match'){
-      const pairs=[];
-      if(sl.key_term&&sl.key_definition) pairs.push({term:sl.key_term,def:sl.key_definition});
-      if(sl.quiz&&sl.quiz.question&&sl.quiz.correct) pairs.push({term:sl.quiz.question,def:sl.quiz.correct});
-      // fallback: pair consecutive drag_items if still need more pairs
-      if(pairs.length<2&&sl.drag_items&&sl.drag_items.length>=2){
-        for(let k=0;k+1<sl.drag_items.length&&pairs.length<4;k+=2){
-          pairs.push({term:sl.drag_items[k],def:sl.drag_items[k+1]});
+      let pairs=[];
+      if(sl.match_pairs&&sl.match_pairs.length){
+        pairs=sl.match_pairs.filter(p=>p&&p.term&&p.def).slice(0,5).map(p=>({term:p.term,def:p.def}));
+      }
+      if(!pairs.length){
+        if(sl.key_term&&sl.key_definition) pairs.push({term:sl.key_term,def:sl.key_definition});
+        if(sl.quiz&&sl.quiz.question&&sl.quiz.correct) pairs.push({term:sl.quiz.question,def:sl.quiz.correct});
+        // fallback: pair consecutive drag_items if still need more pairs
+        if(pairs.length<2&&sl.drag_items&&sl.drag_items.length>=2){
+          for(let k=0;k+1<sl.drag_items.length&&pairs.length<4;k+=2){
+            pairs.push({term:sl.drag_items[k],def:sl.drag_items[k+1]});
+          }
         }
       }
       if(pairs.length>0){
@@ -961,6 +1216,22 @@ function buildStudentHTML(){
         </div>`;
       }
 
+    } else if(act==='sort'&&sl.sort_kind==='classify'&&sl.classify_cats&&sl.classify_cats.length&&sl.classify_items&&sl.classify_items.length){
+      const cats=sl.classify_cats.filter(Boolean);
+      const citems=sl.classify_items.filter(it=>it&&it.text&&it.cat).sort(()=>Math.random()-.5);
+      const optsHTML=cats.map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join('');
+      actBlock=`<div class="act-block">
+        <div class="act-lbl">${E?'🗂️ ':''}${lang==='es'?'Clasifica':'Classify'}</div>
+        <p style="font-size:.8rem;color:#888;margin-bottom:12px;">${lang==='es'?'Elige la categoría de cada uno':'Choose each one’s category'}</p>
+        <div class="classify-list" id="cls-${i}">
+          ${citems.map(it=>`<div class="cls-row" data-cat="${esc(it.cat)}"><span class="cls-text">${esc(it.text)}</span><select class="cls-sel"><option value="">${lang==='es'?'— elige —':'— pick —'}</option>${optsHTML}</select></div>`).join('')}
+        </div>
+        <div style="margin-top:12px;display:flex;gap:8px;">
+          <button class="snb primary" onclick="checkClassify('${i}')">${lang==='es'?'Verificar':'Check'}</button>
+        </div>
+        <div class="feedback" id="fb-${i}"></div>
+      </div>`;
+
     } else if(act==='sort'&&sl.drag_items&&sl.drag_items.length){
       const shuffled=[...sl.drag_items].sort(()=>Math.random()-.5);
       actBlock=`<div class="act-block">
@@ -977,43 +1248,80 @@ function buildStudentHTML(){
       </div>`;
 
     } else if(act==='flip'){
+      const fcards=(sl.flip_cards&&sl.flip_cards.length)?sl.flip_cards.filter(c=>c&&(c.term||c.def)):[];
+      if(!fcards.length)fcards.push({term:sl.key_term||sl.title,def:sl.key_definition||sl.body.substring(0,200)});
+      const fn=fcards.length;
+      const cardsHTML=fcards.map((c,ci)=>`
+        <div class="tr-card-wrap">
+          ${fn>1?`<div class="tr-count">${lang==='es'?'Tarjeta':'Card'} ${ci+1} / ${fn}</div>`:''}
+          <div class="tr-prompt-card">
+            <div class="tr-prompt">${E?'💡 ':''}${esc(c.term||'')}</div>
+            <div class="tr-ask">${lang==='es'?'Escribe lo que recuerdes ANTES de revelar.':'Write what you remember BEFORE revealing.'}</div>
+            <textarea class="tr-input" id="tr-in-${i}-${ci}" rows="2" placeholder="${lang==='es'?'Tu respuesta…':'Your answer…'}"></textarea>
+            <button class="snb primary" id="tr-reveal-${i}-${ci}" style="margin-top:10px;" onclick="revealTry('${i}','${ci}')">${E?'👁️ ':''}${lang==='es'?'Revelar':'Reveal'}</button>
+          </div>
+          <div class="tr-reveal-box" id="tr-box-${i}-${ci}" style="display:none;">
+            <div class="tr-your"><span class="tr-mini-lbl">${lang==='es'?'Lo que escribiste':'What you wrote'}</span><div class="tr-your-txt" id="tr-your-${i}-${ci}"></div></div>
+            <div class="tr-answer"><span class="tr-mini-lbl">${lang==='es'?'Respuesta':'Answer'}</span><div class="tr-answer-txt">${esc(c.def||'')}</div></div>
+            <div class="tr-assess">
+              <p class="tr-assess-q">${lang==='es'?'Compara y sé honesto: ¿cómo te fue?':'Compare honestly — how did you do?'}</p>
+              <div class="tr-btns">
+                <button class="snb primary" onclick="scoreTry('${i}','${ci}','full',${fn})">${E?'✅ ':''}${lang==='es'?'La tuve':'I had it'}</button>
+                <button class="snb" onclick="scoreTry('${i}','${ci}','partial',${fn})">${E?'🤏 ':''}${lang==='es'?'A medias':'Partway'}</button>
+                <button class="snb" onclick="scoreTry('${i}','${ci}','none',${fn})">${E?'🔁 ':''}${lang==='es'?'No':'Not yet'}</button>
+              </div>
+            </div>
+          </div>
+        </div>`).join('');
       actBlock=`<div class="act-block">
-        <div class="act-lbl">${E?'🔄 ':''}${lang==='es'?'Tarjeta — toca para revelar':'Flip card — tap to reveal'}</div>
-        <div class="flip-wrap">
-          <div class="flip-card" id="fc-${i}" onclick="flipCard(${i})">
-            <div class="flip-front"><div class="flip-front-term">${E?'💡 ':''}${esc(sl.key_term||sl.title)}</div><span class="flip-hint">${lang==='es'?'Toca para revelar':'Tap to reveal'}</span></div>
-            <div class="flip-back">${esc(sl.key_definition||sl.body.substring(0,200))}</div>
-          </div>
-        </div>
-        <div class="flip-assess" id="flip-assess-${i}" style="display:none;margin-top:14px;">
-          <p style="font-size:.85rem;color:#555;margin-bottom:10px;font-weight:500;">${lang==='es'?'¿Lo sabías?':'Did you know it?'}</p>
-          <div style="display:flex;gap:9px;">
-            <button class="snb primary" onclick="scoreFlip(${i},true)">${E?'✅ ':''}${lang==='es'?'Sí, lo sabía':'Yes, I knew it'}</button>
-            <button class="snb" onclick="scoreFlip(${i},false)">${E?'❌ ':''}${lang==='es'?'Aún no':'Not yet'}</button>
-          </div>
-        </div>
+        <div class="act-lbl">${E?'🔄 ':''}${lang==='es'?'Intenta y revela':'Try, then reveal'}</div>
+        ${cardsHTML}
         <div class="feedback" id="fb-${i}"></div>
       </div>`;
 
     } else if(act==='fill'&&sl.fill_blank&&sl.fill_blank.sentence){
       const parts=sl.fill_blank.sentence.split('___');
       const ans=sl.fill_blank.answer||'';
+      const accepted=[ans].concat(String(sl.fill_blank.alt||'').split(/[|,]/).map(s=>s.trim()).filter(Boolean)).filter(Boolean);
       const wordBank=cfg.useWordBank&&sl.drag_items&&sl.drag_items.length?
         `<div class="word-bank"><div class="wb-label">${lang==='es'?'Banco de palabras':'Word bank'}</div>${[...new Set(sl.drag_items.concat(ans))].sort(()=>Math.random()-.5).map(w=>`<span class="word-chip" onclick="useWord(this,'fill-${i}')">${esc(w)}</span>`).join('')}</div>`:'';
       actBlock=`<div class="act-block">
         <div class="act-lbl">${E?'✍️ ':''}${lang==='es'?'Completa el espacio':'Fill in the blank'}</div>
         ${wordBank}
-        <p class="fill-sent">${esc(parts[0]||'')}<input type="text" class="fill-inp" id="fill-${i}" data-ans="${esc(ans)}" placeholder="${lang==='es'?'escribe aquí…':'type here…'}" onkeydown="if(event.key==='Enter')checkFill('${i}')">${esc(parts[1]||'')}</p>
+        <p class="fill-sent">${esc(parts[0]||'')}<input type="text" class="fill-inp" id="fill-${i}" data-ans="${esc(ans)}" data-answers="${esc(accepted.join('|'))}" placeholder="${lang==='es'?'escribe aquí…':'type here…'}" onkeydown="if(event.key==='Enter')checkFill('${i}')">${esc(parts[1]||'')}</p>
         <button class="snb primary" style="margin-top:12px;" onclick="checkFill('${i}')">${lang==='es'?'Verificar':'Check'}</button>
         <div class="feedback" id="fb-${i}"></div>
       </div>`;
 
     } else {
+      const cerPrompt=sl.reflect_prompt?esc(sl.reflect_prompt):(lang==='es'?'A partir de esta diapositiva, construye un argumento científico.':'Using this slide, build a science argument.');
+      const cerModel=sl.cer_model?esc(sl.cer_model):(lang==='es'?'Una buena respuesta une las tres partes: una afirmación clara que responde la pregunta, evidencia concreta (datos, hechos u observaciones) y un razonamiento que explica por qué esa evidencia apoya la afirmación.':'A strong answer links all three: a clear claim that answers the question, concrete evidence (data, facts, or observations), and reasoning that explains why the evidence supports the claim.');
+      const cb=(n,txt)=>`<label class="cer-cb-row"><input type="checkbox" class="cer-cb" data-sid="${i}" onchange="scoreCER(${i})"> <span>${txt}</span></label>`;
       actBlock=`<div class="act-block">
-        <div class="act-lbl">${E?'💭 ':''}${lang==='es'?'Reflexión':'Reflection'}</div>
-        <p style="font-size:.86rem;color:#666;font-style:italic;margin-bottom:12px;line-height:1.65;">${lang==='es'?'Con tus propias palabras, ¿cuál es la idea más importante?':'In your own words, what is the most important idea from this slide?'}</p>
-        <textarea class="refl-inp" placeholder="${lang==='es'?'Escribe tu reflexión aquí…':'Write your reflection here…'}" rows="3" id="refl-${i}"></textarea>
-        <button class="snb primary" style="margin-top:10px;" onclick="checkReflect(${i})">${E?'💾 ':''}${lang==='es'?'Guardar reflexión':'Save reflection'}</button>
+        <div class="act-lbl">${E?'🔬 ':''}${lang==='es'?'Argumenta (Afirmación · Evidencia · Razonamiento)':'Argue (Claim · Evidence · Reasoning)'}</div>
+        <p style="font-size:.86rem;color:#555;font-style:italic;margin-bottom:14px;line-height:1.65;">${cerPrompt}</p>
+        <div class="cer-field">
+          <div class="cer-lbl">${E?'1️⃣ ':''}${lang==='es'?'Afirmación':'Claim'}</div>
+          <textarea class="cer-inp" id="cer-claim-${i}" rows="2" placeholder="${lang==='es'?'Tu respuesta directa a la pregunta…':'Your direct answer to the question…'}"></textarea>
+        </div>
+        <div class="cer-field">
+          <div class="cer-lbl">${E?'2️⃣ ':''}${lang==='es'?'Evidencia':'Evidence'}</div>
+          <textarea class="cer-inp" id="cer-ev-${i}" rows="2" placeholder="${lang==='es'?'Datos, hechos u observaciones que la apoyan…':'Data, facts, or observations that support it…'}"></textarea>
+        </div>
+        <div class="cer-field">
+          <div class="cer-lbl">${E?'3️⃣ ':''}${lang==='es'?'Razonamiento':'Reasoning'}</div>
+          <textarea class="cer-inp" id="cer-rz-${i}" rows="2" placeholder="${lang==='es'?'Por qué esa evidencia apoya tu afirmación…':'Why that evidence supports your claim…'}"></textarea>
+        </div>
+        <button class="snb primary" id="cer-reveal-${i}" style="margin-top:6px;" onclick="revealCER(${i})">${E?'👁️ ':''}${lang==='es'?'Revelar respuesta modelo y autoevaluar':'Reveal model answer & self-check'}</button>
+        <div class="cer-reveal" id="cer-rev-${i}" style="display:none;">
+          <div class="tr-answer" style="margin-top:12px;"><span class="tr-mini-lbl">${lang==='es'?'Respuesta modelo':'Model answer'}</span><div class="tr-answer-txt">${cerModel}</div></div>
+          <div class="cer-check">
+            <p class="tr-assess-q">${lang==='es'?'Compara con tu respuesta y marca lo que lograste:':'Compare with your answer and check what you achieved:'}</p>
+            ${cb(1,lang==='es'?'Mi afirmación responde la pregunta':'My claim answers the question')}
+            ${cb(2,lang==='es'?'Incluí evidencia concreta (datos/hechos)':'I included concrete evidence (data/facts)')}
+            ${cb(3,lang==='es'?'Expliqué por qué la evidencia apoya la afirmación':'I explained why the evidence supports the claim')}
+          </div>
+        </div>
         <div class="feedback" id="fb-${i}"></div>
       </div>`;
     }
@@ -1027,7 +1335,7 @@ function buildStudentHTML(){
         </div>
         <div class="sc-body">
           ${sl.image?`<img src="${sl.image}" class="sl-img" alt="">`:''}
-          <p class="sl-body">${hlBody(sl.body,sl.key_term)}</p>
+          <p class="sl-body">${lang==='bi'?esc(sl.body):hlBody(sl.body,sl.key_term)}</p>
           ${actBlock}
         </div>
         <div class="sn">
@@ -1093,6 +1401,10 @@ body{font-family:'Inter',${cfg.fontFamily};background:${bgColor};color:#1F2B27;m
 .feedback.ok{background:#f0faf1;color:#1b5e20;border-color:#4caf50;}
 .feedback.no{background:#fff4f4;color:#b71c1c;border-color:#e57373;}
 .feedback.partial{background:#fffde7;color:#e65100;border-color:#ff9800;}
+.feedback .fb-multi{flex:1;line-height:1.65;}
+.fb-lead{font-weight:700;opacity:.9;}
+.feedback.no .fb-multi strong{color:#7f1d1d;}
+.feedback.ok .fb-multi strong{color:#14532d;}
 /* ── Match ── */
 .match-wrap{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 .match-terms,.match-defs{display:flex;flex-direction:column;gap:8px;}
@@ -1111,6 +1423,14 @@ body{font-family:'Inter',${cfg.fontFamily};background:${bgColor};color:#1F2B27;m
 .sort-item.drag-over{border-color:${color};background:rgba(${rgb},.04);}
 .sort-item.correct-pos{border-color:#57b65f;border-left:4px solid #57b65f;background:#f0faf1;}
 .sort-item.wrong-pos{border-color:#e57373;border-left:4px solid #e57373;background:#fff4f4;}
+/* ── Classify ── */
+.classify-list{display:flex;flex-direction:column;gap:8px;}
+.cls-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px;background:#fff;border:2px solid #DDD9D2;border-radius:13px;transition:all .16s;}
+.cls-text{font-size:.87rem;color:#3C4D45;flex:1;}
+.cls-sel{flex:0 0 auto;padding:7px 10px;border:1.5px solid rgba(${rgb},.28);border-radius:9px;font-family:inherit;font-size:.82rem;background:#fbfaf7;color:#1A2822;cursor:pointer;max-width:48%;}
+.cls-sel:focus{outline:none;border-color:${color};}
+.cls-row.correct-pos{border-color:#57b65f;border-left:4px solid #57b65f;background:#f0faf1;}
+.cls-row.wrong-pos{border-color:#e57373;border-left:4px solid #e57373;background:#fff4f4;}
 /* ── Flip card ── */
 .flip-wrap{perspective:1200px;}
 .flip-card{width:100%;height:190px;position:relative;cursor:pointer;transform-style:preserve-3d;transition:transform .6s cubic-bezier(.4,.2,.2,1);}
@@ -1120,6 +1440,36 @@ body{font-family:'Inter',${cfg.fontFamily};background:${bgColor};color:#1F2B27;m
 .flip-front-term{font-family:'Fraunces',Georgia,serif;font-size:1.2rem;font-style:italic;font-weight:600;line-height:1.25;}
 .flip-hint{font-size:.61rem;opacity:.62;letter-spacing:.07em;font-family:'Inter',sans-serif;}
 .flip-back{background:#fff;border:2.5px solid rgba(${rgb},.2);color:#1A2822;font-size:.91rem;transform:rotateY(180deg);line-height:1.65;box-shadow:0 4px 20px rgba(0,0,0,.06);}
+/* ── Try & reveal (retrieval practice) ── */
+.tr-prompt-card{background:#fff;border:2px solid rgba(${rgb},.18);border-radius:16px;padding:20px;box-shadow:0 4px 20px rgba(0,0,0,.05);}
+.tr-prompt{font-family:'Fraunces',Georgia,serif;font-size:1.15rem;font-style:italic;font-weight:600;line-height:1.3;color:#1A2822;}
+.tr-ask{font-size:.78rem;color:#6b6055;margin:8px 0 12px;line-height:1.5;}
+.tr-input{width:100%;box-sizing:border-box;border:1.5px solid rgba(${rgb},.25);border-radius:12px;padding:11px 14px;font-family:inherit;font-size:.92rem;line-height:1.55;color:#1A2822;background:#fbfaf7;resize:vertical;transition:border-color .16s;}
+.tr-input:focus{outline:none;border-color:${color};background:#fff;}
+.tr-input[readonly]{background:#f3f1ec;color:#555;}
+.tr-reveal-box{margin-top:14px;display:flex;flex-direction:column;gap:12px;}
+.tr-mini-lbl{display:inline-block;font-size:.6rem;letter-spacing:.11em;text-transform:uppercase;font-weight:700;color:#8a7f70;margin-bottom:5px;}
+.tr-your{background:#f3f1ec;border-radius:12px;padding:13px 16px;border-left:4px solid #cdbfa8;}
+.tr-your-txt{font-size:.9rem;color:#3a3630;line-height:1.55;white-space:pre-wrap;}
+.tr-your-txt.blank{color:#a99f90;font-style:italic;}
+.tr-answer{background:linear-gradient(140deg,rgba(${rgb},.06) 0%,rgba(${rgb},.11) 100%);border-radius:12px;padding:13px 16px;border-left:4px solid ${color};}
+.tr-answer-txt{font-size:.92rem;color:#1A2822;line-height:1.65;}
+.tr-assess-q{font-size:.85rem;color:#555;margin:2px 0 10px;font-weight:600;}
+.tr-btns{display:flex;gap:9px;flex-wrap:wrap;}
+.tr-btns .snb:disabled{opacity:.5;cursor:default;transform:none;box-shadow:none;}
+.tr-card-wrap{margin-bottom:16px;padding-bottom:16px;border-bottom:1px dashed rgba(${rgb},.18);}
+.tr-card-wrap:last-of-type{margin-bottom:0;padding-bottom:0;border-bottom:none;}
+.tr-count{font-size:.62rem;letter-spacing:.09em;text-transform:uppercase;font-weight:700;color:${color};margin-bottom:7px;}
+/* ── CER (claim-evidence-reasoning) ── */
+.cer-field{margin-bottom:12px;}
+.cer-lbl{font-size:.7rem;letter-spacing:.05em;text-transform:uppercase;font-weight:700;color:${color};margin-bottom:5px;}
+.cer-inp{width:100%;box-sizing:border-box;border:1.5px solid rgba(${rgb},.22);border-radius:11px;padding:10px 13px;font-family:inherit;font-size:.9rem;line-height:1.55;color:#1A2822;background:#fbfaf7;resize:vertical;}
+.cer-inp:focus{outline:none;border-color:${color};background:#fff;}
+.cer-inp[readonly]{background:#f3f1ec;color:#555;}
+.cer-check{margin-top:12px;padding:13px 15px;background:#faf8f4;border:1px solid rgba(${rgb},.16);border-radius:12px;}
+.cer-cb-row{display:flex;align-items:flex-start;gap:9px;font-size:.86rem;color:#3a3630;line-height:1.5;margin-bottom:8px;cursor:pointer;}
+.cer-cb-row:last-child{margin-bottom:0;}
+.cer-cb{margin-top:3px;flex:0 0 auto;cursor:pointer;width:16px;height:16px;accent-color:${color};}
 /* ── Word bank / Fill ── */
 .word-bank{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;padding:13px 15px;background:rgba(255,255,255,.88);border-radius:13px;border:1.5px solid rgba(${rgb},.1);}
 .wb-label{font-size:.57rem;letter-spacing:.12em;text-transform:uppercase;color:#8A9490;font-weight:700;width:100%;margin-bottom:5px;}
@@ -1157,6 +1507,8 @@ body{font-family:'Inter',${cfg.fontFamily};background:${bgColor};color:#1F2B27;m
 .score-row:last-child{border-bottom:none;}
 .score-row .ok{color:#2e7d32;font-weight:700;}
 .score-row .no{color:#c62828;font-weight:700;}
+.score-row .partial{color:#e65100;font-weight:700;}
+.score-frac{font-size:.72rem;color:#e65100;font-weight:600;margin-right:2px;}
 .share-row{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;}
 .share-btn{padding:11px 20px;border-radius:12px;border:2px solid #DDD9D2;background:#F5F1EC;font-family:inherit;font-size:.84rem;font-weight:500;cursor:pointer;transition:all .16s;color:#46544E;}
 .share-btn:hover{border-color:${color};color:${color};transform:translateY(-1px);}
@@ -1177,15 +1529,19 @@ ${gradeCSS}
   .ls:last-of-type{break-after:auto;page-break-after:auto;}
   .ls-inner{animation:none!important;box-shadow:none!important;border-radius:0!important;}
   .act-block .feedback,.act-block button:not(.qopt){display:none!important;}
+  .act-block .feedback.print-ans{display:flex!important;background:#f0faf1!important;border-color:#4caf50!important;color:#1b5e20!important;}
   .qopt{pointer-events:none;cursor:default;}
+  .ls-inner{padding:26px 30px!important;}
   .flip-front,.flip-back{position:static!important;transform:none!important;-webkit-backface-visibility:visible!important;backface-visibility:visible!important;}
   .flip-card-inner{transform:none!important;position:static!important;}
   .flip-back{border-top:1px dashed #DDD3C4;margin-top:8px;}
+  .tr-reveal-box{display:flex!important;}
+  .tr-input,.tr-assess{display:none!important;}
 }
 </style>
 </head>
 <body>
-<div class="lh"><h1>${esc(lessonTitle)}</h1><span class="lh-badge">${S.gradeName||grade} · ${lang==='es'?'Español':lang==='bi'?'EN/ES':'English'}</span></div>
+<div class="lh"><h1>${esc(lessonTitle)}</h1><span class="lh-badge">${S.gradeName||grade} · ${lang==='es'?'Español':lang==='bi'?'EN/ES':'English'}</span>${lang==='bi'?'<button id="ll-btn" onclick="toggleLessonLang()" style="cursor:pointer;margin-left:8px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:4px 12px;color:#fff;font-size:.7rem;font-family:inherit;">🇬🇧 EN</button>':''}</div>
 <div class="prog" id="prog-row">${dots}</div>
 ${slidesHTML}
 <div id="score-screen">
@@ -1205,12 +1561,15 @@ ${slidesHTML}
     </div>
   </div>
 </div>
-<div class="powered">${E?'🌿 ':''}${lang==='es'?'Lección interactiva por':'Interactive lesson by'} <a href="${SITE_URL}" target="_blank">Slideseed</a> · <a href="https://dandelionbioblog.com" target="_blank">Dandelion Bio Blog</a></div>
+${lessonReference&&lessonReference.trim()?`<div class="lesson-ref" style="max-width:760px;margin:0 auto 14px;padding:12px 16px;border-top:1px solid rgba(0,0,0,.08);font-size:.78rem;color:#6b6055;line-height:1.6;"><strong style="color:#46544e;">${lang==='es'?'Fuente':'Source'}:</strong> ${esc(lessonReference.trim())}</div>`:''}
+<div class="powered">${E?'🌿 ':''}${lang==='es'?'Lección interactiva por':'Interactive lesson by'} <a href="${SITE_URL}" target="_blank">Slideseed</a></div>
 <script>
-var cur=0,pts=0,maxPts=0,breakdown=[],bdKeys={},answered={},flipAnswered={};
+var cur=0,pts=0,maxPts=0,breakdown=[],bdKeys={},answered={},flipAnswered={},awarded={};
+function esc(s){s=String(s==null?'':s);return s.split('&').join('&amp;').split('<').join('&lt;').split('>').join('&gt;').split('"').join('&quot;');}
 var lang=${JSON.stringify(lang)};
 var TOTAL=${total};
-function bdSet(k,label,p){if(bdKeys[k])return;bdKeys[k]=1;breakdown.push({label:label,pts:p,max:1});}
+var scoreMode=${JSON.stringify(scoreMode)};
+function bdSet(k,label,p){if(k in bdKeys){breakdown[bdKeys[k]].pts=p;return;}bdKeys[k]=breakdown.length;breakdown.push({label:label,pts:p,max:1});}
 function updateDots(n){
   document.querySelectorAll('.pd').forEach(function(d,i){d.className='pd'+(i<n?' done':i===n?' active':'');});
 }
@@ -1235,10 +1594,26 @@ function checkQ(btn){
   answered[sid]=true;maxPts++;
   var isOk=btnIdx===correctIdx;
   container.querySelectorAll('.qopt').forEach(function(b){b.disabled=true;});
+  var cb=container.querySelector('[data-idx="'+correctIdx+'"]');
   if(isOk){pts++;btn.classList.add('correct');}
-  else{btn.classList.add('wrong');var cb=container.querySelector('[data-idx="'+correctIdx+'"]');if(cb)cb.classList.add('correct');}
+  else{btn.classList.add('wrong');if(cb)cb.classList.add('correct');}
+  var explain=container.dataset.explain||'';
   var fb=document.getElementById('fb-'+sid);
-  if(fb){fb.textContent=isOk?'${E?'✅ ':''}${lang==='es'?'¡Correcto! Bien hecho.':'Correct! Well done.'}':'${E?'❌ ':''}${lang==='es'?'No del todo — revisa el contenido.':'Not quite — review the content above.'}';fb.className='feedback show '+(isOk?'ok':'no');}
+  if(fb){
+    if(isOk){
+      fb.innerHTML='<div class="fb-multi"><strong>${E?'✅ ':''}${lang==='es'?'¡Correcto!':'Correct!'}</strong>'+(explain?' '+esc(explain):' ${lang==='es'?'Bien hecho.':'Well done.'}')+'</div>';
+      fb.className='feedback show ok';
+    }else{
+      var why=btn.dataset.why||'';
+      var ct=cb?(cb.querySelector('.qopt-text')?cb.querySelector('.qopt-text').textContent:cb.textContent):'';
+      var h='<div class="fb-multi"><strong>${E?'❌ ':''}${lang==='es'?'No es correcta.':'Not quite.'}</strong>';
+      if(why)h+='<br><span class="fb-lead">${lang==='es'?'Por qué falla: ':'Why this misses: '}</span>'+esc(why);
+      h+='<br><span class="fb-lead">${lang==='es'?'Respuesta correcta: ':'Correct answer: '}</span><strong>'+esc(ct)+'</strong>';
+      if(explain)h+='<br><span class="fb-lead">${lang==='es'?'Por qué: ':'Why: '}</span>'+esc(explain);
+      fb.innerHTML=h+'</div>';
+      fb.className='feedback show no';
+    }
+  }
   bdSet('quiz-'+sid,'Quiz '+(parseInt(sid)+1),isOk?1:0);
 }
 var mState={};
@@ -1284,7 +1659,8 @@ function checkMatch(sid,total){
   var correct=0;
   for(var k in st.conn){if(parseInt(k)===st.conn[k])correct++;}
   var ok=correct===total&&total>0;
-  if(ok)pts++;
+  var gain=total>0?correct/total:0;
+  var prev=awarded['match-'+sid]||0;pts+=gain-prev;awarded['match-'+sid]=gain;
   var msg='';
   if(ok)msg='${E?'✅ ':''}'+'${lang==='es'?'¡Todo correcto!':'All correct!'}';
   else if(correct>0)msg='${E?'⚠️ ':''}'+'${lang==='es'?'Casi — ':'Almost — '}'+correct+'${lang==='es'?' de ':' of '}'+total+'${lang==='es'?' correctos. Toca un par para cambiar.':" correct. Tap a pair to undo it."}';
@@ -1296,7 +1672,7 @@ function checkMatch(sid,total){
     var isOk=st.conn[tpi]===tpi;
     t.style.borderColor=isOk?'#4caf50':'#ef9a9a';t.style.background=isOk?'#e8f5e920':'#fce4ec20';
   });
-  bdSet('match-'+sid,'Match '+(parseInt(sid)+1),ok?1:0);
+  bdSet('match-'+sid,'Match '+(parseInt(sid)+1),gain);
 }
 function resetMatch(sid){
   mState[sid]={t:null,d:null,conn:{},pairN:0};
@@ -1320,17 +1696,21 @@ function checkSort(sid){
   var items=Array.from(list.querySelectorAll('.sort-item'));
   var fb=document.getElementById('fb-'+sid);
   if(!answered['sort-'+sid]){answered['sort-'+sid]=true;maxPts++;}
-  var allOk=true;
+  var okCount=0,tot=items.length;
   items.forEach(function(item,i){
     var sp=item.querySelector('.sort-text');
     var text=sp?sp.textContent.trim():item.textContent.replace(/^\W+/,'').trim();
     var isOk=correct[i]&&correct[i].trim()===text;
     item.classList.remove('correct-pos','wrong-pos');item.classList.add(isOk?'correct-pos':'wrong-pos');
-    if(!isOk)allOk=false;
+    if(isOk)okCount++;
   });
-  if(allOk)pts++;
-  if(fb){fb.textContent=allOk?'${E?'✅ ':''}${lang==='es'?'¡Orden correcto!':'Correct order!'}':'${E?'❌ ':''}${lang==='es'?'Revisa el orden':'Not quite — check the order'}';fb.className='feedback show '+(allOk?'ok':'no');}
-  bdSet('sort-'+sid,'Sort '+(parseInt(sid)+1),allOk?1:0);
+  var gain=tot>0?okCount/tot:0,allOk=okCount===tot&&tot>0;
+  var prev=awarded['sort-'+sid]||0;pts+=gain-prev;awarded['sort-'+sid]=gain;
+  if(fb){
+    fb.textContent=allOk?'${E?'✅ ':''}${lang==='es'?'¡Orden correcto!':'Correct order!'}':okCount>0?('${E?'⚠️ ':''}'+okCount+'${lang==='es'?' de ':' of '}'+tot+'${lang==='es'?' en su lugar':' in place'}'):'${E?'❌ ':''}${lang==='es'?'Revisa el orden':'Not quite — check the order'}';
+    fb.className='feedback show '+(allOk?'ok':gain>0?'partial':'no');
+  }
+  bdSet('sort-'+sid,'Sort '+(parseInt(sid)+1),gain);
 }
 function shuffleSort(sid){
   var list=document.getElementById('sort-'+sid);
@@ -1339,16 +1719,54 @@ function shuffleSort(sid){
   list.innerHTML='';
   items.forEach(function(item,j){item.setAttribute('ondragstart','sortDrag(event,'+j+')');item.setAttribute('ondrop','sortDrop(event,'+j+",'"+sid+"')");item.classList.remove('correct-pos','wrong-pos');list.appendChild(item);});
 }
-function flipCard(i){
-  var fc=document.getElementById('fc-'+i);fc.classList.toggle('flipped');
-  if(fc.classList.contains('flipped')){var a=document.getElementById('flip-assess-'+i);if(a)a.style.display='block';}
+function checkClassify(sid){
+  var list=document.getElementById('cls-'+sid);if(!list)return;
+  var rows=Array.from(list.querySelectorAll('.cls-row'));
+  var fb=document.getElementById('fb-'+sid);
+  var okCount=0,tot=rows.length;
+  rows.forEach(function(r){
+    var sel=r.querySelector('.cls-sel');
+    var chosen=(sel&&sel.value||'').trim();
+    var correct=(r.dataset.cat||'').trim();
+    var isOk=chosen!==''&&chosen===correct;
+    r.classList.remove('correct-pos','wrong-pos');r.classList.add(isOk?'correct-pos':'wrong-pos');
+    if(isOk)okCount++;
+  });
+  var gain=tot>0?okCount/tot:0,allOk=okCount===tot&&tot>0;
+  if(!answered['sort-'+sid]){answered['sort-'+sid]=true;maxPts++;}
+  var prev=awarded['sort-'+sid]||0;pts+=gain-prev;awarded['sort-'+sid]=gain;
+  if(fb){
+    fb.textContent=allOk?'${E?'✅ ':''}${lang==='es'?'¡Todo clasificado!':'All classified!'}':okCount>0?('${E?'⚠️ ':''}'+okCount+'${lang==='es'?' de ':' of '}'+tot+'${lang==='es'?' correctos':' correct'}'):'${E?'❌ ':''}${lang==='es'?'Revisa las categorías':'Check the categories'}';
+    fb.className='feedback show '+(allOk?'ok':gain>0?'partial':'no');
+  }
+  bdSet('sort-'+sid,'Sort '+(parseInt(sid)+1),gain);
 }
-function scoreFlip(i,knew){
-  if(!flipAnswered[i]){flipAnswered[i]=true;maxPts++;if(knew)pts++;}
-  var a=document.getElementById('flip-assess-'+i);if(a)a.style.display='none';
+var flipScores={};
+function revealTry(i,ci){
+  var k=i+'-'+ci;
+  var inp=document.getElementById('tr-in-'+k);
+  var yourEl=document.getElementById('tr-your-'+k);
+  if(yourEl){var v=inp?inp.value.trim():'';if(v){yourEl.textContent=v;yourEl.className='tr-your-txt';}else{yourEl.textContent='${lang==='es'?'(lo dejaste en blanco)':'(left blank)'}';yourEl.className='tr-your-txt blank';}}
+  if(inp)inp.setAttribute('readonly','readonly');
+  var rv=document.getElementById('tr-reveal-'+k);if(rv)rv.style.display='none';
+  var box=document.getElementById('tr-box-'+k);if(box)box.style.display='flex';
+}
+function scoreTry(i,ci,level,n){
+  var g=level==='full'?1:(level==='partial'?0.5:0);
+  flipScores[i+'-'+ci]=g;
+  var sum=0;for(var c=0;c<n;c++){var kk=i+'-'+c;if(kk in flipScores)sum+=flipScores[kk];}
+  var gain=n>0?sum/n:0;
+  var prev=awarded['flip-'+i]||0;pts+=gain-prev;awarded['flip-'+i]=gain;
+  if(!answered['flip-'+i]){answered['flip-'+i]=true;maxPts++;}
+  var box=document.getElementById('tr-box-'+i+'-'+ci);
+  if(box){box.querySelectorAll('.tr-btns .snb').forEach(function(b){b.disabled=true;b.classList.remove('primary');});}
   var fb=document.getElementById('fb-'+i);
-  if(fb){fb.textContent=knew?'${E?'✅ ':''}${lang==='es'?'¡Genial! Sigue así.':'Great! Keep it up.'}':'${E?'💪 ':''}${lang==='es'?'Sigue practicando.':'Keep practicing.'}';fb.className='feedback show '+(knew?'ok':'no');}
-  bdSet('flip-'+i,'Flip '+(i+1),knew?1:0);
+  if(fb){
+    var msg=level==='full'?'${E?'🎉 ':''}${lang==='es'?'¡Bien! Lo recordaste.':'Nice — you recalled it!'}':level==='partial'?'${E?'👍 ':''}${lang==='es'?'Vas bien; repásalo.':'Close — review it.'}':'${E?'💪 ':''}${lang==='es'?'Ya lo viste; vuelve luego.':'You have seen it; revisit later.'}';
+    if(n>1)msg+=' ('+${E?"'🃏 '":"''"}+(sum===n?'${lang==='es'?'todas':'all'}':fmtPts(sum)+'/'+n)+')';
+    fb.textContent=msg;fb.className='feedback show '+(gain>=1?'ok':gain>0?'partial':'no');
+  }
+  bdSet('flip-'+i,'Flip '+(parseInt(i)+1),gain);
 }
 function checkFill(sid){
   var inp=document.getElementById('fill-'+sid);
@@ -1356,8 +1774,10 @@ function checkFill(sid){
   var val=inp.value.trim();
   if(!val)return;
   var ans=String(inp.dataset.ans||'').trim();
+  var accepted=String(inp.dataset.answers||ans).split('|').map(function(s){return s.trim();}).filter(Boolean);
   var norm=function(s){return s.toLowerCase().replace(/[áéíóúüñ]/g,function(c){return{'á':'a','é':'e','í':'i','ó':'o','ú':'u','ü':'u','ñ':'n'}[c]||c;}).replace(/[^a-z0-9]/g,'');};
-  var ok=norm(val)===norm(ans);
+  var nv=norm(val);
+  var ok=accepted.some(function(a){return norm(a)===nv;});
   var fb=document.getElementById('fb-'+sid);
   if(answered['fill-'+sid])return;
   answered['fill-'+sid]=true;maxPts++;if(ok)pts++;
@@ -1381,32 +1801,64 @@ function checkReflect(sid){
   if(fb){fb.textContent='${E?'💭 ':''}${lang==='es'?'¡Reflexión guardada!':'Reflection saved!'}';fb.className='feedback show ok';}
   bdSet('reflect-'+sid,'Reflect '+(parseInt(sid)+1),1);
 }
+function revealCER(i){
+  var claim=document.getElementById('cer-claim-'+i);
+  if(claim&&!claim.value.trim()){claim.focus();return;}
+  ['cer-claim-','cer-ev-','cer-rz-'].forEach(function(p){var t=document.getElementById(p+i);if(t)t.setAttribute('readonly','readonly');});
+  var rv=document.getElementById('cer-reveal-'+i);if(rv)rv.style.display='none';
+  var box=document.getElementById('cer-rev-'+i);if(box)box.style.display='block';
+}
+function scoreCER(i){
+  var boxes=document.querySelectorAll('.cer-cb[data-sid="'+i+'"]');
+  var checked=0;boxes.forEach(function(b){if(b.checked)checked++;});
+  var tot=boxes.length||3;
+  var gain=tot>0?checked/tot:0;
+  if(!answered['reflect-'+i]){answered['reflect-'+i]=true;maxPts++;}
+  var prev=awarded['reflect-'+i]||0;pts+=gain-prev;awarded['reflect-'+i]=gain;
+  var fb=document.getElementById('fb-'+i);
+  if(fb){
+    fb.textContent=checked===tot?'${E?'🎉 ':''}${lang==='es'?'¡Argumento completo! Afirmación, evidencia y razonamiento.':'Full argument! Claim, evidence and reasoning.'}':checked>0?('${E?'👍 ':''}'+checked+'${lang==='es'?' de ':' of '}'+tot+'${lang==='es'?' partes — revisa la que falta.':' parts — review the missing one.'}'):'${E?'💪 ':''}${lang==='es'?'Compara con la respuesta modelo y ajusta tu argumento.':'Compare with the model answer and refine your argument.'}';
+    fb.className='feedback show '+(checked===tot?'ok':checked>0?'partial':'no');
+  }
+  bdSet('reflect-'+i,'CER '+(parseInt(i)+1),gain);
+}
 function goNext(){if(cur<TOTAL-1){gLS(cur+1);}else{showScore();}}
 function goPrev(){if(cur>0)gLS(cur-1);}
+function fmtPts(n){return (Math.round(n*100)/100).toString();}
 function showScore(){
   var pct=maxPts>0?Math.round(pts/maxPts*100):100;
-  var ep=document.getElementById('sc-pct');if(ep)ep.textContent=pct+'%';
+  var ptsTxt=fmtPts(pts);
+  var ep=document.getElementById('sc-pct');if(ep)ep.textContent=(scoreMode==='frac'?ptsTxt+'/'+maxPts:pct+'%');
   var em=document.getElementById('sc-msg');
   if(em)em.textContent=pct>=80?'${E?'🎉 ':''}${lang==='es'?'¡Excelente trabajo!':'Excellent work!'}':pct>=60?'${E?'👍 ':''}${lang==='es'?'¡Buen trabajo!':'Good job!'}':'${E?'💪 ':''}${lang==='es'?'¡Sigue practicando!':'Keep practicing!'}';
   var ed=document.getElementById('sc-det');
-  if(ed)ed.textContent=(lang==='es'?'Obtuviste ':'You got ')+pts+'/'+maxPts+' '+(lang==='es'?'correctas':'correct');
+  if(ed)ed.textContent=(lang==='es'?'Obtuviste ':'You got ')+ptsTxt+'/'+maxPts+' '+(lang==='es'?'correctas':'correct');
   var bk=document.getElementById('sc-breakdown');
-  if(bk)bk.innerHTML=breakdown.map(function(b){return '<div class="score-row"><span>'+b.label+'</span><span class="'+(b.pts===b.max?'ok':'no')+'">'+(b.pts===b.max?'${E?'✅':'✓'}':'${E?'❌':'✗'}')+'</span></div>';}).join('');
+  if(bk)bk.innerHTML=breakdown.map(function(b){var cls=b.pts>=b.max?'ok':(b.pts>0?'partial':'no');var sym=b.pts>=b.max?'${E?'✅':'✓'}':(b.pts>0?'${E?'🤏':'~'}':'${E?'❌':'✗'}');var val=(b.pts>0&&b.pts<b.max)?' <span class="score-frac">'+fmtPts(b.pts)+'/'+b.max+'</span>':'';return '<div class="score-row"><span>'+b.label+'</span><span class="'+cls+'">'+val+' '+sym+'</span></div>';}).join('');
   var ss=document.getElementById('score-screen');if(ss)ss.style.display='block';
   if(pct>=80)launchConfetti();
 }
 function restart(){
-  pts=0;maxPts=0;answered={};flipAnswered={};breakdown=[];bdKeys={};mState={};
+  pts=0;maxPts=0;answered={};flipAnswered={};awarded={};flipScores={};breakdown=[];bdKeys={};mState={};
   document.querySelectorAll('.fill-inp').forEach(function(i){i.disabled=false;i.classList.remove('correct');});
   document.querySelectorAll('.feedback').forEach(function(f){f.className='feedback';f.textContent='';});
   document.querySelectorAll('.qopt').forEach(function(b){b.classList.remove('correct','wrong');b.disabled=false;});
   document.querySelectorAll('.fill-inp').forEach(function(i){i.value='';});
   document.querySelectorAll('.word-chip').forEach(function(c){c.classList.remove('used');});
   document.querySelectorAll('.refl-inp').forEach(function(t){t.value='';});
+  document.querySelectorAll('.cer-inp').forEach(function(t){t.value='';t.removeAttribute('readonly');});
+  document.querySelectorAll('.cer-cb').forEach(function(c){c.checked=false;});
+  document.querySelectorAll('.cer-reveal').forEach(function(x){x.style.display='none';});
+  document.querySelectorAll('[id^="cer-reveal-"]').forEach(function(b){b.style.display='';});
   document.querySelectorAll('.match-term,.match-def').forEach(function(x){x.classList.remove('selected','locked');x.style.borderColor='';x.style.background='';x.style.color='';x.removeAttribute('data-pn');});
   document.querySelectorAll('.sort-item').forEach(function(x){x.classList.remove('correct-pos','wrong-pos');});
-  document.querySelectorAll('.flip-card').forEach(function(x){x.classList.remove('flipped');});
-  document.querySelectorAll('.flip-assess').forEach(function(x){x.style.display='none';});
+  document.querySelectorAll('.cls-row').forEach(function(x){x.classList.remove('correct-pos','wrong-pos');});
+  document.querySelectorAll('.cls-sel').forEach(function(x){x.value='';x.disabled=false;});
+  document.querySelectorAll('.tr-input').forEach(function(t){t.value='';t.removeAttribute('readonly');});
+  document.querySelectorAll('.tr-reveal-box').forEach(function(x){x.style.display='none';});
+  document.querySelectorAll('[id^="tr-reveal-"]').forEach(function(b){b.style.display='';});
+  document.querySelectorAll('.tr-btns .snb').forEach(function(b){b.disabled=false;});
+  document.querySelectorAll('.tr-btns .snb:first-child').forEach(function(b){b.classList.add('primary');});
   var ss=document.getElementById('score-screen');if(ss)ss.style.display='none';
   gLS(0);
 }
@@ -1436,11 +1888,58 @@ function copyRes(){
   var txt='${jsEsc(lessonTitle)}\\n${lang==='es'?'Puntaje':'Score'}: '+document.getElementById('sc-pct').textContent+'\\nSlideseed';
   if(navigator.clipboard){navigator.clipboard.writeText(txt).catch(function(){});}
 }
+function revealAllForPrint(){
+  document.querySelectorAll('.quiz-opts').forEach(function(c){
+    var ci=parseInt(c.dataset.correctIdx);
+    var cb=c.querySelector('[data-idx="'+ci+'"]');
+    if(cb)cb.classList.add('correct');
+    var ans=cb?(cb.querySelector('.qopt-text')?cb.querySelector('.qopt-text').textContent:cb.textContent):'';
+    var ex=c.dataset.explain||'';
+    var fb=document.getElementById('fb-'+c.dataset.sid);
+    if(fb){fb.innerHTML='<div class="fb-multi"><strong>${lang==='es'?'Respuesta: ':'Answer: '}</strong>'+esc(ans)+(ex?'<br>'+esc(ex):'')+'</div>';fb.className='feedback show print-ans';}
+  });
+  document.querySelectorAll('.fill-inp').forEach(function(inp){if(!inp.value)inp.value=String(inp.dataset.ans||'');inp.classList.add('correct');});
+  document.querySelectorAll('.cls-sel').forEach(function(sel){var r=sel.closest('.cls-row');if(r&&!sel.value){for(var o=0;o<sel.options.length;o++){if(sel.options[o].value===(r.dataset.cat||'')){sel.selectedIndex=o;break;}}}});
+}
+if(window.matchMedia){try{window.matchMedia('print').addListener(function(m){if(m.matches)revealAllForPrint();});}catch(e){}}
+window.addEventListener('beforeprint',revealAllForPrint);
+var LESSON_LANG='es';
+function splitBi(t){
+  t=(t||'').trim();
+  var ei=t.indexOf('EN:'), si=t.indexOf('ES:');
+  if(ei!==0||si<0)return null;
+  var mid=t.lastIndexOf('/',si);
+  var en=(mid>ei?t.slice(3,mid):t.slice(3,si)).trim();
+  var es=t.slice(si+3).trim();
+  return {en:en,es:es};
+}
+function initLessonLang(){
+  try{
+    var root=document.querySelector('.lesson-wrap')||document.body;
+    root.querySelectorAll('h1,h2,h3,p,li,span,div').forEach(function(el){
+      if(el.children&&el.children.length>0)return;
+      var s=el.textContent; if(!s||s.indexOf('ES:')<0||s.indexOf('EN:')<0)return;
+      var p=splitBi(s); if(!p)return;
+      el.setAttribute('data-en',p.en); el.setAttribute('data-es',p.es);
+    });
+    setLessonLang(LESSON_LANG);
+  }catch(e){}
+}
+function setLessonLang(lang){
+  try{
+    LESSON_LANG=lang;
+    document.querySelectorAll('[data-en][data-es]').forEach(function(el){ el.textContent=(lang==='es')?el.getAttribute('data-es'):el.getAttribute('data-en'); });
+    var b=document.getElementById('ll-btn'); if(b) b.textContent=(lang==='es')?'🇬🇧 EN':'🇪🇸 ES';
+  }catch(e){}
+}
+function toggleLessonLang(){ setLessonLang(LESSON_LANG==='es'?'en':'es'); }
+initLessonLang();
 gLS(0);
+window.toggleLessonLang=toggleLessonLang;
 window.gLS=gLS;window.checkQ=checkQ;window.mClick=mClick;window.checkMatch=checkMatch;window.resetMatch=resetMatch;
-window.sortDrag=sortDrag;window.sortDrop=sortDrop;window.checkSort=checkSort;window.shuffleSort=shuffleSort;
-window.flipCard=flipCard;window.scoreFlip=scoreFlip;window.checkFill=checkFill;window.useWord=useWord;
-window.checkReflect=checkReflect;window.showScore=showScore;window.restart=restart;window.shareWA=shareWA;window.copyRes=copyRes;
+window.sortDrag=sortDrag;window.sortDrop=sortDrop;window.checkSort=checkSort;window.shuffleSort=shuffleSort;window.checkClassify=checkClassify;
+window.revealTry=revealTry;window.scoreTry=scoreTry;window.checkFill=checkFill;window.useWord=useWord;
+window.checkReflect=checkReflect;window.revealCER=revealCER;window.scoreCER=scoreCER;window.showScore=showScore;window.restart=restart;window.shareWA=shareWA;window.copyRes=copyRes;
 \u003c/script>
 </body>
 </html>
@@ -1479,11 +1978,12 @@ function hexToRgb(hex){hex=(hex||'').replace('#','');if(hex.length===3)hex=hex.s
       let creds = ''
       try{
         const r = await fetch(BK + '/auth/me', { headers:{ 'Authorization':'Bearer ' + session.access_token } })
-        if(r.ok){ const u = await r.json(); creds = (u.period_limit!=null) ? ((u.plan==='monthly' ? ' · Golden Seed \ud83c\udf31 · ' : ' · ') + u.period_used + '/' + u.period_limit + ' este mes') : (' · ' + u.credits + ' créditos') }
+        if(r.ok){ const u = await r.json(); creds = (u.period_limit!=null) ? ((u.plan==='monthly' ? ' · Golden Seed \ud83c\udf31 · ' : ' · ') + u.period_used + '/' + u.period_limit + ' este mes') : (' · ' + u.credits + ' créditos'); if(window.applyPlanSlideCap) window.applyPlanSlideCap(u.plan, u.admin) }
       }catch(e){}
       bar.innerHTML = '<span>' + session.user.email + creds + '</span>' +
         '<button class="btn-nav" style="margin-left:8px;" onclick="logout()">Salir</button>'
     } else {
+      if(window.applyPlanSlideCap) window.applyPlanSlideCap('free')
       bar.innerHTML =
         '<button class="btn-nav" style="background:none;color:var(--soft);border:1px solid var(--line);" onclick="loginEmail()">Correo</button>' +
         '<button class="btn-nav" onclick="loginGoogle()">Entrar con Google</button>'
@@ -1518,10 +2018,9 @@ function hexToRgb(hex){hex=(hex||'').replace('#','');if(hex.length===3)hex=hex.s
       token: PADDLE_CFG.token,
       eventCallback: function(ev){
         if(ev && ev.name === 'checkout.completed'){
-          // El webhook acredita en segundos; refrescar créditos con margen
-          setTimeout(function(){ if(window.refreshAuthUI) window.refreshAuthUI(); }, 4000);
-          setTimeout(function(){ if(window.refreshAuthUI) window.refreshAuthUI(); }, 12000);
-        if(window._lastPurchasePlan === 'monthly' && window.showGoldenSeedWelcome) window.showGoldenSeedWelcome();
+          // El webhook acredita en segundos; confirmamos de verdad con poll a /auth/me
+          if(window.confirmPayment) window.confirmPayment();
+          if(window._lastPurchasePlan === 'monthly' && window.showGoldenSeedWelcome) setTimeout(function(){ window.showGoldenSeedWelcome(); }, 5000);
         }
       }
     }); }catch(e){ console.error('Paddle init fallo (no rompe la pagina):', e); }
@@ -1533,7 +2032,7 @@ function hexToRgb(hex){hex=(hex||'').replace('#','');if(hex.length===3)hex=hex.s
   localStorage.setItem('gs_welcome_shown', '1');
   var d = document.createElement('div');
   d.style.cssText = 'position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:9999;background:#fff;border:2px solid #d4af37;border-radius:12px;padding:16px 20px;box-shadow:0 8px 24px rgba(0,0,0,.15);max-width:420px;text-align:center;';
-  d.innerHTML = '<div style="font-weight:700;font-size:1.1em;margin-bottom:6px;">\u00a1Bienvenida, Golden Seed! \ud83c\udf31</div><div style="color:#666;font-size:.95em;margin-bottom:10px;">Ya tienes hasta 60 lecciones interactivas cada mes, con todos los formatos y el editor incluido. Gracias por confiar en Slideseed \u2014 vamos a hacer que tus clases brillen.</div><button onclick="this.parentElement.remove()" style="background:#d4af37;color:#fff;border:none;border-radius:8px;padding:6px 16px;cursor:pointer;">\u00a1Genial!</button>';
+  d.innerHTML = '<div style="font-weight:700;font-size:1.1em;margin-bottom:6px;">\u00a1Bienvenida, Golden Seed! \ud83c\udf31</div><div style="color:#666;font-size:.95em;margin-bottom:10px;">Ya tienes hasta 40 lecciones interactivas cada mes, con todos los formatos y el editor incluido. Gracias por confiar en Slideseed \u2014 vamos a hacer que tus clases brillen.</div><button onclick="this.parentElement.remove()" style="background:#d4af37;color:#fff;border:none;border-radius:8px;padding:6px 16px;cursor:pointer;">\u00a1Genial!</button>';
   document.body.appendChild(d);
 }
 window.showGoldenSeedWelcome = showGoldenSeedWelcome;
@@ -1565,9 +2064,22 @@ async function buyPlan(plan){
   if(!document.querySelector('script[src*="checkout.wompi.co"]')){
     var w=document.createElement('script'); w.src='https://checkout.wompi.co/widget.js'; document.head.appendChild(w);
   }
-  function isCO(){ try{ return (Intl.DateTimeFormat().resolvedOptions().timeZone||'').indexOf('Bogota')>-1; }catch(e){ return false; } }
-  var saved=null; try{ saved=localStorage.getItem('ss_currency'); }catch(e){}
-  window.SS_CURRENCY = saved || (isCO()?'COP':'USD');
+  function isCO(){
+    if(window._geoCO!==undefined) return window._geoCO;              // veredicto por IP (VPN-aware) si ya llegó
+    try{ return (Intl.DateTimeFormat().resolvedOptions().timeZone||'').indexOf('Bogota')>-1; }catch(e){ return false; }  // respaldo: zona horaria
+  }
+  function applyGeo(){
+    // Verifica el país por IP (responde a VPN). Si falla, se queda con la zona horaria.
+    try{ fetch('https://ipwho.is/?fields=country_code').then(function(r){return r.json();}).then(function(j){
+      if(j && j.country_code){
+        window._geoCO = (j.country_code==='CO');
+        if(!window._geoCO && window.SS_CURRENCY==='COP') window.SS_CURRENCY='USD';
+        applyCards(); renderToggle();
+      }
+    }).catch(function(){}); }catch(e){}
+  }
+  // Moneda 100% por país: Colombia COP, resto USD. Sin selector ni memoria manual.
+  window.SS_CURRENCY = isCO() ? 'COP' : 'USD';
 
   window.buyPlanWompi = async function(plan){
     if(!window.authHeader){ alert('Cargando… intenta de nuevo.'); return; }
@@ -1580,12 +2092,50 @@ async function buyPlan(plan){
       if(!r.ok){ alert('No se pudo iniciar el pago.'); return; }
       var d=await r.json();
       var checkout=new WidgetCheckout({ currency:d.currency, amountInCents:d.amountInCents, reference:d.reference, publicKey:d.publicKey, signature:{integrity:d.signature}, customerData:{email:d.customerEmail} });
-      checkout.open(function(){ setTimeout(function(){ if(window.refreshAuthUI) window.refreshAuthUI(); },4000); setTimeout(function(){ if(window.refreshAuthUI) window.refreshAuthUI(); },12000); });
+      checkout.open(function(){ if(window.confirmPayment) window.confirmPayment(); });
     }catch(e){ console.error('Wompi',e); alert('Error iniciando el pago.'); }
   };
 
+  // ── Endurecimiento de pago: confirmar de verdad (el webhook es la fuente de verdad) ──
+  window._payBaseline=null;
+  window.capturePayBaseline=async function(){
+    try{ var h=await window.authHeader(); if(!h.Authorization) return;
+      var r=await fetch(BK+'/auth/me',{headers:h});
+      if(r.ok){ var u=await r.json(); window._payBaseline={credits:u.credits||0, plan:u.plan||'free'}; }
+    }catch(e){}
+  };
+  function payBanner(state){
+    var es=(window.SS_CURRENCY==='COP');
+    var el=document.getElementById('pay-banner');
+    if(!el){ el=document.createElement('div'); el.id='pay-banner';
+      el.style.cssText='position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:99999;padding:13px 22px;border-radius:12px;font-family:inherit;font-size:.9rem;line-height:1.5;box-shadow:0 8px 30px rgba(0,0,0,.18);max-width:92%;text-align:center;';
+      document.body.appendChild(el); }
+    if(state==='confirming'){ el.style.background='#fff8e1'; el.style.color='#7a5c00';
+      el.innerHTML= es?'⏳ Confirmando tu pago… no cierres esta página.':'⏳ Confirming your payment… please keep this page open.'; }
+    else if(state==='ok'){ el.style.background='#e8f5e9'; el.style.color='#1b5e20';
+      el.innerHTML= es?'✅ ¡Pago confirmado! Ya puedes usar tu plan.':'✅ Payment confirmed! Your plan is ready.';
+      setTimeout(function(){ if(el)el.remove(); },7000); }
+    else { el.style.background='#fff4f4'; el.style.color='#8a3b2e';
+      el.innerHTML= es?'Tu pago se está procesando. Si te cobraron y no ves el cambio en unos minutos, recarga la página. ¿Sigue el problema? Escríbenos y lo resolvemos.':'Your payment is being processed. If you were charged and do not see the change in a few minutes, refresh the page. Still stuck? Contact us and we will fix it.'; }
+  }
+  window.confirmPayment=function(){
+    payBanner('confirming');
+    var base=window._payBaseline||{credits:-1,plan:''};
+    var tries=0;
+    var iv=setInterval(async function(){
+      tries++;
+      try{ var h=await window.authHeader(); var r=await fetch(BK+'/auth/me',{headers:h});
+        if(r.ok){ var u=await r.json();
+          var changed=((u.credits||0)>base.credits) || ((u.plan||'')!==base.plan && (u.plan||'')!=='free');
+          if(changed){ clearInterval(iv); if(window.refreshAuthUI) window.refreshAuthUI(); payBanner('ok'); return; }
+        }
+      }catch(e){}
+      if(tries>=12){ clearInterval(iv); if(window.refreshAuthUI) window.refreshAuthUI(); payBanner('pending'); }
+    },3000);
+  };
+
   var _orig=window.buyPlan;
-  window.buyPlan=function(plan){ if(window.SS_CURRENCY==='COP') return window.buyPlanWompi(plan); if(typeof _orig==='function') return _orig(plan); alert('Pago no disponible.'); };
+  window.buyPlan=function(plan){ if(window.capturePayBaseline) window.capturePayBaseline(); if(window.SS_CURRENCY==='COP') return window.buyPlanWompi(plan); if(typeof _orig==='function') return _orig(plan); alert('Pago no disponible.'); };
 
   function applyCards(){
     document.querySelectorAll('.price-card').forEach(function(c){
@@ -1593,8 +2143,8 @@ async function buyPlan(plan){
       var a=c.querySelector('.price-amount'), p=c.querySelector('.price-period'); if(!a) return;
       if(window.SS_CURRENCY==='COP'){
         if(n==='single') a.innerHTML='<sup>$</sup>8.900';
-        else if(n==='pack') a.innerHTML='<sup>$</sup>24.900';
-        else if(n==='monthly'){ a.innerHTML='<sup>$</sup>19.900'; if(p) p.textContent='COP/mes · cancela cuando quieras'; }
+        else if(n==='pack') a.innerHTML='<sup>$</sup>17.900';
+        else if(n==='monthly'){ a.innerHTML='<sup>$</sup>22.900'; if(p) p.textContent='COP/mes · cancela cuando quieras'; }
       } else {
         if(n==='single') a.innerHTML='<sup>$</sup>5<span style="font-size:1.2rem">.99</span>';
         else if(n==='pack') a.innerHTML='<sup>$</sup>11<span style="font-size:1.2rem">.99</span>';
@@ -1602,17 +2152,175 @@ async function buyPlan(plan){
       }
     });
   }
-  window.setSSCurrency=function(cur){ window.SS_CURRENCY=cur; try{ localStorage.setItem('ss_currency',cur); }catch(e){} applyCards(); renderToggle(); };
+  window.setSSCurrency=function(cur){ if(cur==='COP' && !isCO()) cur='USD'; window.SS_CURRENCY=cur; try{ localStorage.setItem('ss_currency',cur); }catch(e){} applyCards(); renderToggle(); };
   function renderToggle(){
-    var host=document.querySelector('.pricing .pricing-inner')||document.querySelector('.pricing'); if(!host) return;
-    var box=document.getElementById('ss-cur'); if(!box){ box=document.createElement('div'); box.id='ss-cur'; box.style.cssText='display:flex;gap:8px;justify-content:center;margin:0 0 18px;font-size:.85rem;'; var g=host.querySelector('.pricing-grid'); if(g) host.insertBefore(box,g); else host.appendChild(box); }
-    var cop=window.SS_CURRENCY==='COP';
-    box.innerHTML='<button onclick="setSSCurrency(\'COP\')" style="cursor:pointer;border-radius:20px;padding:5px 14px;border:1px solid #DDD9D2;'+(cop?'background:#447566;color:#fff;':'background:#fff;color:#46544E;')+'">🇨🇴 Pesos (Nequi/PSE)</button><button onclick="setSSCurrency(\'USD\')" style="cursor:pointer;border-radius:20px;padding:5px 14px;border:1px solid #DDD9D2;'+(!cop?'background:#447566;color:#fff;':'background:#fff;color:#46544E;')+'">🌎 USD</button>';
+    // Sin selector de moneda: Colombia ve solo COP, el resto solo USD (100% por país).
+    var old=document.getElementById('ss-cur'); if(old) old.remove();
   }
-  function init(){ applyCards(); renderToggle(); }
+  function init(){ applyCards(); renderToggle(); applyGeo(); }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
 })();
 </script>
 <script>document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll(".reveal").forEach(function(e){e.classList.add("visible");});});</script>
+<!-- ── i18n de la página de inicio (EN/ES). Envuelto en try/catch: si falla, la página queda en inglés. ── -->
+<script>
+(function(){ try{
+  var ES={
+    "How it works":"Cómo funciona","Features":"Funciones","Pricing":"Precios","About":"Acerca de","Get started":"Empieza",
+    "Upload your lesson plan or notes. Slideseed reads your content, builds an editable lesson with real interactive activities — quizzes, matching, sorting, flip cards — and produces a fully interactive HTML file adapted to your students' age group.":"Sube tu plan de clase o tus apuntes. Slideseed lee tu contenido, arma una lección editable con actividades interactivas reales —quizzes, relacionar, ordenar, tarjetas— y genera un HTML totalmente interactivo, adaptado a la edad de tus estudiantes.",
+    "Try it free — no account needed":"Pruébalo gratis — sin cuenta","See how it works":"Mira cómo funciona",
+    "Student data never stored":"No guardamos datos de estudiantes","FERPA-conscious design":"Diseño consciente de FERPA","Powered by Claude AI":"Con tecnología de Claude AI",
+    "Upload your document":"Sube tu documento","Drop your document(s) here":"Suelta tu documento aquí","or browse files to upload":"o elige archivos para subir","Input formats:":"Formatos:","2 free generations — no card needed":"2 generaciones gratis — sin tarjeta",
+    "Next →":"Siguiente →","← Back":"← Atrás",
+    "Who is this lesson for?":"¿Para quién es esta lección?",
+    "Early learners":"Primeros años","K – 2nd":"Preescolar – 2.º","Elementary":"Primaria","3rd – 5th":"3.º – 5.º","Middle school":"Secundaria","6th – 8th":"6.º – 8.º","High school":"Bachillerato","9th – 12th":"9.º – 12.º","University":"Universidad","Higher ed":"Educación superior","Online":"En línea","All levels":"Todos los niveles",
+    "Language of the lesson":"Idioma de la lección","Choose a visual theme":"Elige un tema visual","Number of slides":"Número de diapositivas",
+    "Ready to generate":"Listo para generar","Document":"Documento","Grade":"Nivel","Language":"Idioma","Theme":"Tema","Slides":"Diapositivas","Credits":"Créditos",
+    "Process":"Proceso",
+    "You bring the knowledge — Slideseed handles the design. Edit what you want, then download in the format that works for your classroom.":"Tú pones el conocimiento — Slideseed pone el diseño. Edita lo que quieras y descarga en el formato que sirva para tu clase.",
+    "Upload your document":"Sube tu documento","Your lesson plan, notes, or textbook excerpt. PDF, DOCX, or PPTX.":"Tu plan de clase, apuntes o un fragmento del libro. PDF, DOCX o PPTX.",
+    "Claude reads and structures":"Claude lee y estructura","The AI identifies key concepts and builds age-appropriate slides with 6 types of interactive activities.":"La IA identifica los conceptos clave y arma diapositivas acordes a la edad, con 6 tipos de actividades interactivas.",
+    "Edit in the browser":"Edita en el navegador","Change text, reorder slides, add images, choose activity types, adjust colors and fonts.":"Cambia textos, reordena diapositivas, agrega imágenes, elige el tipo de actividad y ajusta colores y fuentes.",
+    "Download and share":"Descarga y comparte","Interactive HTML for students, PPTX editable in PowerPoint, or PDF to print.":"HTML interactivo para estudiantes, PPTX editable en PowerPoint, o PDF para imprimir.",
+    "Download as":"Descarga como","Interactive · works offline · for students":"Interactivo · funciona sin internet · para estudiantes","Print or share as file":"Imprime o comparte como archivo","PPTX and PDF on paid plans":"PPTX y PDF en planes pagos",
+    "What makes it different":"Lo que lo hace diferente",
+    "Quiz with feedback":"Quiz con retroalimentación","Distractors based on real misconceptions — not obviously wrong. Students learn from every wrong answer.":"Distractores basados en errores reales — no opciones obviamente falsas. El estudiante aprende de cada respuesta equivocada.",
+    "Term matching":"Relacionar términos","Connect terms to definitions by dragging. Points awarded for each correct pair.":"Une términos con definiciones arrastrando. Ganas puntos por cada par correcto.",
+    "Drag to sort":"Arrastra y ordena","Order steps, events, or concepts correctly. Ideal for processes and timelines.":"Ordena pasos, eventos o conceptos correctamente. Ideal para procesos y líneas de tiempo.",
+    "Try & reveal cards":"Intenta y revela","Students write what they recall first, then reveal the answer and self-assess — real retrieval practice, scored with partial credit.":"El estudiante escribe lo que recuerda primero, luego revela la respuesta y se autoevalúa — práctica de recuperación real, con crédito parcial.",
+    "Fill in the blank":"Completa el espacio","Key vocabulary placed in context. Word bank available for younger grades; open text for older students.":"Vocabulario clave en contexto. Banco de palabras para los más pequeños; texto abierto para los mayores.",
+    "Score and report card":"Puntaje y boletín","Every activity contributes to a final score. Students share results via WhatsApp, email, or print.":"Cada actividad suma al puntaje final. El estudiante comparte resultados por WhatsApp, correo o impresión.",
+    "Before you upload":"Antes de subir","Clear about what happens to your content and why we charge.":"Claros sobre qué pasa con tu contenido y por qué cobramos.",
+    "What to upload":"Qué subir","Use materials you have the right to share — your own lesson plans, notes, or open-license content.":"Usa material que tengas derecho a compartir — tus planes de clase, apuntes o contenido de licencia abierta.",
+    "What happens to your content":"Qué pasa con tu contenido","Your document is processed once to generate the lesson and is not stored on our servers. Never used to train AI models.":"Tu documento se procesa una sola vez para generar la lección y no se guarda en nuestros servidores. Nunca se usa para entrenar modelos de IA.",
+    "Why we charge":"Por qué cobramos","Every generation calls a professional AI model with a real cost. Charging fairly keeps quality high without ads.":"Cada generación usa un modelo de IA profesional con un costo real. Cobrar de forma justa mantiene la calidad alta y sin anuncios.",
+    "Plans":"Planes","Two free generations with no card required.":"Dos generaciones gratis, sin tarjeta.",
+    "2 lessons to try":"2 lecciones de prueba","Up to 3 slides · 1 document":"Hasta 3 diapositivas · 1 documento","All 6 activity types":"Los 6 tipos de actividad","Student score + report":"Puntaje + boletín del estudiante","HTML download":"Descarga HTML",
+    "1 lesson · up to 5 slides":"1 lección · hasta 5 diapositivas","1 document · extract images":"1 documento · extrae imágenes","All 6 activities + themes":"Las 6 actividades + temas","English or Spanish":"Inglés o español","HTML + PDF download":"Descarga HTML + PDF",
+    "6 lessons · up to 8 slides":"6 lecciones · hasta 8 diapositivas","Up to 2 documents per lesson":"Hasta 2 documentos por lección","Extract images from your docs":"Extrae imágenes de tus documentos","All activities + themes":"Todas las actividades + temas","Built-in editor · priority":"Editor incluido · prioridad",
+    "Up to 40 lessons / month":"Hasta 40 lecciones / mes","Up to 10 slides · 3 documents":"Hasta 10 diapositivas · 3 documentos","Built-in editor · grade presets":"Editor incluido · niveles predefinidos","Priority support":"Soporte prioritario",
+    "Most popular":"Más popular","Start free":"Empieza gratis","Buy one":"Comprar una","Get the Pack":"Llévate el Pack","Start monthly":"Suscríbete",
+    "Early users":"Primeros usuarios",
+    "I uploaded my ecosystems unit and had three interactive lessons ready in under five minutes. The matching activity is exactly what my students needed.":"Subí mi unidad de ecosistemas y tenía tres lecciones interactivas listas en menos de cinco minutos. La actividad de relacionar es justo lo que mis estudiantes necesitaban.",
+    "5th grade teacher · Bogotá":"Maestra de 5.º grado · Bogotá",
+    "The quiz distractors are actually plausible — my students can't just guess the longest answer anymore. That alone makes it worth it.":"Los distractores del quiz sí son creíbles — mis estudiantes ya no pueden adivinar eligiendo la respuesta más larga. Solo por eso vale la pena.",
+    "Middle school science · Texas":"Ciencias de secundaria · Texas",
+    "The drag-to-sort activity works perfectly for my history timeline lessons. Students finally understand sequence, not just facts.":"La actividad de ordenar funciona perfecto para mis líneas de tiempo de historia. Los estudiantes por fin entienden la secuencia, no solo los datos.",
+    "High school history · Miami":"Historia de bachillerato · Miami",
+    "Drop your document. Edit what you want. Download in the format you need.":"Suelta tu documento. Edita lo que quieras. Descarga en el formato que necesites.","Upload your first document":"Sube tu primer documento",
+    "Product":"Producto","Resources":"Recursos","Support":"Soporte","Sample lessons":"Lecciones de ejemplo","Teacher's guide":"Guía del docente","Blog":"Blog","Contact":"Contacto","Privacy policy":"Política de privacidad","Terms of use":"Términos de uso","FAQ":"Preguntas frecuentes",
+    "Interactive lesson slides from your own documents. Built for educators who care about learning.":"Diapositivas de lecciones interactivas a partir de tus documentos. Hecho para docentes que se preocupan por el aprendizaje.",
+    "Made with care for educators worldwide":"Hecho con cariño para docentes de todo el mundo",
+    "— Daniela Ardila, founder":"— Daniela Ardila, fundadora"
+  };
+  var ESH={
+    "Your documents, turned into lessons students remember":"Tus documentos, convertidos en <em>lecciones que los estudiantes recuerdan</em>",
+    "From document to lessonin under a minute":"Del documento a la lección<br><em>en menos de un minuto</em>",
+    "Six activity types.All evaluated. All scored.":"Seis tipos de actividad.<br><em>Todas evaluadas. Todas con puntaje.</em>",
+    "Your curriculum stays yours.Always.":"Tu currículo sigue siendo tuyo.<br><em>Siempre.</em>",
+    "Start free.Pay only when you love it.":"Empieza gratis.<br><em>Paga solo cuando te encante.</em>",
+    "Your next lesson isone upload away":"Tu próxima lección está<br><em>a una subida de distancia</em>",
+    "Good uploadsYour lesson plan · Unit summary · Class notes you wrote":"<span class=\"tip-label\">Buenas subidas</span>Tu plan de clase · Resumen de unidad · Apuntes que escribiste",
+    "Our commitmentProcessed once · Not stored · Never shared":"<span class=\"tip-label\">Nuestro compromiso</span>Procesado una vez · No se guarda · Nunca se comparte",
+    "What your payment coversAI processing · Hosting · Development":"<span class=\"tip-label\">Qué cubre tu pago</span>Procesamiento de IA · Alojamiento · Desarrollo"
+  };
+  var SEL='.nav-links a, .hero-eyebrow, .hero-body, .hero-actions a, .pbadge, .section-label, .section-sub, .step h3, .step p, .formats-label, .formats-note, .fbadge>div>span:first-child, .feat-card h3, .feat-card p, .trust-card>h3, .trust-card>p, .manifesto cite, .price-features li, .btn-price, .feat-badge, .testi-quote, .testi-role, .cta-section p, .cta-section a, .footer-col h4, .footer-col a, .footer-brand p, .footer-bottom p, .manifesto blockquote p, .btn-nav, .step-label, .grade-name, .grade-range, .theme-name, .review-key, .btn-back, .btn-next, .slides-label>span:first-child, #drop-zone h3, #drop-zone p, .chip-label, .credits-badge';
+  var SELH='.hero h1, .section-title, .cta-section h2, .trust-tip';
+  function norm(s){return (s||'').replace(/\s+/g,' ').trim();}
+  var capT=new WeakMap(), capH=new WeakMap();
+  function apply(lang){
+    document.querySelectorAll(SEL).forEach(function(el){
+      if(el.closest('#editor-overlay'))return;
+      if(el.classList.contains('review-val')||el.id==='slides-val'||el.id==='slides-note'||el.id==='upgrade-note-txt'||el.id==='gen-msg'||el.id==='gen-btn'||(el.closest&&el.closest('#files-list')))return;
+      if(!capT.has(el)) capT.set(el, el.textContent);
+      var en=norm(capT.get(el));
+      if(lang==='es'){ if(ES[en]!=null) el.textContent=ES[en]; else el.textContent=capT.get(el); }
+      else el.textContent=capT.get(el);
+    });
+    document.querySelectorAll(SELH).forEach(function(el){
+      if(!capH.has(el)) capH.set(el,{html:el.innerHTML,key:norm(el.textContent)});
+      var o=capH.get(el);
+      if(lang==='es'){ if(ESH[o.key]!=null) el.innerHTML=ESH[o.key]; else el.innerHTML=o.html; }
+      else el.innerHTML=o.html;
+    });
+    document.documentElement.lang=lang;
+    var b=document.getElementById('lang-btn'); if(b) b.textContent = lang==='es' ? '🇬🇧 EN' : '🇪🇸 ES';
+  }
+  window.setPageLang=function(lang){ window.SS_LANG=lang; try{localStorage.setItem('ss_lang',lang);}catch(e){} apply(lang); };
+  function init(){
+    var saved=null; try{saved=localStorage.getItem('ss_lang');}catch(e){}
+    var tzCO=false; try{ tzCO=(Intl.DateTimeFormat().resolvedOptions().timeZone||'').indexOf('Bogota')>-1; }catch(e){}
+    var navES=((navigator.language||'').toLowerCase().indexOf('es')===0);
+    var lang = saved || ((tzCO||navES)?'es':'en');
+    window.SS_LANG=lang;
+    // Botón en el nav
+    var host=document.querySelector('nav > div:last-child');
+    if(host && !document.getElementById('lang-btn')){
+      var btn=document.createElement('button'); btn.id='lang-btn';
+      btn.style.cssText='cursor:pointer;background:#fff;border:1px solid #DDD9D2;border-radius:20px;padding:5px 12px;font-size:.8rem;font-family:inherit;color:#46544E;';
+      btn.onclick=function(){ window.setPageLang(window.SS_LANG==='es'?'en':'es'); };
+      host.insertBefore(btn, host.firstChild);
+    }
+    apply(lang);
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
+}catch(e){ console.warn('i18n inicio falló (página en inglés):', e); } })();
+</script>
+<!-- ── Botón de ayuda + FAQ + contacto (independiente, try/catch: si falla no rompe la página) ── -->
+<script>
+(function(){ try{
+  var EMAIL='daniela.parra7409@gmail.com';
+  function L(){ return (window.SS_LANG==='en')?'en':'es'; }
+  var FAQ={
+    es:[
+      ['¿Cómo funciona Slideseed?','Sube un documento (PDF, DOCX, PPTX o TXT); la IA arma una lección con 6 actividades evaluadas; la editas si quieres y la descargas en HTML, PDF o PPTX.'],
+      ['¿La lección funciona sin internet?','Sí. El HTML descargado funciona offline. Sin internet solo cambia la tipografía; el contenido y las actividades funcionan igual.'],
+      ['En iPhone no abre bien, ¿por qué?','iOS abre los .html en una vista previa que no ejecuta la interactividad. Ábrelo en un navegador: en Archivos, toca el archivo, luego Compartir y "Abrir en Safari" (o Chrome).'],
+      ['¿Qué formatos puedo descargar?','HTML en todos los planes; PDF desde el plan Single; PPTX desde el plan Pack.'],
+      ['¿Puedo subir varios documentos?','Sí, según tu plan (Pack: 2, Monthly: 3). Funciona mejor si son del mismo tema.'],
+      ['¿Guardan mis documentos?','No. Se procesan una sola vez para generar la lección y no se almacenan.'],
+      ['Me cobraron y no veo el plan o los créditos','Espera un par de minutos y recarga (el pago se confirma solo). Si sigue, escríbenos por aquí con tu correo y lo resolvemos.']
+    ],
+    en:[
+      ['How does Slideseed work?','Upload a document (PDF, DOCX, PPTX or TXT); the AI builds a lesson with 6 scored activities; you edit it and download as HTML, PDF or PPTX.'],
+      ['Does the lesson work offline?','Yes. The downloaded HTML works offline. Without internet only the font changes; content and activities work fine.'],
+      ['It does not open well on iPhone, why?','iOS opens .html files in a preview that does not run interactivity. Open it in a browser: in Files, tap the file, then Share and "Open in Safari" (or Chrome).'],
+      ['Which formats can I download?','HTML on all plans; PDF from the Single plan; PPTX from the Pack plan.'],
+      ['Can I upload several documents?','Yes, depending on your plan (Pack: 2, Monthly: 3). Works best if they are on the same topic.'],
+      ['Do you store my documents?','No. They are processed once to generate the lesson and not stored.'],
+      ['I was charged but do not see my plan or credits','Wait a couple of minutes and refresh (payment confirms automatically). If it persists, message us here with your email and we will fix it.']
+    ]
+  };
+  var TX={es:{faq:'Preguntas frecuentes',contact:'¿Necesitas ayuda humana?',write:'Escríbenos y te respondemos:',btn:'Escribir por correo'},
+          en:{faq:'FAQ',contact:'Need a human?',write:'Message us and we will reply:',btn:'Write us an email'}};
+
+  var btn=document.createElement('button');
+  btn.id='help-fab'; btn.setAttribute('aria-label','Help');
+  btn.innerHTML='<span style="font-family:Georgia,serif;font-size:1.5rem;line-height:1;">?</span>';
+  btn.style.cssText='position:fixed;bottom:20px;right:20px;z-index:99997;width:52px;height:52px;border-radius:50%;border:none;background:#447566;color:#fff;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.25);display:flex;align-items:center;justify-content:center;';
+  var panel=document.createElement('div');
+  panel.id='help-panel';
+  panel.style.cssText='position:fixed;bottom:82px;right:20px;z-index:99997;width:340px;max-width:92vw;max-height:72vh;overflow-y:auto;background:#fff;border:1px solid #e6e2d9;border-radius:16px;box-shadow:0 14px 44px rgba(0,0,0,.22);display:none;font-family:inherit;color:#2b3a34;';
+
+  function render(){
+    var lang=L(), t=TX[lang], faqs=FAQ[lang];
+    var items=faqs.map(function(q){
+      return '<div style="border-bottom:1px solid #f0ece3;"><button class="hfq" style="width:100%;text-align:left;background:none;border:none;padding:11px 16px;cursor:pointer;font-family:inherit;font-size:.85rem;font-weight:600;color:#2b3a34;">'+q[0]+'</button><div class="hfa" style="display:none;padding:0 16px 12px;font-size:.81rem;color:#555;line-height:1.55;">'+q[1]+'</div></div>';
+    }).join('');
+    var body=(lang==='es')?'Hola, tengo una duda o problema:\n\n':'Hi, I have a question or problem:\n\n';
+    var mailto='mailto:'+EMAIL+'?subject='+encodeURIComponent('Slideseed - '+t.contact)+'&body='+encodeURIComponent(body);
+    panel.innerHTML='<div style="padding:13px 16px;background:#447566;color:#fff;border-radius:16px 16px 0 0;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;"><strong style="font-size:.9rem;">'+t.faq+'</strong><span class="hclose" style="cursor:pointer;font-size:1.2rem;line-height:1;">&times;</span></div>'+items+'<div style="padding:14px 16px;background:#faf8f4;border-radius:0 0 16px 16px;"><div style="font-weight:600;font-size:.84rem;margin-bottom:5px;">'+t.contact+'</div><p style="font-size:.79rem;color:#555;margin-bottom:10px;">'+t.write+'</p><a href="'+mailto+'" style="display:inline-block;background:#447566;color:#fff;text-decoration:none;border-radius:20px;padding:8px 16px;font-size:.81rem;">'+t.btn+'</a><p style="font-size:.7rem;color:#999;margin-top:8px;">'+EMAIL+'</p></div>';
+  }
+  function toggle(show){ if(show){ render(); panel.style.display='block'; } else { panel.style.display='none'; } }
+  btn.onclick=function(){ toggle(panel.style.display!=='block'); };
+  panel.addEventListener('click',function(e){
+    var q=e.target.closest('.hfq');
+    if(q){ var a=q.nextElementSibling; if(a) a.style.display=(a.style.display==='block')?'none':'block'; return; }
+    if(e.target.closest('.hclose')){ toggle(false); }
+  });
+  function mount(){ document.body.appendChild(btn); document.body.appendChild(panel); }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',mount); else mount();
+}catch(e){ console.warn('help widget falló:', e); } })();
+</script>
 </body>
 </html>
