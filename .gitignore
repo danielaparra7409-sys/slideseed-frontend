@@ -1,0 +1,5 @@
+.wrangler/
+*.bak*
+index.html.pre-emdash
+index.html.bak*
+*Zone.Identifier

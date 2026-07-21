@@ -1,0 +1,25 @@
+# Slideseed
+
+> Slideseed convierte documentos (PDF, Word, PowerPoint, texto) en lecciones interactivas con actividades evaluadas, en menos de un minuto. Para docentes y autodidactas. / Slideseed turns documents into interactive, auto-scored lessons in under a minute.
+
+## Qué es
+Slideseed (https://slideseed.app) toma un documento y genera una leccion interactiva con seis tipos de actividades evaluadas: quiz con retroalimentacion, relacionar terminos, arrastrar y ordenar, intenta y revela, completar el espacio y reflexion (CER). La leccion se descarga como archivo HTML que funciona sin conexion, o como PDF/PPTX.
+
+## Para quien
+- Docentes que quieren preparar material interactivo en minutos.
+- Estudiantes autodidactas que convierten sus apuntes en practica evaluada.
+
+## Idiomas
+Espanol e ingles.
+
+## Precios
+- Free: 2 lecciones de prueba, sin tarjeta.
+- Single, Pack y Monthly: planes pagos con mas lecciones, diapositivas, documentos y formatos (PDF, PPTX).
+
+## Privacidad
+Los datos de estudiantes nunca se recopilan. Los documentos se procesan una vez y no se almacenan.
+
+## Enlaces
+- Sitio: https://slideseed.app
+- Privacidad: https://slideseed.app/privacy.html
+- Terminos: https://slideseed.app/terms.html
