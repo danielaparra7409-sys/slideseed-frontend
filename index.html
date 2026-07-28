@@ -690,6 +690,10 @@ footer{background:var(--paper2);border-top:1px solid var(--line);padding:40px 40
         <button class="fmt-btn" data-fmt="pdf" onclick="setFmt('pdf',this)">PDF</button>
         <button class="fmt-btn" data-fmt="pptx" onclick="setFmt('pptx',this)">PPTX</button>
       </div>
+      <button class="btn-download" id="btn-share" style="background:#fff;color:var(--green);border:1.5px solid var(--green);" onclick="shareLink(this)">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+        <span data-i18n="Share link">Share link</span>
+      </button>
       <button class="btn-download" onclick="downloadLesson()">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         Download
@@ -1221,6 +1225,45 @@ function downloadLesson(){
   }
 }
 function dlFile(c,n,t){const b=new Blob([c],{type:t});const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download=n;document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(u);}
+
+/* ── SHARE LINK (lección como página web: funciona en iPhone/iPad/Android y plataformas escolares) ── */
+async function shareLink(btn){
+  var _ah = window.authHeader ? await window.authHeader() : {};
+  if(!_ah || !_ah.Authorization){ alert(window.SS_LANG==='es'?'Inicia sesión para crear el enlace.':'Log in to create the link.'); return; }
+  var prev = btn.innerHTML;
+  btn.disabled=true; btn.style.opacity='.7'; btn.innerHTML=(window.SS_LANG==='es'?'Creando enlace…':'Creating link…');
+  try{
+    var r = await fetch(BACKEND_URL+'/share', {method:'POST', headers:Object.assign({'Content-Type':'application/json'}, _ah), body: JSON.stringify({html: buildStudentHTML(), title: (lessonTitle||'')})});
+    if(!r.ok) throw new Error('share '+r.status);
+    var d = await r.json();
+    var url = BACKEND_URL+'/l/'+d.id;
+    try{ await navigator.clipboard.writeText(url); }catch(e){}
+    showShareModal(url);
+  }catch(e){ console.error(e); alert(window.SS_LANG==='es'?'No se pudo crear el enlace. Intenta de nuevo.':'Could not create the link. Try again.'); }
+  finally{ btn.disabled=false; btn.style.opacity=''; btn.innerHTML=prev; }
+}
+function showShareModal(url){
+  var es=(window.SS_LANG==='es');
+  var old=document.getElementById('share-modal'); if(old) old.remove();
+  var ov=document.createElement('div'); ov.id='share-modal';
+  ov.style.cssText='position:fixed;inset:0;z-index:9999;background:rgba(31,43,39,.55);display:flex;align-items:center;justify-content:center;padding:20px;';
+  var waText=encodeURIComponent((es?'Tu lección interactiva: ':'Your interactive lesson: ')+url);
+  ov.innerHTML='<div style="background:#fff;border-radius:18px;max-width:440px;width:100%;padding:26px;box-shadow:0 20px 60px rgba(0,0,0,.3);font-family:inherit;">'
+   +'<div style="font-family:Georgia,serif;font-size:1.15rem;color:#1F2B27;margin-bottom:6px;">'+(es?'🔗 Enlace listo para compartir':'🔗 Share link ready')+'</div>'
+   +'<p style="font-size:.85rem;color:#46544e;line-height:1.6;margin-bottom:16px;">'+(es?'Comparte este enlace con tus estudiantes. Se abre y funciona en cualquier celular o computador (iPhone, iPad, Android), sin descargar nada.':'Share this link with your students. It opens and works on any phone or computer (iPhone, iPad, Android), no download needed.')+'</p>'
+   +'<div style="display:flex;gap:8px;align-items:center;background:#F7F2EA;border:1px solid #DDD3C4;border-radius:10px;padding:10px 12px;margin-bottom:14px;">'
+     +'<input id="share-url-input" readonly value="'+url+'" style="flex:1;border:none;background:transparent;font-size:.82rem;color:#1F2B27;outline:none;">'
+   +'</div>'
+   +'<div style="display:flex;gap:8px;flex-wrap:wrap;">'
+     +'<button onclick="(function(){var i=document.getElementById(\'share-url-input\');i.select();try{navigator.clipboard.writeText(i.value);}catch(e){document.execCommand(\'copy\');}var b=event.target;b.textContent=\''+(es?'¡Copiado!':'Copied!')+'\';})()" style="flex:1;background:#447566;color:#fff;border:none;border-radius:8px;padding:11px;font-size:.85rem;font-family:inherit;cursor:pointer;">'+(es?'Copiar enlace':'Copy link')+'</button>'
+     +'<a href="'+url+'" target="_blank" style="flex:1;text-align:center;background:#fff;color:#447566;border:1.5px solid #447566;border-radius:8px;padding:11px;font-size:.85rem;text-decoration:none;">'+(es?'Abrir':'Open')+'</a>'
+     +'<a href="https://wa.me/?text='+waText+'" target="_blank" style="flex:1;text-align:center;background:#25D366;color:#fff;border:none;border-radius:8px;padding:11px;font-size:.85rem;text-decoration:none;">WhatsApp</a>'
+   +'</div>'
+   +'<button onclick="document.getElementById(\'share-modal\').remove()" style="margin-top:14px;width:100%;background:none;border:none;color:#8A9490;font-size:.8rem;cursor:pointer;">'+(es?'Cerrar':'Close')+'</button>'
+   +'</div>';
+  ov.addEventListener('click',function(e){ if(e.target===ov) ov.remove(); });
+  document.body.appendChild(ov);
+}
 
 /* ── PPTX export (backend /export/pptx; falls back gracefully if not deployed yet) ── */
 async function exportPPTX(){
