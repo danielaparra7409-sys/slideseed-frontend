@@ -4,6 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script>if(location.hostname==='slideseed-frontend.pages.dev'){location.replace('https://slideseed.app'+location.pathname+location.search+location.hash);}</script>
+<script>
+// Staging (Cloudflare Pages preview, *.pages.dev) habla con el backend de staging.
+// Producción (slideseed.app) sigue igual, sin cambios.
+window.getBackendUrl = function(){
+  return location.hostname.indexOf('pages.dev') !== -1
+    ? 'https://slideseed-backend-staging.up.railway.app'
+    : 'https://slideseed-backend-production.up.railway.app';
+};
+window.getSupabaseConfig = function(){
+  if(location.hostname.indexOf('pages.dev') !== -1){
+    return { url:'https://lnyludkahcmexwqppilk.supabase.co', key:'sb_publishable_X7uutnkggTjlN8H7wYBeDQ_dw8iukzj' };
+  }
+  return { url:'https://vpuxvlrzqksaycwabqyp.supabase.co', key:'sb_publishable_bHqaAo13SKvUggBJX3Haiw_2g0Zy7bd' };
+};
+</script>
 <!-- MailerLite Universal -->
 <script>
 (function(w,d,e,u,f,l,n){w[f]=w[f]||function(){(w[f].q=w[f].q||[]).push(arguments);},l=d.createElement(e),l.async=1,l.src=u,n=d.getElementsByTagName(e)[0],n.parentNode.insertBefore(l,n);})
@@ -786,7 +801,7 @@ footer{background:var(--paper2);border-top:1px solid var(--line);padding:40px 40
 
 <script>
 const DEV = new URLSearchParams(window.location.search).get('dev')==='true';
-const BACKEND_URL='https://slideseed-backend-production.up.railway.app';
+const BACKEND_URL=window.getBackendUrl();
 const SITE_URL='https://slideseed.app'; // TODO: cambiar a https://slideseed.app cuando exista el dominio
 const S={file:null,files:[],images:[],grade:'',gradeName:'',lang:'',theme:'forest',slides:3,maxSlides:3,maxDocs:1,plan:'free'};
 const SLIDE_CAPS={free:3,single:5,pack:8,monthly:10};
@@ -2118,9 +2133,10 @@ function hexToRgb(hex){hex=(hex||'').replace('#','');if(hex.length===3)hex=hex.s
 <!-- ── Supabase auth: login con Google + enlace por correo (magic link) ── -->
 <script type="module">
   import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
-  const SUPABASE_URL = 'https://vpuxvlrzqksaycwabqyp.supabase.co'
-  const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_bHqaAo13SKvUggBJX3Haiw_2g0Zy7bd'
-  const BK = 'https://slideseed-backend-production.up.railway.app'
+  const _sbcfg = window.getSupabaseConfig()
+  const SUPABASE_URL = _sbcfg.url
+  const SUPABASE_PUBLISHABLE_KEY = _sbcfg.key
+  const BK = window.getBackendUrl()
   const sb = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY)
   window.sb = sb
   window.loginGoogle = () => sb.auth.signInWithOAuth({ provider:'google', options:{ redirectTo: window.location.origin } })
@@ -2224,7 +2240,7 @@ async function buyPlan(plan){
 </script>
 <script>
 (function(){
-  var BK='https://slideseed-backend-production.up.railway.app';
+  var BK=window.getBackendUrl();
   if(!document.querySelector('script[src*="checkout.wompi.co"]')){
     var w=document.createElement('script'); w.src='https://checkout.wompi.co/widget.js'; document.head.appendChild(w);
   }
