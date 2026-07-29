@@ -18,6 +18,11 @@ window.getSupabaseConfig = function(){
   }
   return { url:'https://vpuxvlrzqksaycwabqyp.supabase.co', key:'sb_publishable_bHqaAo13SKvUggBJX3Haiw_2g0Zy7bd' };
 };
+if(location.hostname.indexOf('pages.dev') !== -1){
+  document.addEventListener('DOMContentLoaded', function(){
+    document.querySelectorAll('#staging-badge').forEach(function(el){ el.style.display='block'; });
+  });
+}
 </script>
 <!-- MailerLite Universal -->
 <script>
@@ -118,9 +123,10 @@ ml('account', '2514062');
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background:var(--paper);color:var(--ink);line-height:1.6;overflow-x:hidden;}
 nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(247,242,234,.96);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:0 40px;height:60px;display:flex;align-items:center;justify-content:space-between;}
-.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
-.logo-text{font-family:Georgia,serif;font-size:1.1rem;color:var(--ink);}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;position:relative;}
+.logo-text{font-family:Georgia,serif;font-size:1.1rem;color:var(--ink);position:relative;}
 .logo-text span{color:var(--green);}
+#staging-badge{display:none;position:absolute;left:0;top:-13px;font-style:italic;font-size:.6rem;color:var(--green);letter-spacing:.03em;font-family:Georgia,serif;}
 .nav-links{display:flex;gap:28px;list-style:none;}
 .nav-links a{font-size:.85rem;color:var(--soft);text-decoration:none;transition:color .2s;}
 .nav-links a:hover{color:var(--green);}
@@ -421,7 +427,7 @@ footer{background:var(--paper2);border-top:1px solid var(--line);padding:40px 40
 <nav>
   <a href="#" class="nav-logo">
     <svg width="26" height="26" viewBox="0 0 32 32"><line x1="16" y1="13" x2="16" y2="26" stroke="#447566" stroke-width="0.55" stroke-linecap="round"/><circle cx="16" cy="26" r="0.77" fill="#447566"/><line x1="16" y1="13" x2="16.0" y2="2.0" stroke="#447566" stroke-width="0.55" stroke-linecap="round"/><circle cx="16.0" cy="2.0" r="0.66" fill="#447566"/><line x1="16" y1="13" x2="20.2" y2="2.8" stroke="#447566" stroke-width="0.55" stroke-linecap="round"/><circle cx="20.2" cy="2.8" r="0.66" fill="#447566"/><line x1="16" y1="13" x2="23.8" y2="5.2" stroke="#447566" stroke-width="0.55" stroke-linecap="round"/><circle cx="23.8" cy="5.2" r="0.66" fill="#447566"/><line x1="16" y1="13" x2="26.2" y2="8.8" stroke="#447566" stroke-width="0.55" stroke-linecap="round"/><circle cx="26.2" cy="8.8" r="0.66" fill="#447566"/><line x1="16" y1="13" x2="27.0" y2="13.0" stroke="#447566" stroke-width="0.55" stroke-linecap="round"/><circle cx="27.0" cy="13.0" r="0.66" fill="#447566"/><line x1="16" y1="13" x2="26.2" y2="17.2" stroke="#447566" stroke-width="0.55" stroke-linecap="round"/><circle cx="26.2" cy="17.2" r="0.66" fill="#447566"/><line x1="16" y1="13" x2="23.8" y2="20.8" stroke="#447566" stroke-width="0.55" stroke-linecap="round"/><circle cx="23.8" cy="20.8" r="0.66" fill="#447566"/><line x1="16" y1="13" x2="20.2" y2="23.2" stroke="#447566" stroke-width="0.55" stroke-linecap="round"/><circle cx="20.2" cy="23.2" r="0.66" fill="#447566"/><line x1="16" y1="13" x2="16.0" y2="24.0" stroke="#447566" stroke-width="0.55" stroke-linecap="round"/><circle cx="16.0" cy="24.0" r="0.66" fill="#447566"/><line x1="16" y1="13" x2="11.8" y2="23.2" stroke="#447566" stroke-width="0.55" stroke-linecap="round"/><circle cx="11.8" cy="23.2" r="0.66" fill="#447566"/><line x1="16" y1="13" x2="8.2" y2="20.8" stroke="#447566" stroke-width="0.55" stroke-linecap="round"/><circle cx="8.2" cy="20.8" r="0.66" fill="#447566"/><line x1="16" y1="13" x2="5.8" y2="17.2" stroke="#447566" stroke-width="0.55" stroke-linecap="round"/><circle cx="5.8" cy="17.2" r="0.66" fill="#447566"/><line x1="16" y1="13" x2="5.0" y2="13.0" stroke="#447566" stroke-width="0.55" stroke-linecap="round"/><circle cx="5.0" cy="13.0" r="0.66" fill="#447566"/><line x1="16" y1="13" x2="5.8" y2="8.8" stroke="#447566" stroke-width="0.55" stroke-linecap="round"/><circle cx="5.8" cy="8.8" r="0.66" fill="#447566"/><line x1="16" y1="13" x2="8.2" y2="5.2" stroke="#447566" stroke-width="0.55" stroke-linecap="round"/><circle cx="8.2" cy="5.2" r="0.66" fill="#447566"/><line x1="16" y1="13" x2="11.8" y2="2.8" stroke="#447566" stroke-width="0.55" stroke-linecap="round"/><circle cx="11.8" cy="2.8" r="0.66" fill="#447566"/><circle cx="16" cy="13" r="1.10" fill="#447566"/></svg>
-    <span class="logo-text"><span>Slide</span>seed</span>
+    <span class="logo-text"><span id="staging-badge">staging</span><span>Slide</span>seed</span>
   </a>
   <ul class="nav-links"><li><a href="#how">How it works</a></li><li><a href="#features">Features</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#trust">About</a></li></ul>
   <div style="display:flex;align-items:center;gap:8px;">
