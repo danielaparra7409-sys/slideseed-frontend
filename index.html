@@ -597,7 +597,6 @@ footer{background:var(--paper2);border-top:1px solid var(--line);padding:40px 40
   <div class="testi-grid" id="testi-grid">
     <div class="testi-card"><p class="testi-quote">I uploaded my ecosystems unit and had three interactive lessons ready in under five minutes. The matching activity is exactly what my students needed.</p><div class="testi-author"><div class="testi-avatar">M</div><div><div class="testi-name">Marcela R.</div><div class="testi-role">5th grade teacher · Bogotá</div></div></div></div>
     <div class="testi-card"><p class="testi-quote">The quiz distractors are actually plausible, my students can't just guess the longest answer anymore. That alone makes it worth it.</p><div class="testi-author"><div class="testi-avatar">J</div><div><div class="testi-name">Julián R.</div><div class="testi-role">Middle school science · Barranquilla</div></div></div></div>
-    <div class="testi-card"><p class="testi-quote">The drag-to-sort activity works perfectly for my history timeline lessons. Students finally understand sequence, not just facts.</p><div class="testi-author"><div class="testi-avatar">L</div><div><div class="testi-name">Laura V.</div><div class="testi-role">High school history · CDMX</div></div></div></div>
   </div>
   <div style="text-align:center;margin-top:36px;">
     <p class="testi-invite" style="color:var(--muted);font-size:.95rem;margin:0 0 14px;">Already tried Slideseed? We'd love to hear how it went.</p>
@@ -670,7 +669,7 @@ footer{background:var(--paper2);border-top:1px solid var(--line);padding:40px 40
         .limit(6);
       if(r.error||!r.data||!r.data.length)return; // keep seed cards
       var grid=document.getElementById('testi-grid');
-      if(grid)grid.innerHTML=r.data.map(card).join('');
+      if(grid)grid.insertAdjacentHTML('beforeend',r.data.map(card).join(''));
     }catch(e){/* keep seed cards */}
   }
   var tries=0;
