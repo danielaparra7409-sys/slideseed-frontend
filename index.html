@@ -1077,7 +1077,7 @@ function addSlide(){
   var cap=S.maxSlides||3;
   if(editorSlides.length>=cap){alert((S.lang==='es'?'Tu plan permite hasta ':'Your plan allows up to ')+cap+(S.lang==='es'?' diapositivas por lección. Mejora tu plan para más.':' slides per lesson. Upgrade for more.'));return;}
   pushUndo();
-  editorSlides.push({id:editorSlides.length+1,title:'New slide',body:'Add content here.',key_term:'',key_definition:'',quiz:{question:'',correct:'',wrong:[]},fill_blank:{sentence:'',answer:''},drag_items:[],activity:'quiz',image:null});activeIdx=editorSlides.length-1;renderSlideCards();renderThumbs();setActiveSlide(activeIdx);
+  editorSlides.push({id:editorSlides.length+1,title:'New slide',body:'Add content here.',key_term:'',key_definition:'',quiz:{question:'',correct:'',wrong:[]},fill_blank:{sentence:'',answer:'',distractors:[]},drag_items:[],activity:'quiz',image:null});activeIdx=editorSlides.length-1;renderSlideCards();renderThumbs();setActiveSlide(activeIdx);
 }
 function setSlideAct(i,a,el){editorSlides[i].activity=a;el.closest('.activity-selector').querySelectorAll('.act-btn').forEach(b=>b.classList.remove('selected'));el.classList.add('selected');reActEd(i);}
 function setScoreMode(m,el){scoreMode=m;el.parentElement.querySelectorAll('.fmt-btn').forEach(b=>b.classList.remove('active'));el.classList.add('active');}
@@ -1129,10 +1129,11 @@ function actEditorHTML(i){
       +tarea(sl.quiz.explain,'Shown as feedback so the student learns, not just scores&hellip;',"updAObj("+i+",'quiz','explain',this.value)",2));
   }
   if(a==='fill'){
-    sl.fill_blank=sl.fill_blank||{sentence:'',answer:''};
+    sl.fill_blank=sl.fill_blank||{sentence:'',answer:'',distractors:[]};
     return box(lbl('Sentence &mdash; use ___ for the blank &middot; Usa ___ para el espacio')+inp(sl.fill_blank.sentence,'The powerhouse of the cell is the ___.',"updAObj("+i+",'fill_blank','sentence',this.value)")
       +lbl('Answer &middot; Respuesta')+inp(sl.fill_blank.answer,'mitochondria',"updAObj("+i+",'fill_blank','answer',this.value)")
       +lbl('Other accepted answers &middot; Otras respuestas válidas')+inp(sl.fill_blank.alt,'mitochondrion, mitocondria (comma/| separated)',"updAObj("+i+",'fill_blank','alt',this.value)")
+      +lbl('Word bank — wrong options &middot; Opciones falsas del banco de palabras')+inp(Array.isArray(sl.fill_blank.distractors)?sl.fill_blank.distractors.join(', '):(sl.fill_blank.distractors||''),'nucleus, ribosome (comma separated, similar length to the answer)',"updAObj("+i+",'fill_blank','distractors',this.value.split(',').map(function(s){return s.trim();}).filter(Boolean))")
       +'<div style="font-size:.66rem;color:#8a7f70;line-height:1.5;">'+(lang==='es'?'Se aceptan sinónimos o la versión ES/EN. Ignora mayúsculas y tildes.':'Synonyms or the ES/EN version are accepted. Case & accents ignored.')+'</div>');
   }
   if(a==='flip'){
@@ -1483,8 +1484,9 @@ function buildStudentHTML(){
       const parts=sl.fill_blank.sentence.split('___');
       const ans=sl.fill_blank.answer||'';
       const accepted=[ans].concat(String(sl.fill_blank.alt||'').split(/[|,]/).map(s=>s.trim()).filter(Boolean)).filter(Boolean);
-      const wordBank=cfg.useWordBank&&sl.drag_items&&sl.drag_items.length?
-        `<div class="word-bank"><div class="wb-label">${lang==='es'?'Banco de palabras':'Word bank'}</div>${[...new Set(sl.drag_items.concat(ans))].sort(()=>Math.random()-.5).map(w=>`<span class="word-chip" onclick="useWord(this,'fill-${i}')">${esc(w)}</span>`).join('')}</div>`:'';
+      const fillDistractors=Array.isArray(sl.fill_blank.distractors)?sl.fill_blank.distractors:String(sl.fill_blank.distractors||'').split(',').map(s=>s.trim()).filter(Boolean);
+      const wordBank=cfg.useWordBank&&fillDistractors.length?
+        `<div class="word-bank"><div class="wb-label">${lang==='es'?'Banco de palabras':'Word bank'}</div>${[...new Set(fillDistractors.concat(ans))].sort(()=>Math.random()-.5).map(w=>`<span class="word-chip" onclick="useWord(this,'fill-${i}')">${esc(w)}</span>`).join('')}</div>`:'';
       actBlock=`<div class="act-block">
         <div class="act-lbl">${E?'✍️ ':''}${lang==='es'?'Completa el espacio':'Fill in the blank'}</div>
         ${wordBank}
