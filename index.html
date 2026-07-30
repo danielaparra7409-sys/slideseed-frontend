@@ -366,11 +366,13 @@ footer{background:var(--paper2);border-top:1px solid var(--line);padding:40px 40
 .edit-title-vis:focus{background:rgba(255,255,255,.12);}
 /* Body section */
 .slide-vis-body{padding:18px 22px 14px;}
-.slide-img-area{border:1.5px dashed var(--line);border-radius:10px;overflow:hidden;text-align:center;cursor:pointer;margin-bottom:8px;background:#fff;transition:border-color .2s;min-height:52px;display:flex;align-items:center;justify-content:center;}
+.slide-img-area{position:relative;border:1.5px dashed var(--line);border-radius:10px;overflow:hidden;text-align:center;cursor:pointer;margin-bottom:8px;background:#fff;transition:border-color .2s;min-height:52px;display:flex;align-items:center;justify-content:center;}
 .slide-img-area:hover{border-color:var(--slide-accent);}
 .slide-img-area.has-img{border-style:solid;border-color:var(--slide-accent);}
 .slide-img-area img{max-width:100%;max-height:200px;object-fit:cover;display:block;width:100%;}
 .img-placeholder{padding:14px;font-size:.74rem;color:var(--muted);}
+.img-remove-btn{position:absolute;top:6px;right:6px;width:24px;height:24px;border:none;border-radius:50%;background:rgba(31,43,39,.72);color:#fff;font-size:.8rem;line-height:24px;text-align:center;cursor:pointer;padding:0;z-index:2;}
+.img-remove-btn:hover{background:#c0392b;}
 .img-url-row{display:flex;gap:6px;margin:0 0 14px;}
 .url-input{flex:1;font-size:.72rem;padding:5px 9px;border:1px solid var(--line);border-radius:6px;font-family:inherit;color:var(--ink);background:var(--paper);}
 .url-input:focus{outline:none;border-color:var(--slide-accent);}
@@ -1028,7 +1030,7 @@ function renderSlideCards(){
       </div>
       <div class="slide-vis-body" style="background:${bgColor}">
         <div class="slide-img-area${sl.image?' has-img':''}" id="img-${i}" onclick="triggerImg(${i})">
-          ${sl.image?`<img src="${sl.image}" alt="">`:`<div class="img-placeholder">📷 Click to add image (optional)</div>`}
+          ${sl.image?`<img src="${sl.image}" alt=""><button type="button" class="img-remove-btn" onclick="event.stopPropagation();removeImg(${i})" title="Remove image">✕</button>`:`<div class="img-placeholder">📷 Click to add image (optional)</div>`}
         </div>
         <input type="file" id="img-input-${i}" accept="image/*" style="display:none" onchange="handleImg(${i},this)">
         <div class="img-url-row">
@@ -1179,8 +1181,9 @@ function actEditorHTML(i){
     +tarea(sl.cer_model,'A strong claim + evidence + reasoning the student compares against&hellip;',"updA("+i+",'cer_model',this.value)",3));
 }
 function triggerImg(i){document.getElementById(`img-input-${i}`)?.click();}
-function handleImg(i,input){const f=input.files[0];if(!f)return;const r=new FileReader();r.onload=e=>{editorSlides[i].image=e.target.result;const a=document.getElementById(`img-${i}`);if(a){a.innerHTML=`<img src="${e.target.result}" alt="" style="max-width:100%;max-height:150px;border-radius:8px;">`;a.classList.add('has-img');}};r.readAsDataURL(f);}
-function setImgUrl(i){const inp=document.getElementById(`img-url-${i}`);if(!inp||!inp.value.trim())return;const url=inp.value.trim();editorSlides[i].image=url;const a=document.getElementById(`img-${i}`);if(a){a.innerHTML=`<img src="${url}" alt="" style="max-width:100%;max-height:150px;border-radius:8px;" onerror="this.parentElement.innerHTML='<div class=\\'img-placeholder\\'>Invalid URL</div>'">`;a.classList.add('has-img');}inp.value='';}
+function handleImg(i,input){const f=input.files[0];if(!f)return;const r=new FileReader();r.onload=e=>{editorSlides[i].image=e.target.result;const a=document.getElementById(`img-${i}`);if(a){a.innerHTML=`<img src="${e.target.result}" alt="" style="max-width:100%;max-height:150px;border-radius:8px;"><button type="button" class="img-remove-btn" onclick="event.stopPropagation();removeImg(${i})" title="Remove image">✕</button>`;a.classList.add('has-img');}};r.readAsDataURL(f);}
+function setImgUrl(i){const inp=document.getElementById(`img-url-${i}`);if(!inp||!inp.value.trim())return;const url=inp.value.trim();editorSlides[i].image=url;const a=document.getElementById(`img-${i}`);if(a){a.innerHTML=`<img src="${url}" alt="" style="max-width:100%;max-height:150px;border-radius:8px;" onerror="this.parentElement.innerHTML='<div class=\\'img-placeholder\\'>Invalid URL</div>'"><button type="button" class="img-remove-btn" onclick="event.stopPropagation();removeImg(${i})" title="Remove image">✕</button>`;a.classList.add('has-img');}inp.value='';}
+function removeImg(i){editorSlides[i].image=null;const a=document.getElementById(`img-${i}`);if(a){a.classList.remove('has-img');a.innerHTML='<div class="img-placeholder">📷 Click to add image (optional)</div>';}const inp=document.getElementById(`img-input-${i}`);if(inp)inp.value='';const u=document.getElementById(`img-url-${i}`);if(u)u.value='';}
 function setAllActivity(a,el){editorSlides.forEach(s=>s.activity=a);document.querySelectorAll('#global-activity .act-btn').forEach(b=>b.classList.remove('selected'));el.classList.add('selected');renderSlideCards();}
 function setSwatch(el,c){
   themeAccent=c;
