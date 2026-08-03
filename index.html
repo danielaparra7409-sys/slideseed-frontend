@@ -994,6 +994,7 @@ function openEditor(data){
     classify_items:sl.classify_items||null,
     reflect_prompt:sl.reflect_prompt||'',
     cer_model:sl.cer_model||'',
+    formulas:(sl.formulas&&sl.formulas.length)?sl.formulas:null,
     activity:sl.activity_hint||acts[i%acts.length],
     image:null
   }));
