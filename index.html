@@ -1122,6 +1122,39 @@ function removeFormula(i,fi){var s=editorSlides[i];if(s.formulas&&s.formulas.len
 function addFormulaVar(i,fi){var s=editorSlides[i];var fo=s.formulas[fi];fo.inputs=fo.inputs||[];fo.inputs.push({symbol:'',label:'',unit:''});reActEd(i);}
 function removeFormulaVar(i,fi,vi){var s=editorSlides[i];var fo=s.formulas[fi];if(fo.inputs&&fo.inputs.length>1){fo.inputs.splice(vi,1);reActEd(i);}}
 function insertFormulaToken(i,fi,tok){var s=editorSlides[i];var fo=s.formulas[fi];fo.expression=(fo.expression||'')+tok;reActEd(i);}
+function backspaceFormulaExpr(i,fi){var s=editorSlides[i];var fo=s.formulas[fi];fo.expression=(fo.expression||'').slice(0,-1);reActEd(i);}
+function tokenizeExprSPA(expr){
+  var toks=[];var s=String(expr||'');var i=0;var n=s.length;
+  while(i<n){
+    var c=s.charAt(i);
+    if(c===' '){i++;continue;}
+    if(/[A-Za-z_]/.test(c)){var j=i;while(j<n&&/[A-Za-z0-9_]/.test(s.charAt(j)))j++;toks.push({type:'id',val:s.slice(i,j)});i=j;continue;}
+    if(/[0-9.]/.test(c)){var j=i;while(j<n&&/[0-9.]/.test(s.charAt(j)))j++;toks.push({type:'num',val:s.slice(i,j)});i=j;continue;}
+    if('+-*/^(),'.indexOf(c)!==-1){toks.push({type:'op',val:c});i++;continue;}
+    i++;
+  }
+  return toks;
+}
+function evalFormulaExprSPA(expr,values){
+  try{
+    var toks=tokenizeExprSPA(expr);
+    if(!toks.length)return null;
+    var fnNames={sqrt:1,pow:1,sin:1,cos:1,tan:1,log:1,abs:1,min:1,max:1};
+    var out='';
+    for(var k=0;k<toks.length;k++){
+      var t=toks[k];
+      if(t.type==='id'){
+        if(t.val==='PI'){out+='Math.PI';}
+        else if(fnNames[t.val]){out+='Math.'+t.val;}
+        else if(Object.prototype.hasOwnProperty.call(values,t.val)){out+='('+values[t.val]+')';}
+        else{return null;}
+      } else if(t.type==='num'){out+=t.val;}
+      else if(t.type==='op'){out+=(t.val==='^')?'**':t.val;}
+    }
+    var val=Function('"use strict";return ('+out+')')();
+    return (typeof val==='number'&&isFinite(val))?val:null;
+  }catch(err){return null;}
+}
 function actEditorHTML(i){
   var sl=editorSlides[i],a=sl.activity||'quiz';
   var lang=(typeof S!=='undefined'&&S.lang)?S.lang:'en';
@@ -1234,8 +1267,20 @@ function actEditorHTML(i){
         +symChips.map(function(sym){return '<button type="button" onclick="insertFormulaToken('+i+','+fi+',\''+sym.replace(/'/g,"\\'")+'\')" style="'+chipStyle+'">'+esc(sym)+'</button>';}).join('')
         +(symChips.length?'<span style="width:1px;background:#e5ddd0;margin:2px 3px;"></span>':'')
         +opChips.map(function(o){return '<button type="button" onclick="insertFormulaToken('+i+','+fi+',\''+o[1]+'\')" style="'+opChipStyle+'">'+o[0]+'</button>';}).join('')
+        +'<button type="button" onclick="backspaceFormulaExpr('+i+','+fi+')" title="'+(lang==='es'?'Borrar último':'Delete last')+'" style="'+opChipStyle+'">&#9003;</button>'
         +'<button type="button" onclick="updFormula('+i+','+fi+',\'expression\',\'\');reActEd('+i+')" style="border:none;background:transparent;color:#a15c4a;font-size:.72rem;cursor:pointer;padding:4px 6px;">'+(lang==='es'?'limpiar':'clear')+'</button>'
         +'</div>';
+      var previewHTML='';
+      if(f.expression&&f.expression.trim()){
+        var pvVals={};(f.inputs||[]).forEach(function(v,vi){if(v.symbol)pvVals[v.symbol]=vi+2;});
+        var pvResult=evalFormulaExprSPA(f.expression,pvVals);
+        if(pvResult===null){
+          previewHTML='<div style="font-size:.72rem;color:#a15c4a;margin-top:6px;">⚠ '+(lang==='es'?'Esa expresión no se puede calcular. Revisa que solo tenga los símbolos y operadores de arriba, bien completos.':'That expression can\'t be calculated. Check it only uses the symbols and operators above, fully complete.')+'</div>';
+        } else {
+          var exVals=(f.inputs||[]).map(function(v){return (v.symbol||'?')+'='+(pvVals[v.symbol]!==undefined?pvVals[v.symbol]:'?');}).join(', ');
+          previewHTML='<div style="font-size:.72rem;color:#6a9b6f;margin-top:6px;">✓ '+(lang==='es'?'Ej.':'E.g.')+': '+exVals+' &rarr; '+esc(f.output.symbol||'')+' = '+pvResult+'</div>';
+        }
+      }
       return '<div style="border:1px solid #eae4da;border-radius:10px;padding:10px 12px;margin-bottom:10px;background:#fff;">'
         +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;"><span style="font-size:.6rem;letter-spacing:.06em;text-transform:uppercase;color:#8a7f70;font-weight:700;">'+(lang==='es'?'Fórmula ':'Formula ')+(fi+1)+'</span>'
         +(sl.formulas.length>1?'<button onclick="removeFormula('+i+','+fi+')" title="Remove" style="border:none;background:#f0e9df;color:#a15c4a;border-radius:6px;width:22px;height:22px;cursor:pointer;font-size:.75rem;">&#10005;</button>':'')
@@ -1255,6 +1300,7 @@ function actEditorHTML(i){
         +'<div style="font-size:.66rem;color:#8a7f70;margin-bottom:6px;">'+(lang==='es'?'Toca los símbolos y las operaciones para armarla, o escribe directo.':'Tap the symbols and operators to build it, or type it directly.')+'</div>'
         +pickerHTML
         +'<input type="text" value="'+esc(f.expression||'')+'" oninput="updFormula('+i+','+fi+',\'expression\',this.value)" placeholder="'+(lang==='es'?'ej. m*a':'e.g. m*a')+'" style="width:100%;padding:6px 9px;border:1px solid #ddd3c4;border-radius:8px;font-size:.8rem;box-sizing:border-box;font-family:monospace;">'
+        +previewHTML
         +'</div>';
     }).join('');
     return box('<div style="font-size:.68rem;color:#8a7f70;margin-bottom:8px;line-height:1.5;">'+(lang==='es'?'Calculadora guiada: el estudiante ingresa los valores y ve el resultado calculado. No se califica.':'Guided calculator: the student enters values and sees the calculated result. Not graded.')+'</div>'
