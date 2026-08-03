@@ -750,6 +750,7 @@ footer{background:var(--paper2);border-top:1px solid var(--line);padding:40px 40
           <button class="act-btn" onclick="setAllActivity('flip',this)">Flip</button>
           <button class="act-btn" onclick="setAllActivity('fill',this)">Fill</button>
           <button class="act-btn" onclick="setAllActivity('reflect',this)">Reflect</button>
+          <button class="act-btn" onclick="setAllActivity('formulas',this)">Formulas</button>
         </div>
       </div>
       <div class="tools-section" id="doc-images-section" style="display:none;">
@@ -1071,6 +1072,7 @@ function renderSlideCards(){
           <button class="act-btn${sl.activity==='flip'?' selected':''}" onclick="setSlideAct(${i},'flip',this)">Flip</button>
           <button class="act-btn${sl.activity==='fill'?' selected':''}" onclick="setSlideAct(${i},'fill',this)">Fill</button>
           <button class="act-btn${sl.activity==='reflect'?' selected':''}" onclick="setSlideAct(${i},'reflect',this)">Reflect</button>
+          <button class="act-btn${sl.activity==='formulas'?' selected':''}" onclick="setSlideAct(${i},'formulas',this)">Formulas</button>
         </div>
         <div class="act-edit" id="acted-${i}">${actEditorHTML(i)}</div>
       </div>`;
@@ -1110,6 +1112,9 @@ function removeFlipCard(i,ci){var s=editorSlides[i];if(s.flip_cards&&s.flip_card
 function updMatchPair(i,pi,f,v){var s=editorSlides[i];s.match_pairs=s.match_pairs||[{term:'',def:''}];s.match_pairs[pi][f]=v;if(pi===0){if(f==='term')s.key_term=v;if(f==='def')s.key_definition=v;}}
 function addMatchPair(i){var s=editorSlides[i];s.match_pairs=s.match_pairs||[];if(s.match_pairs.length<5){s.match_pairs.push({term:'',def:''});reActEd(i);}}
 function removeMatchPair(i,pi){var s=editorSlides[i];if(s.match_pairs&&s.match_pairs.length>1){s.match_pairs.splice(pi,1);reActEd(i);}}
+function updFormula(i,fi,f,v){var s=editorSlides[i];s.formulas=s.formulas||[{formula:'',meaning:''}];s.formulas[fi][f]=v;}
+function addFormula(i){var s=editorSlides[i];s.formulas=s.formulas||[];s.formulas.push({formula:'',meaning:''});reActEd(i);}
+function removeFormula(i,fi){var s=editorSlides[i];if(s.formulas&&s.formulas.length>1){s.formulas.splice(fi,1);reActEd(i);}}
 function actEditorHTML(i){
   var sl=editorSlides[i],a=sl.activity||'quiz';
   var lang=(typeof S!=='undefined'&&S.lang)?S.lang:'en';
@@ -1196,6 +1201,21 @@ function actEditorHTML(i){
     return box(toggle
       +lbl('Steps in correct order &mdash; one per line &middot; Pasos en orden, uno por l&iacute;nea')
       +tarea((sl.drag_items||[]).join('\n'),'Step 1\nStep 2\nStep 3',"updSort("+i+",this.value)",4));
+  }
+  if(a==='formulas'){
+    if(!sl.formulas||!sl.formulas.length){sl.formulas=[{formula:'',meaning:''}];}
+    var frmRows=sl.formulas.map(function(f,fi){
+      return '<div style="display:flex;gap:6px;align-items:center;margin-bottom:6px;">'
+        +'<span style="font-size:.7rem;color:#8a7f70;font-weight:700;flex:0 0 14px;">'+(fi+1)+'</span>'
+        +'<input type="text" value="'+esc(f.formula||'')+'" oninput="updFormula('+i+','+fi+',\'formula\',this.value)" placeholder="'+(lang==='es'?'Fórmula, ej. F = ma':'Formula, e.g. F = ma')+'" style="flex:1;padding:6px 9px;border:1px solid #ddd3c4;border-radius:8px;font-size:.8rem;box-sizing:border-box;font-family:monospace;">'
+        +'<span style="color:#cdbfa8;">→</span>'
+        +'<input type="text" value="'+esc(f.meaning||'')+'" oninput="updFormula('+i+','+fi+',\'meaning\',this.value)" placeholder="'+(lang==='es'?'Qué significa':'What it means')+'" style="flex:1;padding:6px 9px;border:1px solid #ddd3c4;border-radius:8px;font-size:.8rem;box-sizing:border-box;">'
+        +(sl.formulas.length>1?'<button onclick="removeFormula('+i+','+fi+')" title="Remove" style="flex:0 0 auto;border:none;background:#f0e9df;color:#a15c4a;border-radius:6px;width:22px;height:22px;cursor:pointer;font-size:.75rem;">&#10005;</button>':'<span style="width:22px;flex:0 0 auto;"></span>')
+        +'</div>';
+    }).join('');
+    return box('<div style="font-size:.68rem;color:#8a7f70;margin-bottom:8px;line-height:1.5;">'+(lang==='es'?'Bloque de referencia con las fórmulas del tema. No se califica, es una chuleta para el estudiante mientras resuelve.':'Reference block with the topic\'s formulas. Not graded, it\'s a cheat-sheet for the student while they solve problems.')+'</div>'
+      +frmRows
+      +'<button onclick="addFormula('+i+')" style="margin-top:2px;border:1px dashed #cdbfa8;background:transparent;color:#8a7f70;border-radius:8px;padding:5px 12px;font-size:.75rem;cursor:pointer;">+ '+(lang==='es'?'Añadir fórmula':'Add formula')+'</button>');
   }
   return box('<div style="font-size:.68rem;color:#8a7f70;margin-bottom:8px;line-height:1.5;">'+(lang==='es'?'Argumento científico (CER): el alumno escribe Afirmación, Evidencia y Razonamiento, luego revela tu respuesta modelo y se autoevalúa.':'Science argument (CER): the student writes Claim, Evidence and Reasoning, then reveals your model answer and self-assesses.')+'</div>'
     +lbl('Argument prompt &middot; Pregunta / consigna')
@@ -1505,6 +1525,16 @@ function buildStudentHTML(){
         <div class="feedback" id="fb-${i}"></div>
       </div>`;
 
+    } else if(act==='formulas'&&sl.formulas&&sl.formulas.length){
+      const frms=sl.formulas.filter(f=>f&&f.formula);
+      actBlock=`<div class="act-block">
+        <div class="act-lbl">${E?'🧮 ':''}${lang==='es'?'Fórmulas':'Formulas'}</div>
+        <p style="font-size:.8rem;color:#888;margin-bottom:12px;">${lang==='es'?'Úsalas como apoyo para resolver':'Use these as a reference while you solve'}</p>
+        <div class="formula-block">
+          ${frms.map(f=>`<div class="formula-row"><span class="formula-eq">${esc(f.formula)}</span>${f.meaning?`<span class="formula-meaning">${esc(f.meaning)}</span>`:''}</div>`).join('')}
+        </div>
+      </div>`;
+
     } else {
       const cerPrompt=sl.reflect_prompt?esc(sl.reflect_prompt):(lang==='es'?'A partir de esta diapositiva, construye un argumento científico.':'Using this slide, build a science argument.');
       const cerModel=sl.cer_model?esc(sl.cer_model):(lang==='es'?'Una buena respuesta une las tres partes: una afirmación clara que responde la pregunta, evidencia concreta (datos, hechos u observaciones) y un razonamiento que explica por qué esa evidencia apoya la afirmación.':'A strong answer links all three: a clear claim that answers the question, concrete evidence (data, facts, or observations), and reasoning that explains why the evidence supports the claim.');
@@ -1607,6 +1637,11 @@ body{font-family:'Inter',${cfg.fontFamily};background:${bgColor};color:#1F2B27;m
 .qopt.wrong .qopt-letter{background:#e57373;color:#fff;}
 .qopt:disabled{cursor:default;}
 @keyframes popIn{0%{transform:scale(.96);}65%{transform:scale(1.03);}100%{transform:scale(1);}}
+/* ── Formulas ── */
+.formula-block{display:flex;flex-direction:column;gap:8px;}
+.formula-row{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;padding:12px 15px;background:rgba(${rgb},.06);border:1.5px solid rgba(${rgb},.16);border-radius:12px;}
+.formula-eq{font-family:'Courier New',monospace;font-size:.95rem;font-weight:700;color:${color};white-space:nowrap;}
+.formula-meaning{font-size:.8rem;color:#5c6b64;}
 /* ── Feedback ── */
 .feedback{font-size:.84rem;margin-top:13px;padding:11px 15px;border-radius:12px;display:none;line-height:1.5;font-weight:500;align-items:center;gap:9px;border-left:4px solid;}
 .feedback.show{display:flex;}
