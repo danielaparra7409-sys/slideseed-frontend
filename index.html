@@ -1283,7 +1283,7 @@ async function shareLink(btn){
     var r = await fetch(BACKEND_URL+'/share', {method:'POST', headers:Object.assign({'Content-Type':'application/json'}, _ah), body: JSON.stringify({html: buildStudentHTML(), title: (lessonTitle||'')})});
     if(!r.ok) throw new Error('share '+r.status);
     var d = await r.json();
-    var url = BACKEND_URL+'/l/'+d.id;
+    var url = location.origin+'/l/'+d.id;
     try{ await navigator.clipboard.writeText(url); }catch(e){}
     showShareModal(url);
   }catch(e){ console.error(e); alert(window.SS_LANG==='es'?'No se pudo crear el enlace. Intenta de nuevo.':'Could not create the link. Try again.'); }
