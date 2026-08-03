@@ -1113,9 +1113,14 @@ function removeFlipCard(i,ci){var s=editorSlides[i];if(s.flip_cards&&s.flip_card
 function updMatchPair(i,pi,f,v){var s=editorSlides[i];s.match_pairs=s.match_pairs||[{term:'',def:''}];s.match_pairs[pi][f]=v;if(pi===0){if(f==='term')s.key_term=v;if(f==='def')s.key_definition=v;}}
 function addMatchPair(i){var s=editorSlides[i];s.match_pairs=s.match_pairs||[];if(s.match_pairs.length<5){s.match_pairs.push({term:'',def:''});reActEd(i);}}
 function removeMatchPair(i,pi){var s=editorSlides[i];if(s.match_pairs&&s.match_pairs.length>1){s.match_pairs.splice(pi,1);reActEd(i);}}
-function updFormula(i,fi,f,v){var s=editorSlides[i];s.formulas=s.formulas||[{formula:'',meaning:''}];s.formulas[fi][f]=v;}
-function addFormula(i){var s=editorSlides[i];s.formulas=s.formulas||[];s.formulas.push({formula:'',meaning:''});reActEd(i);}
+function blankFormula(){return {formula:'',meaning:'',expression:'',output:{symbol:'',label:'',unit:''},inputs:[{symbol:'',label:'',unit:''}]};}
+function updFormula(i,fi,f,v){var s=editorSlides[i];s.formulas=s.formulas&&s.formulas.length?s.formulas:[blankFormula()];if(!s.formulas[fi])s.formulas[fi]=blankFormula();s.formulas[fi][f]=v;}
+function updFormulaOut(i,fi,f,v){var s=editorSlides[i];var fo=s.formulas[fi];fo.output=fo.output||{symbol:'',label:'',unit:''};fo.output[f]=v;}
+function updFormulaVar(i,fi,vi,f,v){var s=editorSlides[i];var fo=s.formulas[fi];fo.inputs=fo.inputs||[];fo.inputs[vi]=fo.inputs[vi]||{symbol:'',label:'',unit:''};fo.inputs[vi][f]=v;}
+function addFormula(i){var s=editorSlides[i];s.formulas=s.formulas||[];s.formulas.push(blankFormula());reActEd(i);}
 function removeFormula(i,fi){var s=editorSlides[i];if(s.formulas&&s.formulas.length>1){s.formulas.splice(fi,1);reActEd(i);}}
+function addFormulaVar(i,fi){var s=editorSlides[i];var fo=s.formulas[fi];fo.inputs=fo.inputs||[];fo.inputs.push({symbol:'',label:'',unit:''});reActEd(i);}
+function removeFormulaVar(i,fi,vi){var s=editorSlides[i];var fo=s.formulas[fi];if(fo.inputs&&fo.inputs.length>1){fo.inputs.splice(vi,1);reActEd(i);}}
 function actEditorHTML(i){
   var sl=editorSlides[i],a=sl.activity||'quiz';
   var lang=(typeof S!=='undefined'&&S.lang)?S.lang:'en';
@@ -1204,17 +1209,39 @@ function actEditorHTML(i){
       +tarea((sl.drag_items||[]).join('\n'),'Step 1\nStep 2\nStep 3',"updSort("+i+",this.value)",4));
   }
   if(a==='formulas'){
-    if(!sl.formulas||!sl.formulas.length){sl.formulas=[{formula:'',meaning:''}];}
+    if(!sl.formulas||!sl.formulas.length){sl.formulas=[blankFormula()];}
+    var smallStyle='padding:6px 8px;border:1px solid #ddd3c4;border-radius:7px;font-size:.76rem;box-sizing:border-box;font-family:inherit;';
     var frmRows=sl.formulas.map(function(f,fi){
-      return '<div style="display:flex;gap:6px;align-items:center;margin-bottom:6px;">'
-        +'<span style="font-size:.7rem;color:#8a7f70;font-weight:700;flex:0 0 14px;">'+(fi+1)+'</span>'
-        +'<input type="text" value="'+esc(f.formula||'')+'" oninput="updFormula('+i+','+fi+',\'formula\',this.value)" placeholder="'+(lang==='es'?'Fórmula, ej. F = ma':'Formula, e.g. F = ma')+'" style="flex:1;padding:6px 9px;border:1px solid #ddd3c4;border-radius:8px;font-size:.8rem;box-sizing:border-box;font-family:monospace;">'
-        +'<span style="color:#cdbfa8;">→</span>'
-        +'<input type="text" value="'+esc(f.meaning||'')+'" oninput="updFormula('+i+','+fi+',\'meaning\',this.value)" placeholder="'+(lang==='es'?'Qué significa':'What it means')+'" style="flex:1;padding:6px 9px;border:1px solid #ddd3c4;border-radius:8px;font-size:.8rem;box-sizing:border-box;">'
-        +(sl.formulas.length>1?'<button onclick="removeFormula('+i+','+fi+')" title="Remove" style="flex:0 0 auto;border:none;background:#f0e9df;color:#a15c4a;border-radius:6px;width:22px;height:22px;cursor:pointer;font-size:.75rem;">&#10005;</button>':'<span style="width:22px;flex:0 0 auto;"></span>')
+      f.output=f.output||{symbol:'',label:'',unit:''};
+      f.inputs=(f.inputs&&f.inputs.length)?f.inputs:[{symbol:'',label:'',unit:''}];
+      var varRows=f.inputs.map(function(v,vi){
+        return '<div style="display:flex;gap:5px;margin-bottom:5px;align-items:center;">'
+          +'<input type="text" value="'+esc(v.symbol||'')+'" oninput="updFormulaVar('+i+','+fi+','+vi+',\'symbol\',this.value)" placeholder="'+(lang==='es'?'Símbolo (m)':'Symbol (m)')+'" style="'+smallStyle+'flex:0 0 70px;font-family:monospace;">'
+          +'<input type="text" value="'+esc(v.label||'')+'" oninput="updFormulaVar('+i+','+fi+','+vi+',\'label\',this.value)" placeholder="'+(lang==='es'?'Nombre (Masa)':'Name (Mass)')+'" style="'+smallStyle+'flex:1;">'
+          +'<input type="text" value="'+esc(v.unit||'')+'" oninput="updFormulaVar('+i+','+fi+','+vi+',\'unit\',this.value)" placeholder="'+(lang==='es'?'Unidad (kg)':'Unit (kg)')+'" style="'+smallStyle+'flex:0 0 70px;">'
+          +(f.inputs.length>1?'<button onclick="removeFormulaVar('+i+','+fi+','+vi+')" title="Remove" style="flex:0 0 auto;border:none;background:#f0e9df;color:#a15c4a;border-radius:6px;width:22px;height:22px;cursor:pointer;font-size:.7rem;">&#10005;</button>':'<span style="width:22px;flex:0 0 auto;"></span>')
+          +'</div>';
+      }).join('');
+      return '<div style="border:1px solid #eae4da;border-radius:10px;padding:10px 12px;margin-bottom:10px;background:#fff;">'
+        +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;"><span style="font-size:.6rem;letter-spacing:.06em;text-transform:uppercase;color:#8a7f70;font-weight:700;">'+(lang==='es'?'Fórmula ':'Formula ')+(fi+1)+'</span>'
+        +(sl.formulas.length>1?'<button onclick="removeFormula('+i+','+fi+')" title="Remove" style="border:none;background:#f0e9df;color:#a15c4a;border-radius:6px;width:22px;height:22px;cursor:pointer;font-size:.75rem;">&#10005;</button>':'')
+        +'</div>'
+        +'<input type="text" value="'+esc(f.formula||'')+'" oninput="updFormula('+i+','+fi+',\'formula\',this.value)" placeholder="'+(lang==='es'?'Fórmula, ej. F = m × a':'Formula, e.g. F = m × a')+'" style="width:100%;padding:7px 10px;border:1px solid #ddd3c4;border-radius:8px;font-size:.85rem;box-sizing:border-box;font-family:monospace;margin-bottom:6px;">'
+        +'<input type="text" value="'+esc(f.meaning||'')+'" oninput="updFormula('+i+','+fi+',\'meaning\',this.value)" placeholder="'+(lang==='es'?'Qué significa (opcional)':'What it means (optional)')+'" style="width:100%;padding:6px 9px;border:1px solid #ddd3c4;border-radius:8px;font-size:.78rem;box-sizing:border-box;margin-bottom:10px;">'
+        +'<div style="font-size:.58rem;letter-spacing:.06em;text-transform:uppercase;color:#8a7f70;font-weight:700;margin-bottom:5px;">'+(lang==='es'?'Resultado':'Result')+'</div>'
+        +'<div style="display:flex;gap:5px;margin-bottom:10px;">'
+        +'<input type="text" value="'+esc(f.output.symbol||'')+'" oninput="updFormulaOut('+i+','+fi+',\'symbol\',this.value)" placeholder="'+(lang==='es'?'Símbolo (F)':'Symbol (F)')+'" style="'+smallStyle+'flex:0 0 70px;font-family:monospace;">'
+        +'<input type="text" value="'+esc(f.output.label||'')+'" oninput="updFormulaOut('+i+','+fi+',\'label\',this.value)" placeholder="'+(lang==='es'?'Nombre (Fuerza)':'Name (Force)')+'" style="'+smallStyle+'flex:1;">'
+        +'<input type="text" value="'+esc(f.output.unit||'')+'" oninput="updFormulaOut('+i+','+fi+',\'unit\',this.value)" placeholder="'+(lang==='es'?'Unidad (N)':'Unit (N)')+'" style="'+smallStyle+'flex:0 0 70px;">'
+        +'</div>'
+        +'<div style="font-size:.58rem;letter-spacing:.06em;text-transform:uppercase;color:#8a7f70;font-weight:700;margin-bottom:5px;">'+(lang==='es'?'Variables que ingresa el estudiante':'Variables the student enters')+'</div>'
+        +varRows
+        +'<button onclick="addFormulaVar('+i+','+fi+')" style="margin-bottom:10px;border:1px dashed #cdbfa8;background:transparent;color:#8a7f70;border-radius:8px;padding:4px 10px;font-size:.72rem;cursor:pointer;">+ '+(lang==='es'?'Variable':'Variable')+'</button>'
+        +'<div style="font-size:.58rem;letter-spacing:.06em;text-transform:uppercase;color:#8a7f70;font-weight:700;margin-bottom:5px;">'+(lang==='es'?'Expresión para calcular':'Expression to calculate')+'</div>'
+        +'<input type="text" value="'+esc(f.expression||'')+'" oninput="updFormula('+i+','+fi+',\'expression\',this.value)" placeholder="'+(lang==='es'?'ej. m*a (usa los símbolos de arriba)':'e.g. m*a (use the symbols above)')+'" style="width:100%;padding:6px 9px;border:1px solid #ddd3c4;border-radius:8px;font-size:.8rem;box-sizing:border-box;font-family:monospace;">'
         +'</div>';
     }).join('');
-    return box('<div style="font-size:.68rem;color:#8a7f70;margin-bottom:8px;line-height:1.5;">'+(lang==='es'?'Bloque de referencia con las fórmulas del tema. No se califica, es una chuleta para el estudiante mientras resuelve.':'Reference block with the topic\'s formulas. Not graded, it\'s a cheat-sheet for the student while they solve problems.')+'</div>'
+    return box('<div style="font-size:.68rem;color:#8a7f70;margin-bottom:8px;line-height:1.5;">'+(lang==='es'?'Calculadora guiada: el estudiante ingresa los valores y ve el resultado calculado. No se califica.':'Guided calculator: the student enters values and sees the calculated result. Not graded.')+'</div>'
       +frmRows
       +'<button onclick="addFormula('+i+')" style="margin-top:2px;border:1px dashed #cdbfa8;background:transparent;color:#8a7f70;border-radius:8px;padding:5px 12px;font-size:.75rem;cursor:pointer;">+ '+(lang==='es'?'Añadir fórmula':'Add formula')+'</button>');
   }
@@ -1529,10 +1556,23 @@ function buildStudentHTML(){
     } else if(act==='formulas'&&sl.formulas&&sl.formulas.length){
       const frms=sl.formulas.filter(f=>f&&f.formula);
       actBlock=`<div class="act-block">
-        <div class="act-lbl">${E?'🧮 ':''}${lang==='es'?'Fórmulas':'Formulas'}</div>
-        <p style="font-size:.8rem;color:#888;margin-bottom:12px;">${lang==='es'?'Úsalas como apoyo para resolver':'Use these as a reference while you solve'}</p>
+        <div class="act-lbl">${E?'🧮 ':''}${lang==='es'?'Calculadora':'Calculator'}</div>
+        <p class="formula-hint">${lang==='es'?'Ingresa los valores y calcula el resultado. No se califica.':'Enter the values and calculate the result. Not graded.'}</p>
         <div class="formula-block">
-          ${frms.map(f=>`<div class="formula-row"><span class="formula-eq">${esc(f.formula)}</span>${f.meaning?`<span class="formula-meaning">${esc(f.meaning)}</span>`:''}</div>`).join('')}
+          ${frms.map((f,fi)=>{
+            const hasCalc=f.expression&&f.inputs&&f.inputs.length;
+            if(!hasCalc){
+              return `<div class="formula-card"><div class="formula-eq">${esc(f.formula)}</div>${f.meaning?`<div class="formula-meaning">${esc(f.meaning)}</div>`:''}</div>`;
+            }
+            return `<div class="formula-card">
+              <div class="formula-eq">${esc(f.formula)}</div>
+              ${f.meaning?`<div class="formula-meaning">${esc(f.meaning)}</div>`:''}
+              <div class="formula-inputs">
+                ${f.inputs.map((v,vi)=>`<label class="formula-inp-lbl"><span>${esc(v.label||v.symbol||'')}${v.unit?' ('+esc(v.unit)+')':''}</span><input type="number" step="any" class="formula-inp" id="fc-${i}-${fi}-${vi}" placeholder="${esc(v.symbol||'')}" oninput="calcFormula(${i},${fi})"></label>`).join('')}
+              </div>
+              <div class="formula-result">${esc((f.output&&f.output.label)||(lang==='es'?'Resultado':'Result'))} = <span id="fc-out-${i}-${fi}">?</span>${f.output&&f.output.unit?' '+esc(f.output.unit):''}</div>
+            </div>`;
+          }).join('')}
         </div>
       </div>`;
 
@@ -1638,11 +1678,17 @@ body{font-family:'Inter',${cfg.fontFamily};background:${bgColor};color:#1F2B27;m
 .qopt.wrong .qopt-letter{background:#e57373;color:#fff;}
 .qopt:disabled{cursor:default;}
 @keyframes popIn{0%{transform:scale(.96);}65%{transform:scale(1.03);}100%{transform:scale(1);}}
-/* ── Formulas ── */
-.formula-block{display:flex;flex-direction:column;gap:8px;}
-.formula-row{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;padding:12px 15px;background:rgba(${rgb},.06);border:1.5px solid rgba(${rgb},.16);border-radius:12px;}
-.formula-eq{font-family:'Courier New',monospace;font-size:.95rem;font-weight:700;color:${color};white-space:nowrap;}
-.formula-meaning{font-size:.8rem;color:#5c6b64;}
+/* ── Formulas / Calculator ── */
+.formula-hint{font-size:.78rem;color:#7c8f86;margin:-6px 0 14px;}
+.formula-block{display:flex;flex-direction:column;gap:14px;}
+.formula-card{padding:14px 16px;background:rgba(${rgb},.06);border:1.5px solid rgba(${rgb},.16);border-radius:14px;}
+.formula-eq{font-family:'Courier New',monospace;font-size:1rem;font-weight:700;color:${color};margin-bottom:4px;}
+.formula-meaning{font-size:.8rem;color:#5c6b64;margin-bottom:10px;}
+.formula-inputs{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;}
+.formula-inp-lbl{display:flex;flex-direction:column;gap:4px;font-size:.72rem;color:#5c6b64;flex:1 1 120px;}
+.formula-inp{padding:8px 10px;border:1.5px solid rgba(${rgb},.22);border-radius:9px;font-size:.88rem;font-family:inherit;width:100%;box-sizing:border-box;}
+.formula-inp:focus{outline:none;border-color:${color};}
+.formula-result{margin-top:12px;font-size:.92rem;font-weight:700;color:${color};padding-top:10px;border-top:1px dashed rgba(${rgb},.22);}
 /* ── Feedback ── */
 .feedback{font-size:.84rem;margin-top:13px;padding:11px 15px;border-radius:12px;display:none;line-height:1.5;font-weight:500;align-items:center;gap:9px;border-left:4px solid;}
 .feedback.show{display:flex;}
@@ -1817,6 +1863,67 @@ function esc(s){s=String(s==null?'':s);return s.split('&').join('&amp;').split('
 var lang=${JSON.stringify(lang)};
 var TOTAL=${total};
 var scoreMode=${JSON.stringify(scoreMode)};
+var FORMULAS=${JSON.stringify(editorSlides.map(function(s){
+  if(s.activity!=='formulas'||!s.formulas)return null;
+  var allF=s.formulas.filter(function(f){return f&&f.formula;});
+  return allF.map(function(f){
+    if(!f.expression||!f.inputs||!f.inputs.length)return null;
+    return {inputs:f.inputs.map(function(v){return v.symbol||'';}),expression:f.expression};
+  });
+}))};
+function tokenizeExpr(expr){
+  var toks=[];var s=String(expr||'');var i=0;var n=s.length;
+  while(i<n){
+    var c=s.charAt(i);
+    if(c===' '){i++;continue;}
+    if(/[A-Za-z_]/.test(c)){var j=i;while(j<n&&/[A-Za-z0-9_]/.test(s.charAt(j)))j++;toks.push({type:'id',val:s.slice(i,j)});i=j;continue;}
+    if(/[0-9.]/.test(c)){var j=i;while(j<n&&/[0-9.]/.test(s.charAt(j)))j++;toks.push({type:'num',val:s.slice(i,j)});i=j;continue;}
+    if('+-*/^(),'.indexOf(c)!==-1){toks.push({type:'op',val:c});i++;continue;}
+    i++;
+  }
+  return toks;
+}
+function evalFormulaExpr(expr,values){
+  try{
+    var toks=tokenizeExpr(expr);
+    if(!toks.length)return null;
+    var fnNames={sqrt:1,pow:1,sin:1,cos:1,tan:1,log:1,abs:1,min:1,max:1};
+    var out='';
+    for(var k=0;k<toks.length;k++){
+      var t=toks[k];
+      if(t.type==='id'){
+        if(t.val==='PI'){out+='Math.PI';}
+        else if(fnNames[t.val]){out+='Math.'+t.val;}
+        else if(Object.prototype.hasOwnProperty.call(values,t.val)){out+='('+values[t.val]+')';}
+        else{return null;}
+      } else if(t.type==='num'){out+=t.val;}
+      else if(t.type==='op'){out+=(t.val==='^')?'**':t.val;}
+    }
+    var val=Function('"use strict";return ('+out+')')();
+    return (typeof val==='number'&&isFinite(val))?val:null;
+  }catch(err){return null;}
+}
+function fmtCalc(n){
+  if(n!==0&&(Math.abs(n)>=100000||Math.abs(n)<0.001)){return n.toExponential(3);}
+  return String(Math.round(n*1000)/1000);
+}
+function calcFormula(sid,fi){
+  var meta=(FORMULAS&&FORMULAS[sid])?FORMULAS[sid][fi]:null;
+  if(!meta)return;
+  var values={},allFilled=true;
+  (meta.inputs||[]).forEach(function(sym,vi){
+    var el=document.getElementById('fc-'+sid+'-'+fi+'-'+vi);
+    var raw=el?el.value:'';
+    var v=raw===''?NaN:parseFloat(raw);
+    if(isNaN(v))allFilled=false;
+    values[sym]=isNaN(v)?0:v;
+  });
+  var out=document.getElementById('fc-out-'+sid+'-'+fi);
+  if(!out)return;
+  if(!allFilled){out.textContent='?';return;}
+  var result=evalFormulaExpr(meta.expression,values);
+  out.textContent=(result===null)?'?':fmtCalc(result);
+}
 function bdSet(k,label,p){if(k in bdKeys){breakdown[bdKeys[k]].pts=p;return;}bdKeys[k]=breakdown.length;breakdown.push({label:label,pts:p,max:1});}
 function updateDots(n){
   document.querySelectorAll('.pd').forEach(function(d,i){d.className='pd'+(i<n?' done':i===n?' active':'');});
@@ -2088,6 +2195,8 @@ function showScore(){
 }
 function restart(){
   pts=0;maxPts=0;answered={};flipAnswered={};awarded={};flipScores={};breakdown=[];bdKeys={};mState={};
+  document.querySelectorAll('.formula-inp').forEach(function(i){i.value='';});
+  document.querySelectorAll('[id^="fc-out-"]').forEach(function(o){o.textContent='?';});
   document.querySelectorAll('.fill-inp').forEach(function(i){i.disabled=false;i.classList.remove('correct');});
   document.querySelectorAll('.feedback').forEach(function(f){f.className='feedback';f.textContent='';});
   document.querySelectorAll('.qopt').forEach(function(b){b.classList.remove('correct','wrong');b.disabled=false;});
