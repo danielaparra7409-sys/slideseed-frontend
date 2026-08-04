@@ -1303,7 +1303,7 @@ function actEditorHTML(i){
         +previewHTML
         +'</div>';
     }).join('');
-    return box('<div style="font-size:.68rem;color:#8a7f70;margin-bottom:8px;line-height:1.5;">'+(lang==='es'?'Calculadora guiada: el estudiante ingresa los valores y ve el resultado calculado. No se califica.':'Guided calculator: the student enters values and sees the calculated result. Not graded.')+'</div>'
+    return box('<div style="font-size:.68rem;color:#8a7f70;margin-bottom:8px;line-height:1.5;">'+(lang==='es'?'Ejercicio de cálculo: al estudiante le damos valores al azar para cada variable, y debe hacer la operación y escribir el resultado. Se califica.':'Calculation exercise: the student is given random values for each variable, does the math, and types the result. It is graded.')+'</div>'
       +frmRows
       +'<button onclick="addFormula('+i+')" style="margin-top:2px;border:1px dashed #cdbfa8;background:transparent;color:#8a7f70;border-radius:8px;padding:5px 12px;font-size:.75rem;cursor:pointer;">+ '+(lang==='es'?'Añadir fórmula':'Add formula')+'</button>');
   }
@@ -1618,8 +1618,8 @@ function buildStudentHTML(){
     } else if(act==='formulas'&&sl.formulas&&sl.formulas.length){
       const frms=sl.formulas.filter(f=>f&&f.formula);
       actBlock=`<div class="act-block">
-        <div class="act-lbl">${E?'🧮 ':''}${lang==='es'?'Calculadora':'Calculator'}</div>
-        <p class="formula-hint">${lang==='es'?'Ingresa los valores y calcula el resultado. No se califica.':'Enter the values and calculate the result. Not graded.'}</p>
+        <div class="act-lbl">${E?'🧮 ':''}${lang==='es'?'Calcula':'Calculate'}</div>
+        <p class="formula-hint">${lang==='es'?'Usa la fórmula con estos valores y escribe tu resultado.':'Use the formula with these values and write your result.'}</p>
         <div class="formula-block">
           ${frms.map((f,fi)=>{
             const hasCalc=f.expression&&f.inputs&&f.inputs.length;
@@ -1629,10 +1629,14 @@ function buildStudentHTML(){
             return `<div class="formula-card">
               <div class="formula-eq">${esc(f.formula)}</div>
               ${f.meaning?`<div class="formula-meaning">${esc(f.meaning)}</div>`:''}
-              <div class="formula-inputs">
-                ${f.inputs.map((v,vi)=>`<label class="formula-inp-lbl"><span>${esc(v.label||v.symbol||'')}${v.unit?' ('+esc(v.unit)+')':''}</span><input type="number" step="any" class="formula-inp" id="fc-${i}-${fi}-${vi}" placeholder="${esc(v.symbol||'')}" oninput="calcFormula(${i},${fi})"></label>`).join('')}
+              <div class="formula-given" id="fc-given-${i}-${fi}"></div>
+              <div class="formula-answer-row">
+                <span class="formula-answer-lbl">${esc((f.output&&f.output.label)||(lang==='es'?'Resultado':'Result'))} (${esc((f.output&&f.output.symbol)||'')}) =</span>
+                <input type="number" step="any" class="formula-ans-inp" id="fc-ans-${i}-${fi}" placeholder="?">
+                ${f.output&&f.output.unit?`<span class="formula-unit">${esc(f.output.unit)}</span>`:''}
+                <button type="button" class="formula-check-btn" onclick="checkFormulaAnswer(${i},${fi})">${lang==='es'?'Comprobar':'Check'}</button>
               </div>
-              <div class="formula-result">${esc((f.output&&f.output.label)||(lang==='es'?'Resultado':'Result'))} = <span id="fc-out-${i}-${fi}">?</span>${f.output&&f.output.unit?' '+esc(f.output.unit):''}</div>
+              <div class="feedback" id="fc-fb-${i}-${fi}"></div>
             </div>`;
           }).join('')}
         </div>
@@ -1740,17 +1744,23 @@ body{font-family:'Inter',${cfg.fontFamily};background:${bgColor};color:#1F2B27;m
 .qopt.wrong .qopt-letter{background:#e57373;color:#fff;}
 .qopt:disabled{cursor:default;}
 @keyframes popIn{0%{transform:scale(.96);}65%{transform:scale(1.03);}100%{transform:scale(1);}}
-/* ── Formulas / Calculator ── */
+/* ── Formulas (practice problem) ── */
 .formula-hint{font-size:.78rem;color:#7c8f86;margin:-6px 0 14px;}
 .formula-block{display:flex;flex-direction:column;gap:14px;}
 .formula-card{padding:14px 16px;background:rgba(${rgb},.06);border:1.5px solid rgba(${rgb},.16);border-radius:14px;}
 .formula-eq{font-family:'Courier New',monospace;font-size:1rem;font-weight:700;color:${color};margin-bottom:4px;}
 .formula-meaning{font-size:.8rem;color:#5c6b64;margin-bottom:10px;}
-.formula-inputs{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;}
-.formula-inp-lbl{display:flex;flex-direction:column;gap:4px;font-size:.72rem;color:#5c6b64;flex:1 1 120px;}
-.formula-inp{padding:8px 10px;border:1.5px solid rgba(${rgb},.22);border-radius:9px;font-size:.88rem;font-family:inherit;width:100%;box-sizing:border-box;}
-.formula-inp:focus{outline:none;border-color:${color};}
-.formula-result{margin-top:12px;font-size:.92rem;font-weight:700;color:${color};padding-top:10px;border-top:1px dashed rgba(${rgb},.22);}
+.formula-given{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0;}
+.formula-given-chip{font-size:.82rem;color:#3C4D45;background:#fff;border:1px solid rgba(${rgb},.22);border-radius:9px;padding:6px 11px;}
+.formula-given-chip b{color:${color};}
+.formula-answer-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:10px;}
+.formula-answer-lbl{font-size:.85rem;font-weight:600;color:#3C4D45;}
+.formula-ans-inp{padding:8px 10px;border:1.5px solid rgba(${rgb},.22);border-radius:9px;font-size:.88rem;font-family:inherit;width:100px;box-sizing:border-box;}
+.formula-ans-inp:focus{outline:none;border-color:${color};}
+.formula-ans-inp.correct{border-color:#6a9b6f;background:rgba(106,155,111,.08);}
+.formula-ans-inp:disabled{opacity:.75;}
+.formula-unit{font-size:.78rem;color:#7c8f86;}
+.formula-check-btn{border:none;background:${color};color:#fff;border-radius:9px;padding:8px 16px;font-size:.8rem;font-weight:600;cursor:pointer;}
 /* ── Feedback ── */
 .feedback{font-size:.84rem;margin-top:13px;padding:11px 15px;border-radius:12px;display:none;line-height:1.5;font-weight:500;align-items:center;gap:9px;border-left:4px solid;}
 .feedback.show{display:flex;}
@@ -1930,7 +1940,11 @@ var FORMULAS=${JSON.stringify(editorSlides.map(function(s){
   var allF=s.formulas.filter(function(f){return f&&f.formula;});
   return allF.map(function(f){
     if(!f.expression||!f.inputs||!f.inputs.length)return null;
-    return {inputs:f.inputs.map(function(v){return v.symbol||'';}),expression:f.expression};
+    return {
+      inputs:f.inputs.map(function(v){return {symbol:v.symbol||'',label:v.label||v.symbol||'',unit:v.unit||''};}),
+      output:{symbol:(f.output&&f.output.symbol)||'',label:(f.output&&f.output.label)||'',unit:(f.output&&f.output.unit)||''},
+      expression:f.expression
+    };
   });
 }))};
 function tokenizeExpr(expr){
@@ -1969,22 +1983,70 @@ function fmtCalc(n){
   if(n!==0&&(Math.abs(n)>=100000||Math.abs(n)<0.001)){return n.toExponential(3);}
   return String(Math.round(n*1000)/1000);
 }
-function calcFormula(sid,fi){
+var formulaState={};
+function randIntFC(min,max){return Math.floor(Math.random()*(max-min+1))+min;}
+function pickFormulaProblem(meta){
+  var best=null;
+  for(var t=0;t<30;t++){
+    var values={};
+    meta.inputs.forEach(function(v){values[v.symbol]=randIntFC(2,9);});
+    var result=evalFormulaExpr(meta.expression,values);
+    if(result===null)continue;
+    var rounded=Math.round(result*100)/100;
+    var isInt=Math.abs(rounded-Math.round(rounded))<1e-9;
+    if(!best||isInt){best={values:values,correct:rounded};if(isInt)break;}
+  }
+  if(!best){
+    best={values:{},correct:0};
+    meta.inputs.forEach(function(v){best.values[v.symbol]=randIntFC(2,9);});
+  }
+  return best;
+}
+function renderFormulaGiven(sid,fi){
   var meta=(FORMULAS&&FORMULAS[sid])?FORMULAS[sid][fi]:null;
   if(!meta)return;
-  var values={},allFilled=true;
-  (meta.inputs||[]).forEach(function(sym,vi){
-    var el=document.getElementById('fc-'+sid+'-'+fi+'-'+vi);
-    var raw=el?el.value:'';
-    var v=raw===''?NaN:parseFloat(raw);
-    if(isNaN(v))allFilled=false;
-    values[sym]=isNaN(v)?0:v;
+  var prob=pickFormulaProblem(meta);
+  formulaState[sid+'-'+fi]={correct:prob.correct,output:meta.output};
+  var el=document.getElementById('fc-given-'+sid+'-'+fi);
+  if(el){
+    el.innerHTML=meta.inputs.map(function(v){
+      return '<span class="formula-given-chip">'+esc(v.label||v.symbol)+' ('+esc(v.symbol)+') = <b>'+prob.values[v.symbol]+'</b>'+(v.unit?' '+esc(v.unit):'')+'</span>';
+    }).join('');
+  }
+  var ansInp=document.getElementById('fc-ans-'+sid+'-'+fi);
+  if(ansInp){ansInp.value='';ansInp.disabled=false;ansInp.classList.remove('correct');}
+  var fb=document.getElementById('fc-fb-'+sid+'-'+fi);
+  if(fb){fb.textContent='';fb.className='feedback';}
+}
+function initAllFormulas(){
+  if(!FORMULAS)return;
+  FORMULAS.forEach(function(slideF,sid){
+    if(!slideF)return;
+    slideF.forEach(function(meta,fi){if(meta)renderFormulaGiven(sid,fi);});
   });
-  var out=document.getElementById('fc-out-'+sid+'-'+fi);
-  if(!out)return;
-  if(!allFilled){out.textContent='?';return;}
-  var result=evalFormulaExpr(meta.expression,values);
-  out.textContent=(result===null)?'?':fmtCalc(result);
+}
+function checkFormulaAnswer(sid,fi){
+  var key=sid+'-'+fi;
+  var st=formulaState[key];
+  if(!st)return;
+  var inp=document.getElementById('fc-ans-'+sid+'-'+fi);
+  if(!inp)return;
+  var raw=inp.value.trim();
+  if(!raw)return;
+  var val=parseFloat(raw);
+  var fb=document.getElementById('fc-fb-'+sid+'-'+fi);
+  if(answered['formula-'+key])return;
+  answered['formula-'+key]=true;maxPts++;
+  var tol=Math.max(0.05,Math.abs(st.correct)*0.02);
+  var ok=!isNaN(val)&&Math.abs(val-st.correct)<=tol;
+  if(ok)pts++;
+  if(ok)inp.classList.add('correct');
+  inp.disabled=true;
+  if(fb){
+    fb.textContent=ok?'${E?'✅ ':''}${lang==='es'?'¡Correcto!':'Correct!'}':'${E?'❌ ':''}${lang==='es'?'Respuesta correcta: ':'Correct answer: '}'+fmtCalc(st.correct)+(st.output&&st.output.unit?' '+st.output.unit:'');
+    fb.className='feedback show '+(ok?'ok':'no');
+  }
+  bdSet('formula-'+key,(lang==='es'?'Fórmula ':'Formula ')+(fi+1)+' ('+(lang==='es'?'Diap. ':'Slide ')+(sid+1)+')',ok?1:0);
 }
 function bdSet(k,label,p){if(k in bdKeys){breakdown[bdKeys[k]].pts=p;return;}bdKeys[k]=breakdown.length;breakdown.push({label:label,pts:p,max:1});}
 function updateDots(n){
@@ -2257,8 +2319,7 @@ function showScore(){
 }
 function restart(){
   pts=0;maxPts=0;answered={};flipAnswered={};awarded={};flipScores={};breakdown=[];bdKeys={};mState={};
-  document.querySelectorAll('.formula-inp').forEach(function(i){i.value='';});
-  document.querySelectorAll('[id^="fc-out-"]').forEach(function(o){o.textContent='?';});
+  initAllFormulas();
   document.querySelectorAll('.fill-inp').forEach(function(i){i.disabled=false;i.classList.remove('correct');});
   document.querySelectorAll('.feedback').forEach(function(f){f.className='feedback';f.textContent='';});
   document.querySelectorAll('.qopt').forEach(function(b){b.classList.remove('correct','wrong');b.disabled=false;});
@@ -2353,6 +2414,7 @@ function setLessonLang(lang){
 }
 function toggleLessonLang(){ setLessonLang(LESSON_LANG==='es'?'en':'es'); }
 initLessonLang();
+initAllFormulas();
 gLS(0);
 window.toggleLessonLang=toggleLessonLang;
 window.gLS=gLS;window.checkQ=checkQ;window.mClick=mClick;window.checkMatch=checkMatch;window.resetMatch=resetMatch;
