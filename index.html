@@ -1012,7 +1012,13 @@ function renderDocImages(){
   var imgs=S.images||[];
   if(!imgs.length){sec.style.display='none';box.innerHTML='';return;}
   sec.style.display='block';
-  box.innerHTML=imgs.map(function(im,i){return '<img src="'+im.data_uri+'" title="'+im.width+'×'+im.height+', add to current slide" onclick="useDocImage('+i+')" style="width:100%;height:64px;object-fit:contain;background:#fff;border-radius:6px;border:1px solid #ddd3c4;padding:2px;cursor:pointer;transition:transform .15s;" onmouseover="this.style.transform=\'scale(1.06)\'" onmouseout="this.style.transform=\'\'">';}).join('');
+  box.innerHTML=imgs.map(function(im,i){
+    var tip=im.caption?im.caption:(im.width+'×'+im.height);
+    return '<div style="position:relative;">'
+      +'<img src="'+im.data_uri+'" title="'+esc(tip)+', add to current slide" onclick="useDocImage('+i+')" style="width:100%;height:64px;object-fit:contain;background:#fff;border-radius:6px;border:1px solid #ddd3c4;padding:2px;cursor:pointer;transition:transform .15s;" onmouseover="this.style.transform=\'scale(1.06)\'" onmouseout="this.style.transform=\'\'">'
+      +(im.caption?'<div style="font-size:.55rem;color:#8a7f70;line-height:1.3;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="'+esc(im.caption)+'">'+esc(im.caption)+'</div>':'')
+      +'</div>';
+  }).join('');
 }
 function useDocImage(i){
   var im=(S.images||[])[i];if(!im)return;
