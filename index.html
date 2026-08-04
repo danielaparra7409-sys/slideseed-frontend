@@ -1307,11 +1307,11 @@ function actEditorHTML(i){
       +frmRows
       +'<button onclick="addFormula('+i+')" style="margin-top:2px;border:1px dashed #cdbfa8;background:transparent;color:#8a7f70;border-radius:8px;padding:5px 12px;font-size:.75rem;cursor:pointer;">+ '+(lang==='es'?'Añadir fórmula':'Add formula')+'</button>');
   }
-  return box('<div style="font-size:.68rem;color:#8a7f70;margin-bottom:8px;line-height:1.5;">'+(lang==='es'?'Argumento científico (CER): el alumno escribe Afirmación, Evidencia y Razonamiento, luego revela tu respuesta modelo y se autoevalúa.':'Science argument (CER): the student writes Claim, Evidence and Reasoning, then reveals your model answer and self-assesses.')+'</div>'
-    +lbl('Argument prompt &middot; Pregunta / consigna')
-    +tarea(sl.reflect_prompt,'e.g. ¿Por qué las plantas necesitan luz? Argumenta con CER.',"updA("+i+",'reflect_prompt',this.value)",2)
+  return box('<div style="font-size:.68rem;color:#8a7f70;margin-bottom:8px;line-height:1.5;">'+(lang==='es'?'Reflexión: el alumno escribe su respuesta en un solo cuadro, luego revela tu respuesta modelo y se autoevalúa con un solo clic (necesito mejorar / bien / excelente).':'Reflection: the student writes their answer in one box, then reveals your model answer and self-rates with a single click (needs work / good / excellent).')+'</div>'
+    +lbl('Question &middot; Pregunta')
+    +tarea(sl.reflect_prompt,'e.g. ¿Por qué las plantas necesitan luz?',"updA("+i+",'reflect_prompt',this.value)",2)
     +lbl('Model answer (optional) &middot; Respuesta modelo (opcional)')
-    +tarea(sl.cer_model,'A strong claim + evidence + reasoning the student compares against&hellip;',"updA("+i+",'cer_model',this.value)",3));
+    +tarea(sl.cer_model,'A strong, complete answer the student compares against&hellip;',"updA("+i+",'cer_model',this.value)",3));
 }
 function triggerImg(i){document.getElementById(`img-input-${i}`)?.click();}
 function handleImg(i,input){const f=input.files[0];if(!f)return;const r=new FileReader();r.onload=e=>{editorSlides[i].image=e.target.result;const a=document.getElementById(`img-${i}`);if(a){a.innerHTML=`<img src="${e.target.result}" alt="" style="max-width:100%;max-height:150px;border-radius:8px;"><button type="button" class="img-remove-btn" onclick="event.stopPropagation();removeImg(${i})" title="Remove image">✕</button>`;a.classList.add('has-img');}};r.readAsDataURL(f);}
@@ -1643,32 +1643,20 @@ function buildStudentHTML(){
       </div>`;
 
     } else {
-      const cerPrompt=sl.reflect_prompt?esc(sl.reflect_prompt):(lang==='es'?'A partir de esta diapositiva, construye un argumento científico.':'Using this slide, build a science argument.');
-      const cerModel=sl.cer_model?esc(sl.cer_model):(lang==='es'?'Una buena respuesta une las tres partes: una afirmación clara que responde la pregunta, evidencia concreta (datos, hechos u observaciones) y un razonamiento que explica por qué esa evidencia apoya la afirmación.':'A strong answer links all three: a clear claim that answers the question, concrete evidence (data, facts, or observations), and reasoning that explains why the evidence supports the claim.');
-      const cb=(n,txt)=>`<label class="cer-cb-row"><input type="checkbox" class="cer-cb" data-sid="${i}" onchange="scoreCER(${i})"> <span>${txt}</span></label>`;
+      const cerPrompt=sl.reflect_prompt?esc(sl.reflect_prompt):(lang==='es'?'¿Qué aprendiste de esta diapositiva?':'What did you learn from this slide?');
+      const cerModel=sl.cer_model?esc(sl.cer_model):(lang==='es'?'Una buena respuesta explica la idea principal con tus propias palabras y da un ejemplo.':'A strong answer explains the main idea in your own words and gives an example.');
       actBlock=`<div class="act-block">
-        <div class="act-lbl">${E?'🔬 ':''}${lang==='es'?'Argumenta (Afirmación · Evidencia · Razonamiento)':'Argue (Claim · Evidence · Reasoning)'}</div>
+        <div class="act-lbl">${E?'💭 ':''}${lang==='es'?'Reflexiona':'Reflect'}</div>
         <p style="font-size:.86rem;color:#555;font-style:italic;margin-bottom:14px;line-height:1.65;">${cerPrompt}</p>
-        <div class="cer-field">
-          <div class="cer-lbl">${E?'1️⃣ ':''}${lang==='es'?'Afirmación':'Claim'}</div>
-          <textarea class="cer-inp" id="cer-claim-${i}" rows="2" placeholder="${lang==='es'?'Tu respuesta directa a la pregunta…':'Your direct answer to the question…'}"></textarea>
-        </div>
-        <div class="cer-field">
-          <div class="cer-lbl">${E?'2️⃣ ':''}${lang==='es'?'Evidencia':'Evidence'}</div>
-          <textarea class="cer-inp" id="cer-ev-${i}" rows="2" placeholder="${lang==='es'?'Datos, hechos u observaciones que la apoyan…':'Data, facts, or observations that support it…'}"></textarea>
-        </div>
-        <div class="cer-field">
-          <div class="cer-lbl">${E?'3️⃣ ':''}${lang==='es'?'Razonamiento':'Reasoning'}</div>
-          <textarea class="cer-inp" id="cer-rz-${i}" rows="2" placeholder="${lang==='es'?'Por qué esa evidencia apoya tu afirmación…':'Why that evidence supports your claim…'}"></textarea>
-        </div>
-        <button class="snb primary" id="cer-reveal-${i}" style="margin-top:6px;" onclick="revealCER(${i})">${E?'👁️ ':''}${lang==='es'?'Revelar respuesta modelo y autoevaluar':'Reveal model answer & self-check'}</button>
+        <textarea class="refl-inp" id="refl-${i}" rows="4" placeholder="${lang==='es'?'Escribe tu respuesta…':'Write your answer…'}"></textarea>
+        <button class="snb primary" id="cer-reveal-${i}" style="margin-top:10px;" onclick="revealCER(${i})">${E?'👁️ ':''}${lang==='es'?'Ver una respuesta modelo':'See a model answer'}</button>
         <div class="cer-reveal" id="cer-rev-${i}" style="display:none;">
           <div class="tr-answer" style="margin-top:12px;"><span class="tr-mini-lbl">${lang==='es'?'Respuesta modelo':'Model answer'}</span><div class="tr-answer-txt">${cerModel}</div></div>
-          <div class="cer-check">
-            <p class="tr-assess-q">${lang==='es'?'Compara con tu respuesta y marca lo que lograste:':'Compare with your answer and check what you achieved:'}</p>
-            ${cb(1,lang==='es'?'Mi afirmación responde la pregunta':'My claim answers the question')}
-            ${cb(2,lang==='es'?'Incluí evidencia concreta (datos/hechos)':'I included concrete evidence (data/facts)')}
-            ${cb(3,lang==='es'?'Expliqué por qué la evidencia apoya la afirmación':'I explained why the evidence supports the claim')}
+          <p class="tr-assess-q">${lang==='es'?'¿Qué tan completa fue tu respuesta?':'How complete was your answer?'}</p>
+          <div class="cer-rate-row">
+            <button type="button" class="cer-rate-btn" data-sid="${i}" data-val="0" onclick="rateCER(${i},0)">${E?'😕 ':''}${lang==='es'?'Necesito mejorar':'Needs work'}</button>
+            <button type="button" class="cer-rate-btn" data-sid="${i}" data-val="0.5" onclick="rateCER(${i},0.5)">${E?'🙂 ':''}${lang==='es'?'Bien':'Good'}</button>
+            <button type="button" class="cer-rate-btn" data-sid="${i}" data-val="1" onclick="rateCER(${i},1)">${E?'🤩 ':''}${lang==='es'?'¡Excelente!':'Excellent!'}</button>
           </div>
         </div>
         <div class="feedback" id="fb-${i}"></div>
@@ -1826,16 +1814,11 @@ body{font-family:'Inter',${cfg.fontFamily};background:${bgColor};color:#1F2B27;m
 .tr-card-wrap{margin-bottom:16px;padding-bottom:16px;border-bottom:1px dashed rgba(${rgb},.18);}
 .tr-card-wrap:last-of-type{margin-bottom:0;padding-bottom:0;border-bottom:none;}
 .tr-count{font-size:.62rem;letter-spacing:.09em;text-transform:uppercase;font-weight:700;color:${color};margin-bottom:7px;}
-/* ── CER (claim-evidence-reasoning) ── */
-.cer-field{margin-bottom:12px;}
-.cer-lbl{font-size:.7rem;letter-spacing:.05em;text-transform:uppercase;font-weight:700;color:${color};margin-bottom:5px;}
-.cer-inp{width:100%;box-sizing:border-box;border:1.5px solid rgba(${rgb},.22);border-radius:11px;padding:10px 13px;font-family:inherit;font-size:.9rem;line-height:1.55;color:#1A2822;background:#fbfaf7;resize:vertical;}
-.cer-inp:focus{outline:none;border-color:${color};background:#fff;}
-.cer-inp[readonly]{background:#f3f1ec;color:#555;}
-.cer-check{margin-top:12px;padding:13px 15px;background:#faf8f4;border:1px solid rgba(${rgb},.16);border-radius:12px;}
-.cer-cb-row{display:flex;align-items:flex-start;gap:9px;font-size:.86rem;color:#3a3630;line-height:1.5;margin-bottom:8px;cursor:pointer;}
-.cer-cb-row:last-child{margin-bottom:0;}
-.cer-cb{margin-top:3px;flex:0 0 auto;cursor:pointer;width:16px;height:16px;accent-color:${color};}
+/* ── Reflect self-rating ── */
+.cer-rate-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
+.cer-rate-btn{border:1.5px solid rgba(${rgb},.22);background:#fff;color:#3a3630;border-radius:11px;padding:9px 15px;font-size:.85rem;font-family:inherit;cursor:pointer;transition:all .16s;}
+.cer-rate-btn:hover{border-color:${color};}
+.cer-rate-btn.selected{background:${color};border-color:${color};color:#fff;}
 /* ── Word bank / Fill ── */
 .word-bank{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;padding:13px 15px;background:rgba(255,255,255,.88);border-radius:13px;border:1.5px solid rgba(${rgb},.1);}
 .wb-label{font-size:.57rem;letter-spacing:.12em;text-transform:uppercase;color:#8A9490;font-weight:700;width:100%;margin-bottom:5px;}
@@ -2281,25 +2264,24 @@ function checkReflect(sid){
   bdSet('reflect-'+sid,'Reflect '+(parseInt(sid)+1),1);
 }
 function revealCER(i){
-  var claim=document.getElementById('cer-claim-'+i);
-  if(claim&&!claim.value.trim()){claim.focus();return;}
-  ['cer-claim-','cer-ev-','cer-rz-'].forEach(function(p){var t=document.getElementById(p+i);if(t)t.setAttribute('readonly','readonly');});
+  var ta=document.getElementById('refl-'+i);
+  if(ta&&!ta.value.trim()){ta.focus();return;}
+  if(ta)ta.setAttribute('readonly','readonly');
   var rv=document.getElementById('cer-reveal-'+i);if(rv)rv.style.display='none';
   var box=document.getElementById('cer-rev-'+i);if(box)box.style.display='block';
 }
-function scoreCER(i){
-  var boxes=document.querySelectorAll('.cer-cb[data-sid="'+i+'"]');
-  var checked=0;boxes.forEach(function(b){if(b.checked)checked++;});
-  var tot=boxes.length||3;
-  var gain=tot>0?checked/tot:0;
+function rateCER(i,val){
   if(!answered['reflect-'+i]){answered['reflect-'+i]=true;maxPts++;}
-  var prev=awarded['reflect-'+i]||0;pts+=gain-prev;awarded['reflect-'+i]=gain;
+  var prev=awarded['reflect-'+i]||0;pts+=val-prev;awarded['reflect-'+i]=val;
+  document.querySelectorAll('.cer-rate-btn[data-sid="'+i+'"]').forEach(function(b){b.classList.remove('selected');});
+  var btn=document.querySelector('.cer-rate-btn[data-sid="'+i+'"][data-val="'+val+'"]');
+  if(btn)btn.classList.add('selected');
   var fb=document.getElementById('fb-'+i);
   if(fb){
-    fb.textContent=checked===tot?'${E?'🎉 ':''}${lang==='es'?'¡Argumento completo! Afirmación, evidencia y razonamiento.':'Full argument! Claim, evidence and reasoning.'}':checked>0?('${E?'👍 ':''}'+checked+'${lang==='es'?' de ':' of '}'+tot+'${lang==='es'?' partes, revisa la que falta.':' parts, review the missing one.'}'):'${E?'💪 ':''}${lang==='es'?'Compara con la respuesta modelo y ajusta tu argumento.':'Compare with the model answer and refine your argument.'}';
-    fb.className='feedback show '+(checked===tot?'ok':checked>0?'partial':'no');
+    fb.textContent=val>=1?'${E?'🎉 ':''}${lang==='es'?'¡Genial, sigue así!':'Great, keep it up!'}':val>0?'${E?'👍 ':''}${lang==='es'?'Bien, vas por buen camino.':'Good, you are on the right track.'}':'${E?'💪 ':''}${lang==='es'?'Compara con la respuesta modelo y sigue practicando.':'Compare with the model answer and keep practicing.'}';
+    fb.className='feedback show '+(val>=1?'ok':val>0?'partial':'no');
   }
-  bdSet('reflect-'+i,'CER '+(parseInt(i)+1),gain);
+  bdSet('reflect-'+i,(lang==='es'?'Reflexión ':'Reflect ')+(parseInt(i)+1),val);
 }
 function goNext(){if(cur<TOTAL-1){gLS(cur+1);}else{showScore();}}
 function goPrev(){if(cur>0)gLS(cur-1);}
@@ -2325,9 +2307,8 @@ function restart(){
   document.querySelectorAll('.qopt').forEach(function(b){b.classList.remove('correct','wrong');b.disabled=false;});
   document.querySelectorAll('.fill-inp').forEach(function(i){i.value='';});
   document.querySelectorAll('.word-chip').forEach(function(c){c.classList.remove('used');});
-  document.querySelectorAll('.refl-inp').forEach(function(t){t.value='';});
-  document.querySelectorAll('.cer-inp').forEach(function(t){t.value='';t.removeAttribute('readonly');});
-  document.querySelectorAll('.cer-cb').forEach(function(c){c.checked=false;});
+  document.querySelectorAll('.refl-inp').forEach(function(t){t.value='';t.removeAttribute('readonly');});
+  document.querySelectorAll('.cer-rate-btn').forEach(function(b){b.classList.remove('selected');});
   document.querySelectorAll('.cer-reveal').forEach(function(x){x.style.display='none';});
   document.querySelectorAll('[id^="cer-reveal-"]').forEach(function(b){b.style.display='';});
   document.querySelectorAll('.match-term,.match-def').forEach(function(x){x.classList.remove('selected','locked');x.style.borderColor='';x.style.background='';x.style.color='';x.removeAttribute('data-pn');});
