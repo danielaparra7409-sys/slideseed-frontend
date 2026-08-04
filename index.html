@@ -741,16 +741,17 @@ footer{background:var(--paper2);border-top:1px solid var(--line);padding:40px 40
     <div class="editor-canvas"><div class="slide-editor" id="slide-editor"></div></div>
     <div class="tools-panel" id="tools-panel">
       <div class="tools-panel-close"><button class="btn-close-editor" onclick="toggleToolsPanelMobile()">Close ✕</button></div>
-      <div class="tools-section">
-        <h4>Set all slides to…</h4>
+      <div class="tools-section" style="background:rgba(200,120,40,.07);border:1.5px solid rgba(200,120,40,.22);border-radius:12px;padding:12px 14px;">
+        <h4 style="margin:0 0 3px;">⚠️ Set ALL slides to…</h4>
+        <p style="font-size:.68rem;color:#8a6a45;margin:0 0 8px;line-height:1.5;">This overwrites the activity type on every slide at once. To change just one slide, use "Activity type" inside that slide's card instead.</p>
         <div style="display:flex;flex-direction:column;gap:5px;" id="global-activity">
-          <button class="act-btn" onclick="setAllActivity('quiz',this)">Quiz</button>
-          <button class="act-btn" onclick="setAllActivity('match',this)">Match</button>
-          <button class="act-btn" onclick="setAllActivity('sort',this)">Sort</button>
-          <button class="act-btn" onclick="setAllActivity('flip',this)">Flip</button>
-          <button class="act-btn" onclick="setAllActivity('fill',this)">Fill</button>
-          <button class="act-btn" onclick="setAllActivity('reflect',this)">Reflect</button>
-          <button class="act-btn" onclick="setAllActivity('formulas',this)">Formulas</button>
+          <button class="act-btn" onclick="confirmSetAllActivity('quiz',this)">Quiz</button>
+          <button class="act-btn" onclick="confirmSetAllActivity('match',this)">Match</button>
+          <button class="act-btn" onclick="confirmSetAllActivity('sort',this)">Sort</button>
+          <button class="act-btn" onclick="confirmSetAllActivity('flip',this)">Flip</button>
+          <button class="act-btn" onclick="confirmSetAllActivity('fill',this)">Fill</button>
+          <button class="act-btn" onclick="confirmSetAllActivity('reflect',this)">Reflect</button>
+          <button class="act-btn" onclick="confirmSetAllActivity('formulas',this)">Formulas</button>
         </div>
       </div>
       <div class="tools-section" id="doc-images-section" style="display:none;">
@@ -1065,7 +1066,7 @@ function renderSlideCards(){
         ${sl.key_term?`<div class="key-term-vis" style="border-left-color:${themeAccent}"><strong>${esc(sl.key_term)}:</strong> ${esc(sl.key_definition)}</div>`:''}
       </div>
       <div class="slide-vis-footer">
-        <div class="activity-label-sm">Activity type</div>
+        <div class="activity-label-sm">Activity type (this slide only)</div>
         <div class="activity-selector">
           <button class="act-btn${sl.activity==='quiz'?' selected':''}" onclick="setSlideAct(${i},'quiz',this)">Quiz</button>
           <button class="act-btn${sl.activity==='match'?' selected':''}" onclick="setSlideAct(${i},'match',this)">Match</button>
@@ -1318,6 +1319,12 @@ function handleImg(i,input){const f=input.files[0];if(!f)return;const r=new File
 function setImgUrl(i){const inp=document.getElementById(`img-url-${i}`);if(!inp||!inp.value.trim())return;const url=inp.value.trim();editorSlides[i].image=url;const a=document.getElementById(`img-${i}`);if(a){a.innerHTML=`<img src="${url}" alt="" style="max-width:100%;max-height:150px;border-radius:8px;" onerror="this.parentElement.innerHTML='<div class=\\'img-placeholder\\'>Invalid URL</div>'"><button type="button" class="img-remove-btn" onclick="event.stopPropagation();removeImg(${i})" title="Remove image">✕</button>`;a.classList.add('has-img');}inp.value='';}
 function removeImg(i){editorSlides[i].image=null;const a=document.getElementById(`img-${i}`);if(a){a.classList.remove('has-img');a.innerHTML='<div class="img-placeholder">📷 Click to add image (optional)</div>';}const inp=document.getElementById(`img-input-${i}`);if(inp)inp.value='';const u=document.getElementById(`img-url-${i}`);if(u)u.value='';}
 function setAllActivity(a,el){editorSlides.forEach(s=>s.activity=a);document.querySelectorAll('#global-activity .act-btn').forEach(b=>b.classList.remove('selected'));el.classList.add('selected');renderSlideCards();}
+function confirmSetAllActivity(a,el){
+  var lang=(typeof S!=='undefined'&&S.lang)?S.lang:'en';
+  var msg=lang==='es'?'Esto va a cambiar la actividad de TODAS las diapositivas a "'+a+'", reemplazando lo que ya tenías elegido en cada una. ¿Continuar?':'This will change ALL slides to the "'+a+'" activity, replacing what you already picked for each one. Continue?';
+  if(!window.confirm(msg))return;
+  setAllActivity(a,el);
+}
 function setSwatch(el,c){
   themeAccent=c;
   document.querySelectorAll('.swatch').forEach(s=>s.classList.remove('active'));el.classList.add('active');
