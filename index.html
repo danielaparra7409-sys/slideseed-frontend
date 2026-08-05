@@ -1042,6 +1042,7 @@ function renderSlideCards(){
           <div class="slide-controls">
             ${i>0?`<button class="slide-ctrl-btn" onclick="moveSlide(${i},-1)" title="Move up">↑</button>`:''}
             ${i<editorSlides.length-1?`<button class="slide-ctrl-btn" onclick="moveSlide(${i},1)" title="Move down">↓</button>`:''}
+            <button class="slide-ctrl-btn" onclick="duplicateSlide(${i})" title="Duplicate slide · Duplicar diapositiva">⧉</button>
             ${editorSlides.length>1?`<button class="slide-ctrl-btn danger" onclick="deleteSlide(${i})">✕ Remove</button>`:''}
           </div>
         </div>
@@ -1082,6 +1083,17 @@ function setActiveSlide(i){activeIdx=i;document.querySelectorAll('.slide-thumb')
 function updateSlide(i,f,v){editorSlides[i][f]=v;renderThumbs();}
 function moveSlide(i,d){const j=i+d;if(j<0||j>=editorSlides.length)return;pushUndo();[editorSlides[i],editorSlides[j]]=[editorSlides[j],editorSlides[i]];editorSlides.forEach((s,idx)=>s.id=idx+1);activeIdx=j;renderSlideCards();renderThumbs();}
 function deleteSlide(i){if(editorSlides.length<=1)return;pushUndo();editorSlides.splice(i,1);editorSlides.forEach((s,idx)=>s.id=idx+1);activeIdx=Math.min(activeIdx,editorSlides.length-1);renderSlideCards();renderThumbs();}
+function duplicateSlide(i){
+  var cap=S.maxSlides||3;
+  if(editorSlides.length>=cap){alert((S.lang==='es'?'Tu plan permite hasta ':'Your plan allows up to ')+cap+(S.lang==='es'?' diapositivas por lección. Mejora tu plan para más.':' slides per lesson. Upgrade for more.'));return;}
+  pushUndo();
+  var copy=JSON.parse(JSON.stringify(editorSlides[i]));
+  copy.title=copy.title+(S.lang==='es'?' (copia)':' (copy)');
+  editorSlides.splice(i+1,0,copy);
+  editorSlides.forEach((s,idx)=>s.id=idx+1);
+  activeIdx=i+1;
+  renderSlideCards();renderThumbs();setActiveSlide(activeIdx);
+}
 function addSlide(){
   var cap=S.maxSlides||3;
   if(editorSlides.length>=cap){alert((S.lang==='es'?'Tu plan permite hasta ':'Your plan allows up to ')+cap+(S.lang==='es'?' diapositivas por lección. Mejora tu plan para más.':' slides per lesson. Upgrade for more.'));return;}
