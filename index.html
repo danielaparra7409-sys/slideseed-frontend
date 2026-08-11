@@ -105,8 +105,8 @@ ml('account', '2514062');
       "mainEntity": [
         {"@type": "Question", "name": "¿Cómo funciona Slideseed?", "acceptedAnswer": {"@type": "Answer", "text": "Sube un documento (PDF, DOCX, PPTX o TXT); se arma una lección con 6 actividades evaluadas; la editas si quieres y la descargas en HTML, PDF o PPTX."}},
         {"@type": "Question", "name": "¿La lección funciona sin internet?", "acceptedAnswer": {"@type": "Answer", "text": "Sí. El HTML descargado funciona sin conexión. Sin internet solo cambia la tipografía; el contenido y las actividades funcionan igual."}},
-        {"@type": "Question", "name": "¿Qué formatos puedo descargar?", "acceptedAnswer": {"@type": "Answer", "text": "HTML en todos los planes; PDF desde el plan Single; PPTX desde el plan Pack."}},
-        {"@type": "Question", "name": "¿Puedo subir varios documentos?", "acceptedAnswer": {"@type": "Answer", "text": "Sí, según tu plan (Pack: 2, Monthly: 3). Funciona mejor si son del mismo tema."}},
+        {"@type": "Question", "name": "¿Qué formatos puedo descargar?", "acceptedAnswer": {"@type": "Answer", "text": "Todos los formatos (HTML, PDF, PPTX) estan disponibles desde el plan gratis."}},
+        {"@type": "Question", "name": "¿Puedo subir varios documentos?", "acceptedAnswer": {"@type": "Answer", "text": "Sí, hasta 3 documentos por lección desde el plan gratis. Funciona mejor si son del mismo tema."}},
         {"@type": "Question", "name": "¿Guardan mis documentos?", "acceptedAnswer": {"@type": "Answer", "text": "No. Se procesan una sola vez para generar la lección y no se almacenan."}}
       ]
     }
@@ -506,7 +506,7 @@ footer{background:var(--paper2);border-top:1px solid var(--line);padding:40px 40
           <div class="theme-card" onclick="selectTheme(this,'slate')"><div class="theme-preview slate-prev"><div class="tp-title">Aa</div><div class="tp-bar"></div><div class="tp-bar short"></div></div><div class="theme-name">Slate</div></div>
         </div>
         <div class="slides-row">
-          <div class="slides-label"><span>Number of slides</span><span class="slides-note" id="slides-note">Free plan: up to 3</span></div>
+          <div class="slides-label"><span>Number of slides</span><span class="slides-note" id="slides-note">Free plan: up to 10</span></div>
           <div class="slides-stepper"><button class="stepper-btn" onclick="changeSlides(-1)">−</button><span class="slides-val" id="slides-val">3</span><button class="stepper-btn" onclick="changeSlides(1)">+</button></div>
         </div>
         <div class="upgrade-note" id="upgrade-note"><span id="upgrade-note-txt">Upgrade for more slides</span><a href="#pricing">See plans →</a></div>
@@ -554,7 +554,7 @@ footer{background:var(--paper2);border-top:1px solid var(--line);padding:40px 40
       <div class="fbadge"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg><div><strong>PPTX</strong><span>Editable in PowerPoint · with images</span></div></div>
       <div class="fbadge"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg><div><strong>PDF</strong><span>Print or share as file</span></div></div>
     </div>
-    <span class="formats-note">PPTX and PDF on paid plans</span>
+    <span class="formats-note">All formats included, even on the free plan</span>
   </div>
 </section>
 
@@ -595,7 +595,7 @@ footer{background:var(--paper2);border-top:1px solid var(--line);padding:40px 40
     <h2 class="section-title">Start free.<br><em>Pay only when you love it.</em></h2>
     <p class="section-sub" style="margin-bottom:36px;">Two free generations with no card required.</p>
     <div class="pricing-grid">
-      <div class="price-card"><div class="price-name">Free</div><div class="price-amount"><sup>$</sup>0</div><div class="price-period">2 generations · no card</div><hr class="price-divider"><ul class="price-features"><li>2 lessons to try</li><li>Up to 3 slides · 1 document</li><li>All 6 activity types</li><li>Student score + report</li><li>HTML download</li></ul><a href="#upload" class="btn-price outline">Start free</a></div>
+      <div class="price-card"><div class="price-name">Free</div><div class="price-amount"><sup>$</sup>0</div><div class="price-period">2 generations · no card</div><hr class="price-divider"><ul class="price-features"><li>2 lessons to try, full features</li><li>Up to 10 slides · 3 documents</li><li>All 6 activity types + themes</li><li>Student score + report</li><li>HTML + PDF + PPTX download</li></ul><a href="#upload" class="btn-price outline">Start free</a></div>
       <div class="price-card"><div class="price-name">Single</div><div class="price-amount"><sup>$</sup>5<span style="font-size:1.2rem">.99</span></div><div class="price-period">one-time · never expires</div><hr class="price-divider"><ul class="price-features"><li>1 lesson · up to 5 slides</li><li>1 document · extract images</li><li>All 6 activities + themes</li><li>English or Spanish</li><li>HTML + PDF download</li></ul><a href="#pricing" class="btn-price outline" onclick="buyPlan('single');return false;">Buy one</a></div>
       <div class="price-card featured"><div class="feat-badge">Most popular</div><div class="price-name">Pack</div><div class="price-amount"><sup>$</sup>11<span style="font-size:1.2rem">.99</span></div><div class="price-period">6 lessons · never expires</div><hr class="price-divider"><ul class="price-features"><li>6 lessons · up to 8 slides</li><li>Up to 2 documents per lesson</li><li>Extract images from your docs</li><li>All activities + themes</li><li>HTML + PPTX + PDF</li><li>Built-in editor · priority</li></ul><a href="#pricing" class="btn-price primary" onclick="buyPlan('pack');return false;">Get the Pack</a></div>
       <div class="price-card"><div class="price-name">Monthly</div><div class="price-amount"><sup>$</sup>14<span style="font-size:1.2rem">.99</span></div><div class="price-period">per month · cancel anytime</div><hr class="price-divider"><ul class="price-features"><li>Up to 40 lessons / month</li><li>Up to 10 slides · 3 documents</li><li>Extract images from your docs</li><li>HTML + PPTX + PDF</li><li>Built-in editor · grade presets</li><li>Priority support</li></ul><a href="#pricing" class="btn-price outline" onclick="buyPlan('monthly');return false;">Start monthly</a></div>
@@ -824,10 +824,10 @@ footer{background:var(--paper2);border-top:1px solid var(--line);padding:40px 40
 const DEV = new URLSearchParams(window.location.search).get('dev')==='true';
 const BACKEND_URL=window.getBackendUrl();
 const SITE_URL='https://slideseed.app'; // TODO: cambiar a https://slideseed.app cuando exista el dominio
-const S={file:null,files:[],images:[],grade:'',gradeName:'',lang:'',theme:'forest',slides:3,maxSlides:3,maxDocs:1,plan:'free'};
-const SLIDE_CAPS={free:3,single:5,pack:8,monthly:10};
-const DOC_CAPS={free:1,single:1,pack:2,monthly:3};
-const FORMAT_CAPS={free:['html'],single:['html','pdf'],pack:['html','pdf','pptx'],monthly:['html','pdf','pptx']};
+const S={file:null,files:[],images:[],grade:'',gradeName:'',lang:'',theme:'forest',slides:3,maxSlides:10,maxDocs:3,plan:'free'};
+const SLIDE_CAPS={free:10,single:5,pack:8,monthly:10};
+const DOC_CAPS={free:3,single:1,pack:2,monthly:3};
+const FORMAT_CAPS={free:['html','pdf','pptx'],single:['html','pdf'],pack:['html','pdf','pptx'],monthly:['html','pdf','pptx']};
 const PLAN_LABEL={free:'Free',single:'Single',pack:'Pack',monthly:'Monthly'};
 let editorSlides=[],lessonTitle='Interactive Lesson',lessonReference='',themeAccent='#447566',bgColor='#f5f5f0',bodyFont="'Helvetica Neue',sans-serif",currentFmt='html',activeIdx=0,scoreMode='pct';
 let undoStack=[],redoStack=[];
@@ -2407,7 +2407,7 @@ async function buyPlan(plan){
     "Claude reads and structures":"Claude lee y estructura","The AI identifies key concepts and builds age-appropriate slides with 6 types of interactive activities.":"La IA identifica los conceptos clave y arma diapositivas acordes a la edad, con 6 tipos de actividades interactivas.",
     "Edit in the browser":"Edita en el navegador","Change text, reorder slides, add images, choose activity types, adjust colors and fonts.":"Cambia textos, reordena diapositivas, agrega imágenes, elige el tipo de actividad y ajusta colores y fuentes.",
     "Download and share":"Descarga y comparte","Interactive HTML for students, PPTX editable in PowerPoint, or PDF to print.":"HTML interactivo para estudiantes, PPTX editable en PowerPoint, o PDF para imprimir.",
-    "Download as":"Descarga como","Interactive · works offline · for students":"Interactivo · funciona sin internet · para estudiantes","Print or share as file":"Imprime o comparte como archivo","PPTX and PDF on paid plans":"PPTX y PDF en planes pagos",
+    "Download as":"Descarga como","Interactive · works offline · for students":"Interactivo · funciona sin internet · para estudiantes","Print or share as file":"Imprime o comparte como archivo","All formats included, even on the free plan":"Todos los formatos incluidos, incluso en el plan gratis","PPTX and PDF on paid plans":"PPTX y PDF en planes pagos",
     "What makes it different":"Lo que lo hace diferente",
     "Quiz with feedback":"Quiz con retroalimentación","Distractors based on real misconceptions, not obviously wrong. Students learn from every wrong answer.":"Distractores basados en errores reales, no opciones obviamente falsas. El estudiante aprende de cada respuesta equivocada.",
     "Term matching":"Relacionar términos","Connect terms to definitions by dragging. Points awarded for each correct pair.":"Une términos con definiciones arrastrando. Ganas puntos por cada par correcto.",
@@ -2420,7 +2420,7 @@ async function buyPlan(plan){
     "What happens to your content":"Qué pasa con tu contenido","Your document is processed once to generate the lesson and is not stored on our servers. Never used to train AI models.":"Tu documento se procesa una sola vez para generar la lección y no se guarda en nuestros servidores. Nunca se usa para entrenar modelos de IA.",
     "Why we charge":"Por qué cobramos","Every generation calls a professional AI model with a real cost. Charging fairly keeps quality high without ads.":"Cada generación usa un modelo de IA profesional con un costo real. Cobrar de forma justa mantiene la calidad alta y sin anuncios.",
     "Plans":"Planes","Two free generations with no card required.":"Dos generaciones gratis, sin tarjeta.",
-    "2 lessons to try":"2 lecciones de prueba","Up to 3 slides · 1 document":"Hasta 3 diapositivas · 1 documento","All 6 activity types":"Los 6 tipos de actividad","Student score + report":"Puntaje + boletín del estudiante","HTML download":"Descarga HTML",
+    "2 lessons to try, full features":"2 lecciones de prueba, con todo incluido","Up to 10 slides · 3 documents":"Hasta 10 diapositivas · 3 documentos","All 6 activity types + themes":"Los 6 tipos de actividad + temas","Student score + report":"Puntaje + boletín del estudiante","HTML + PDF + PPTX download":"Descarga HTML + PDF + PPTX",
     "1 lesson · up to 5 slides":"1 lección · hasta 5 diapositivas","1 document · extract images":"1 documento · extrae imágenes","All 6 activities + themes":"Las 6 actividades + temas","English or Spanish":"Inglés o español","HTML + PDF download":"Descarga HTML + PDF",
     "6 lessons · up to 8 slides":"6 lecciones · hasta 8 diapositivas","Up to 2 documents per lesson":"Hasta 2 documentos por lección","Extract images from your docs":"Extrae imágenes de tus documentos","All activities + themes":"Todas las actividades + temas","Built-in editor · priority":"Editor incluido · prioridad",
     "Up to 40 lessons / month":"Hasta 40 lecciones / mes","Up to 10 slides · 3 documents":"Hasta 10 diapositivas · 3 documentos","Built-in editor · grade presets":"Editor incluido · niveles predefinidos","Priority support":"Soporte prioritario",
@@ -2504,8 +2504,8 @@ async function buyPlan(plan){
       ['¿Cómo funciona Slideseed?','Sube un documento (PDF, DOCX, PPTX o TXT); la IA arma una lección con 6 actividades evaluadas; la editas si quieres y la descargas en HTML, PDF o PPTX.'],
       ['¿La lección funciona sin internet?','Sí. El HTML descargado funciona offline. Sin internet solo cambia la tipografía; el contenido y las actividades funcionan igual.'],
       ['En iPhone no abre bien, ¿por qué?','iOS abre los .html en una vista previa que no ejecuta la interactividad. Ábrelo en un navegador: en Archivos, toca el archivo, luego Compartir y "Abrir en Safari" (o Chrome).'],
-      ['¿Qué formatos puedo descargar?','HTML en todos los planes; PDF desde el plan Single; PPTX desde el plan Pack.'],
-      ['¿Puedo subir varios documentos?','Sí, según tu plan (Pack: 2, Monthly: 3). Funciona mejor si son del mismo tema.'],
+      ['¿Qué formatos puedo descargar?','Todos los formatos (HTML, PDF, PPTX) están disponibles desde el plan gratis.'],
+      ['¿Puedo subir varios documentos?','Sí, hasta 3 documentos por lección desde el plan gratis. Funciona mejor si son del mismo tema.'],
       ['¿Guardan mis documentos?','No. Se procesan una sola vez para generar la lección y no se almacenan.'],
       ['Me cobraron y no veo el plan o los créditos','Espera un par de minutos y recarga (el pago se confirma solo). Si sigue, escríbenos por aquí con tu correo y lo resolvemos.']
     ],
@@ -2514,7 +2514,7 @@ async function buyPlan(plan){
       ['Does the lesson work offline?','Yes. The downloaded HTML works offline. Without internet only the font changes; content and activities work fine.'],
       ['It does not open well on iPhone, why?','iOS opens .html files in a preview that does not run interactivity. Open it in a browser: in Files, tap the file, then Share and "Open in Safari" (or Chrome).'],
       ['Which formats can I download?','HTML on all plans; PDF from the Single plan; PPTX from the Pack plan.'],
-      ['Can I upload several documents?','Yes, depending on your plan (Pack: 2, Monthly: 3). Works best if they are on the same topic.'],
+      ['Can I upload several documents?','Yes, up to 3 documents per lesson, even on the free plan. Works best if they are on the same topic.'],
       ['Do you store my documents?','No. They are processed once to generate the lesson and not stored.'],
       ['I was charged but do not see my plan or credits','Wait a couple of minutes and refresh (payment confirms automatically). If it persists, message us here with your email and we will fix it.']
     ]
