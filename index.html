@@ -986,6 +986,7 @@ async function handleGenerate(){
     if(gr.status===401)throw new Error('NOT_LOGGED_IN');
     if(!gr.ok)throw new Error(`Generation failed: ${gr.status}`);
     const data=await gr.json();
+    if(typeof gtag==='function') gtag('event','leccion_generada');
     clearInterval(msgInterval);
     document.getElementById('generating').classList.remove('show');btn.style.display='flex';
     openEditor(data);
@@ -2216,6 +2217,7 @@ function hexToRgb(hex){hex=(hex||'').replace('#','');if(hex.length===3)hex=hex.s
     const email = prompt('Escribe tu correo y te enviamos un enlace de acceso:')
     if(!email) return
     const { error } = await sb.auth.signInWithOtp({ email, options:{ emailRedirectTo: window.location.origin } })
+    if(!error && typeof gtag==='function') gtag('event','inicio_prueba_gratis')
     alert(error ? ('Error: ' + error.message) : 'Listo. Revisa tu correo y abre el enlace para entrar.')
   }
   window.logout = async () => { await sb.auth.signOut(); location.reload() }
