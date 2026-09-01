@@ -1308,7 +1308,26 @@ function downloadLesson(){
     w.document.write(buildStudentHTML());
     w.document.close();
     try{w.document.title=(lessonTitle||'slideseed-lesson');}catch(e){}
-    setTimeout(function(){w.print();},900);
+    // Espera a que todas las imagenes carguen antes de imprimir. Con
+    // imagenes por URL (a diferencia de las base64, que ya vienen
+    // embebidas) el navegador aun tiene que descargarlas, y un timeout
+    // fijo de 900ms puede disparar print() antes de que terminen,
+    // dejandolas en blanco en el PDF.
+    const printWhenReady=function(){
+      try{
+        const imgs=w.document.images ? Array.prototype.slice.call(w.document.images) : [];
+        const pending=imgs.filter(function(img){return !img.complete;});
+        if(pending.length===0){w.print();return;}
+        let remaining=pending.length;
+        const done=function(){remaining--;if(remaining<=0)w.print();};
+        pending.forEach(function(img){
+          img.addEventListener('load',done,{once:true});
+          img.addEventListener('error',done,{once:true});
+        });
+        setTimeout(function(){w.print();},4000);
+      }catch(e){setTimeout(function(){w.print();},900);}
+    };
+    setTimeout(printWhenReady,150);
   }
 }
 function dlFile(c,n,t){const b=new Blob([c],{type:t});const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download=n;document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(u);}
